@@ -1,3 +1,3 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.on('*').render('app')
+Route.get('/', 'Web/HomeController.index')

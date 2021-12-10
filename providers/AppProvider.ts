@@ -8,7 +8,32 @@ export default class AppProvider {
   }
 
   public async boot() {
-    // IoC container is ready
+    const { Route } = this.app.container.use('Adonis/Core/Route')
+    const { ModelQueryBuilder } = this.app.container.use('Adonis/Lucid/Database')
+    const { DatabaseQueryBuilder } = this.app.container.use('Adonis/Lucid/Database')
+
+    Route.macro('mustBeSigned', function () {
+      this.middleware(async ({ request, response }, next) => {
+        if (!request.hasValidSignature()) {
+          response.badRequest({ message: 'Invalid signature' })
+          return
+        }
+
+        next()
+      })
+
+      return this
+    })
+
+    ModelQueryBuilder.macro('getCount', async function () {
+      const result = await this.count('* as total')
+      return BigInt(result[0].$extras.total)
+    })
+
+    DatabaseQueryBuilder.macro('getCount', async function () {
+      const result = await this.count('* as total')
+      return BigInt(result[0].total)
+    })
   }
 
   public async ready() {

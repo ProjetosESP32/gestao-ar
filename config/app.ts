@@ -5,14 +5,14 @@
  * file.
  */
 
-import proxyAddr from 'proxy-addr'
-import Env from '@ioc:Adonis/Core/Env'
 import Application from '@ioc:Adonis/Core/Application'
-import { ServerConfig } from '@ioc:Adonis/Core/Server'
+import { AssetsManagerConfig } from '@ioc:Adonis/Core/AssetsManager'
+import Env from '@ioc:Adonis/Core/Env'
 import { LoggerConfig } from '@ioc:Adonis/Core/Logger'
 import { ProfilerConfig } from '@ioc:Adonis/Core/Profiler'
+import { ServerConfig } from '@ioc:Adonis/Core/Server'
 import { ValidatorConfig } from '@ioc:Adonis/Core/Validator'
-import { AssetsManagerConfig } from '@ioc:Adonis/Core/AssetsManager'
+import proxyAddr from 'proxy-addr'
 
 /*
 |--------------------------------------------------------------------------
