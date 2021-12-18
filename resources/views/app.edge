@@ -15,42 +15,6 @@
   @entryPointScripts('app')
 </head>
 <body>
-
-  <h1>Teste</h1>
-
-  <form action="http://localhost:3333/registro" method="POST" enctype="multipart/form-data">
-
-    <div>
-      <label for="username">Nome:</label>
-      <input type="text" name="username" id="">
-    </div>
-    <div>
-      <label for="email">Email:</label>
-      <input type="email" name="email" id="">
-    </div>
-    <div>
-      <label for="password">Senha:</label>
-      <input type="password" name="password" id="">
-    </div>
-    <input type="submit" name="" id="" value="enviar">
-  </form>
-
-  <hr>
-
-  <form action="http://localhost:3333/autenticacao" method="GET" enctype="multipart/form-data">
-
-    <div>
-      <label for="email">Email:</label>
-      <input type="email" name="email" id="">
-    </div>
-    <div>
-      <label for="password">Senha:</label>
-      <input type="password" name="password" id="">
-    </div>
-    <input type="submit" name="" id="" value="enviar">
-  </form>
-
   @inertia()
-
 </body>
 </html>
