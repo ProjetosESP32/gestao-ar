@@ -9,6 +9,11 @@
     "lint": "eslint . --ext=.ts,.tsx --fix",
     "format": "prettier --write ."
   },
+  "engines": {
+    "node": ">=14.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "no use npm"
+  },
   "devDependencies": {
     "@adonisjs/assembler": "^5.3.0",
     "@babel/core": "^7.16.0",
