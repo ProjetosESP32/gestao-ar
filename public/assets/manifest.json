@@ -1,5 +1,3 @@
 {
-  "assets/app.css": "http://localhost:8080/assets/app.css",
-  "assets/app.js": "http://localhost:8080/assets/app.js",
-  "assets/images/recover-pass-img.svg": "http://localhost:8080/assets/images/recover-pass-img.4b6f717e.svg"
+  "assets/app.js": "http://localhost:8080/assets/app.js"
 }
