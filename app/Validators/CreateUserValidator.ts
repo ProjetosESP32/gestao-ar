@@ -8,6 +8,7 @@ export default class CreateUserValidator {
     username: schema.string({ trim: true }, [rules.unique({ table: 'users', column: 'username' })]),
     email: schema.string({}, [rules.email(), rules.unique({ table: 'users', column: 'email' })]),
     password: schema.string({}, [rules.minLength(6), rules.maxLength(16), rules.confirmed()]),
+    rememberMe: schema.boolean(),
   })
 
   public messages = {
@@ -19,6 +20,8 @@ export default class CreateUserValidator {
     'password.required': 'O campo senha é obrigatório',
     'password.minLength': 'A senha deve ter no mínimo 6 caracteres',
     'password.maxLength': 'A senha deve ter no máximo 16 caracteres',
-    'password.confirmed': 'As senhas não conferem',
+    'password.confirmation': 'As senhas não conferem',
+    'rememberMe.required': 'O campo lembrar-me é obrigatório',
+    'rememberMe.boolean': 'O campo lembrar-me deve ser um booleano',
   }
 }

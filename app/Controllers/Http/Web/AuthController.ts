@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Welcome from 'App/Mailers/Welcome'
 import User from 'App/Models/User'
 import CreateUserValidator from 'App/Validators/CreateUserValidator'
 import LoginValidator from 'App/Validators/LoginValidator'
@@ -8,20 +9,32 @@ export default class AuthController {
     return inertia.render('Auth/Login')
   }
 
-  public async store({ request, auth, inertia }: HttpContextContract) {
-    const data = await request.validate(CreateUserValidator)
-    const user = await User.create(data)
-
-    await auth.use('web').login(user, true)
-
-    return inertia.render('Home/Index')
+  public async registerForm({ inertia }: HttpContextContract) {
+    return inertia.render('Auth/Register')
   }
 
-  public async login({ request, auth, inertia }: HttpContextContract) {
-    const { email, password } = await request.validate(LoginValidator)
+  public async register({ request, auth, response }: HttpContextContract) {
+    const { rememberMe, ...data } = await request.validate(CreateUserValidator)
+    const user = await User.create(data)
 
-    await auth.use('web').attempt(email, password, true)
+    await new Welcome(user).sendLater()
 
-    return inertia.render('Home/Index')
+    await auth.use('web').login(user, rememberMe)
+
+    return response.redirect('/')
+  }
+
+  public async login({ request, auth, response }: HttpContextContract) {
+    const { email, password, rememberMe } = await request.validate(LoginValidator)
+
+    await auth.use('web').attempt(email, password, rememberMe)
+
+    return response.redirect('/')
+  }
+
+  public async logout({ auth, response }: HttpContextContract) {
+    await auth.use('web').logout()
+
+    return response.redirect('/')
   }
 }

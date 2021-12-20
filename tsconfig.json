@@ -23,7 +23,8 @@
       "@eidellev/inertia-adonisjs",
       "@adonisjs/lucid",
       "@adonisjs/auth",
-      "@adonisjs/attachment-lite"
+      "@adonisjs/attachment-lite",
+      "@adonisjs/mail"
     ]
   }
 }

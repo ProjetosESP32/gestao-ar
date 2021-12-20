@@ -7,6 +7,7 @@ export default class LoginValidator {
   public schema = schema.create({
     email: schema.string({}, [rules.email(), rules.exists({ table: 'users', column: 'email' })]),
     password: schema.string({}, [rules.minLength(6), rules.maxLength(16)]),
+    rememberMe: schema.boolean(),
   })
 
   public messages = {
@@ -16,5 +17,6 @@ export default class LoginValidator {
     'password.required': 'O campo senha é obrigatório',
     'password.minLength': 'A senha deve ter no mínimo 6 caracteres',
     'password.maxLength': 'A senha deve ter no máximo 16 caracteres',
+    'rememberMe.boolean': 'O campo lembrar-me deve ser um booleano',
   }
 }
