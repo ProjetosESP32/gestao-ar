@@ -1,17 +1,21 @@
-import { useForm, Link } from '@inertiajs/inertia-react'
+import { useForm } from '@inertiajs/inertia-react'
 import { Button, Container, FormControlLabel, FormGroup, Stack, Switch, TextField } from '@mui/material'
 import React, { FC, ChangeEvent, FormEventHandler } from 'react'
 
-interface ILoginFormData {
+interface IRegisterFormData {
+  username: string
   email: string
   password: string
+  password_confirmation: string
   rememberMe: boolean
 }
 
-const Login: FC = () => {
-  const { data, setData, post, processing, errors } = useForm<ILoginFormData>({
+const Register: FC = () => {
+  const { data, setData, post, processing, errors } = useForm<IRegisterFormData>({
+    username: '',
     email: '',
     password: '',
+    password_confirmation: '',
     rememberMe: false,
   })
 
@@ -28,7 +32,7 @@ const Login: FC = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
 
-    await post('/auth/login')
+    await post('/auth/register')
   }
 
   return (
@@ -36,7 +40,18 @@ const Login: FC = () => {
       <form onSubmit={handleSubmit}>
         <FormGroup>
           <Stack spacing={1}>
-            <h1>Login</h1>
+            <h1>Registro</h1>
+            <TextField
+              name='username'
+              id='username'
+              required
+              label='Nome de usuário'
+              type='text'
+              value={data.username}
+              onChange={handleChange}
+              error={'username' in errors}
+              helperText={errors.username}
+            />
             <TextField
               name='email'
               id='email'
@@ -59,14 +74,24 @@ const Login: FC = () => {
               error={'password' in errors}
               helperText={errors.password}
             />
+            <TextField
+              name='password_confirmation'
+              id='password_confirmation'
+              required
+              label='Confirmação de senha'
+              type='password'
+              value={data.password_confirmation}
+              onChange={handleChange}
+              error={'password_confirmation' in errors}
+              helperText={errors.password_confirmation}
+            />
             <FormControlLabel
               control={<Switch value={data.rememberMe} onChange={handleRememberMe} />}
               label='Lembrar-me'
             />
-            <Link href='/auth/register'>Registrar</Link>
 
             <Button type='submit' variant='outlined' disabled={processing}>
-              Login
+              Registrar
             </Button>
           </Stack>
         </FormGroup>
@@ -75,4 +100,4 @@ const Login: FC = () => {
   )
 }
 
-export default Login
+export default Register
