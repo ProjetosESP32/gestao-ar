@@ -6,7 +6,7 @@
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
     "start": "node server.js",
-    "lint": "eslint . --ext=.ts,.tsx --fix",
+    "lint": "eslint . --ext=.ts,.tsx,.js,.jsx --fix",
     "format": "prettier --write ."
   },
   "devDependencies": {
