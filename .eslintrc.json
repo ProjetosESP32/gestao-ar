@@ -52,7 +52,9 @@
           "**/*.e2e-spec.ts",
           "test/*.ts",
           "resources/js/**/*.ts",
-          "resources/js/**/*.tsx"
+          "resources/js/**/*.tsx",
+          "resources/js/**/*.jsx",
+          "*.js"
         ]
       }
     ],
@@ -60,10 +62,10 @@
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react/jsx-filename-extension": [2, { "extensions": [".tsx", ".jsx"] }],
-    "react/jsx-closing-bracket-location": 1,
+    "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".jsx"] }],
+    "react/jsx-closing-bracket-location": "error",
     "react/no-unescaped-entities": "off",
-    "react/prop-types": "off",
+    "react/prop-types": "warn",
     "react/jsx-props-no-spreading": "off",
     "react/display-name": "off",
 
@@ -112,5 +114,19 @@
     "react": {
       "version": "detect"
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["./tsconfig.json"]
+      }
+    },
+    {
+      "files": ["resources/js/*.ts", "resources/js/*.tsx", "resources/js/*.js", "resources/js/*.jsx"],
+      "parserOptions": {
+        "project": ["resources/js/tsconfig.json"]
+      }
+    }
+  ]
 }
