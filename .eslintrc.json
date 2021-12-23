@@ -122,7 +122,7 @@
       }
     },
     {
-      "files": ["resources/js/*.ts", "resources/js/*.tsx", "resources/js/*.js", "resources/js/*.jsx"],
+      "files": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.js", "resources/js/**/*.jsx"],
       "parserOptions": {
         "project": ["resources/js/tsconfig.json"]
       }
