@@ -1,3 +1,2 @@
-import Route from '@ioc:Adonis/Core/Route'
-
-Route.get('/', 'Web/HomeController.index')
+import '../routes/web.ts'
+import '../routes/api.ts'
