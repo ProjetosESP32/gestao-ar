@@ -1,0 +1,35 @@
+
+  .root{
+    height: 100%;
+    max-height: 100vh;
+  }
+
+  .loginWave{
+    width: 100vw;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+  }
+
+  .loginContainer{
+    background: white;
+    width: 62vw;
+    height: max-content;
+    margin: auto;
+    margin-top: 13vh;
+    border-radius: 20px;
+    display: flex;
+    border: 1px solid gray;
+    max-width: 1200;
+  }
+  .loginTitle{
+    text-transform: uppercase;
+    color: #90CAF9;
+    text-align: center;
+  }
+  .loginIconGroup{
+    display: flex;
+    justify-content: space-between;
+    max-width: 50%;
+    margin: auto;
+  }
