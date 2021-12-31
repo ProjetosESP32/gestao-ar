@@ -1,15 +1,15 @@
 import { ThemeProvider, Box, Button, TextField, Grid, RadioGroup, Radio, FormControlLabel } from '@mui/material'
 import React from 'react'
-import { useStyles, theme } from './styles.jsx'
+import './styles.css'
+import { theme } from '../../theme.jsx'
 
 function Login() {
-  const classes = useStyles()
+  // const classes = useStyles()
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <img src={'/images/login-wave.svg'} className={classes.loginWave} />
-
-        <div className={classes.loginContainer}>
+      <div className={'root'}>
+        <img src={'/images/login-wave.svg'} className={'loginWave'} />
+        <div className={'loginContainer'}>
           <Grid container columns={{ xs: 1, md: 12, lg: 12, xl: 12 }}>
             <Grid
               item
@@ -26,10 +26,10 @@ function Login() {
             <Grid item md={5} xs={1} xl={4} style={{ padding: '2rem 0' }}>
               <Grid container spacing={2} columns={{ xs: 1, lg: 1 }}>
                 <Grid item xs={1} lg={1}>
-                  <h2 className={classes.loginTitle}>Login</h2>
+                  <h2 className={'loginTitle'}>Login</h2>
                 </Grid>
                 <Grid item xs={1} lg={1}>
-                  <div className={classes.loginIconGroup}>
+                  <div className={'loginIconGroup'}>
                     <Button className={'loginIconButton'} variant={'outlined'}>
                       <img
                         style={{
