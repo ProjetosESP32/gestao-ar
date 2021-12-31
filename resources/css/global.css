@@ -1,0 +1,33 @@
+*{
+  padding: 0;
+  margin: 0;
+  color: #5D99C6;
+}
+
+.loginIconButton {
+
+  padding-top: 8px!important;
+  padding-bottom: 8px!important;
+  width: max-content!important;
+  height: max-content!important;
+  border-radius: 8px!important;
+}
+
+.MuiOutlinedInput-root{
+  border-radius: 2rem;
+}
+
+.login-dividing-line{
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.login-dividing-line div{
+  width: 50%;
+  height: 1px;
+  border-bottom: 1px solid #5D99C6;
+}
+
+.login-dividing-line p{
+  margin: auto 0.5rem;
+}
