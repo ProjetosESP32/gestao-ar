@@ -29,7 +29,7 @@ const theme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          marginLeft: 8,
+          marginLeft: 4,
         },
       },
     },
