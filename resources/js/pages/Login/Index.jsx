@@ -54,43 +54,35 @@ function Login() {
                 </Grid>
               </Grid>
 
-              <form>
-                <Grid
-                  container
-                  spacing={3}
-                  columns={{ xs: 12, md: 12 }}
-                  alignItems={'center'}
-                  justifyContent={'center'}
-                >
-                  <Grid item xs={11} md={11}>
-                    <div className={'login-dividing-line'}>
-                      <div></div>
-                      <p>Ou</p>
-                      <div></div>
-                    </div>
-                  </Grid>
-                  <Grid item xs={11} md={11}>
-                    <TextField label={'Email'} />
-                  </Grid>
-                  <Grid item xs={11} md={11}>
-                    <TextField style={{ borderRadius: '8' }} type={'password'} label={'Senha'} />
-                  </Grid>
-
-                  <Grid item xs={11} md={11}>
-                    <RadioGroup name={'controlled-radio-buttons-group'}>
-                      <FormControlLabel value={'female'} control={<Radio />} label={'Lembrar usuário'} />
-                    </RadioGroup>
-                  </Grid>
-                  <Grid item xs={11} md={11}>
-                    <Button variant={'contained'} style={{ borderRadius: '8' }}>
-                      Entrar
-                    </Button>
-                  </Grid>
-                  <Grid item xs={11} md={11} justifyContent={'end'}>
-                    <p style={{ textAlign: 'right' }}>Esqueceu a senha</p>
-                  </Grid>
+              <Grid container spacing={3} columns={{ xs: 12, md: 12 }} alignItems={'center'} justifyContent={'center'}>
+                <Grid item xs={11} md={11}>
+                  <div className={'login-dividing-line'}>
+                    <div></div>
+                    <p>Ou</p>
+                    <div></div>
+                  </div>
                 </Grid>
-              </form>
+                <Grid item xs={11} md={11}>
+                  <TextField label={'Email'} />
+                </Grid>
+                <Grid item xs={11} md={11}>
+                  <TextField style={{ borderRadius: '8' }} type={'password'} label={'Senha'} />
+                </Grid>
+
+                <Grid item xs={11} md={11}>
+                  <RadioGroup name={'controlled-radio-buttons-group'}>
+                    <FormControlLabel value={'female'} control={<Radio />} label={'Lembrar usuário'} />
+                  </RadioGroup>
+                </Grid>
+                <Grid item xs={11} md={11}>
+                  <Button variant={'contained'} style={{ borderRadius: '8' }}>
+                    Entrar
+                  </Button>
+                </Grid>
+                <Grid item xs={11} md={11} justifyContent={'end'}>
+                  <p className={'forgot-password'}>Esqueceu a senha</p>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </div>
