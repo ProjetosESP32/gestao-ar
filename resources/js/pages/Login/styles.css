@@ -20,7 +20,7 @@
     border-radius: 20px;
     display: flex;
     border: 1px solid gray;
-    max-width: 1200;
+    max-width: 1200px;
   }
   .loginTitle{
     text-transform: uppercase;
