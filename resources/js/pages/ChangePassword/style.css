@@ -1,0 +1,13 @@
+.changePassWave{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: -1;
+}
+
+.resetPassTitle{
+  font-size: 2rem;
+}
+.resetPassText{
+  font-size: 1.5rem;
+}
