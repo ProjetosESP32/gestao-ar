@@ -11,3 +11,11 @@
 .resetPassText{
   font-size: 1.5rem;
 }
+
+button.recoverPassBackButton {
+  font-weight: bold;
+  color: black;
+  font-size: 1.12rem;
+  display: block;
+  margin: auto;
+}
