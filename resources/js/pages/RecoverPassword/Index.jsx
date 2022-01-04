@@ -16,7 +16,7 @@ function RecoverPassword() {
               className={'loginContainer'}
               style={{
                 paddingTop: '6vh',
-                paddingBottom: '11vh',
+                paddingBottom: '7vh',
                 backgroundImage: `url('/images/recover-pass-img.svg')`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'contain',

@@ -4,7 +4,6 @@ import './styles.css'
 import { theme } from '../../theme.jsx'
 
 function Login() {
-  // const classes = useStyles()
   return (
     <ThemeProvider theme={theme}>
       <div className={'root'}>
@@ -27,36 +26,6 @@ function Login() {
                   }}
                 ></Grid>
                 <Grid item md={5} xs={1} lg={6} xl={5} className={'loginBox'}>
-                  <Grid container spacing={2} columns={{ xs: 1, lg: 1 }}>
-                    <Grid item xs={1} lg={1}>
-                      <h2 className={'loginTitle'}>Login</h2>
-                    </Grid>
-                    <Grid item xs={1} lg={1}>
-                      <div className={'loginIconGroup'}>
-                        <Button className={'loginIconButton'} variant={'outlined'}>
-                          <img
-                            style={{
-                              width: '80%',
-                              display: 'block',
-                              margin: 'auto',
-                            }}
-                            src={'/images/apple-icon.svg'}
-                          />
-                        </Button>
-                        <Button className={'loginIconButton'} variant={'outlined'}>
-                          <img
-                            style={{
-                              width: '80%',
-                              display: 'block',
-                              margin: 'auto',
-                            }}
-                            src={'/images/google-icon.svg'}
-                          />
-                        </Button>
-                      </div>
-                    </Grid>
-                  </Grid>
-
                   <Grid
                     container
                     spacing={3}
@@ -65,6 +34,32 @@ function Login() {
                     justifyContent={'center'}
                   >
                     <Grid item xs={11} md={11}>
+                      <h2 className={'loginTitle'}>Login</h2>
+                    </Grid>
+                    <Grid item xs={11} md={11} justifyContent={'space-between'}>
+                      <Button className={'loginIconButton'} variant={'outlined'}>
+                        <img
+                          style={{
+                            width: '80%',
+                            display: 'block',
+                            margin: 'auto',
+                          }}
+                          src={'/images/apple-icon.svg'}
+                        />
+                      </Button>
+                      <Button className={'loginIconButton'} variant={'outlined'}>
+                        <img
+                          style={{
+                            width: '80%',
+                            display: 'block',
+                            margin: 'auto',
+                          }}
+                          src={'/images/google-icon.svg'}
+                        />
+                      </Button>
+                    </Grid>
+
+                    <Grid item className={'desktop'} xs={11} md={11}>
                       <div className={'login-dividing-line'}>
                         <div></div>
                         <p>Ou</p>

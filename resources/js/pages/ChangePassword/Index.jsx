@@ -12,7 +12,7 @@ function ChangePassword() {
 
         <Grid spacing={1} container columns={{ xl: 12, lg: 12 }} justifyContent={'center'}>
           <Grid item xl={7} lg={8}>
-            <div className={'loginContainer'} style={{ paddingTop: '6vh', paddingBottom: '11vh' }}>
+            <div className={'loginContainer'} style={{ paddingTop: '6vh', paddingBottom: '7vh' }}>
               <Grid spacing={4} container columns={{ xs: 1, md: 12, lg: 12, xl: 12 }} justifyContent={'space-evenly'}>
                 <Grid
                   rowSpacing={1}

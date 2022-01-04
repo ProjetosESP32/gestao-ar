@@ -5,7 +5,6 @@
 }
 
 .loginIconButton {
-
   padding-top: 8px!important;
   padding-bottom: 8px!important;
   width: max-content!important;
@@ -30,4 +29,18 @@
 
 .login-dividing-line p{
   margin: auto 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .desktop{
+    display: none!important;
+  }
+  div.loginContainer{
+    margin-top: 0px;
+    border-radius: 0;
+    height: 100vh;
+    border: none;
+    display: flex;
+    align-items: center;
+  }
 }
