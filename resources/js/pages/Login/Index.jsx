@@ -18,6 +18,7 @@ function Login() {
                   xs={0}
                   lg={6}
                   xl={7}
+                  className={'login-img'}
                   style={{
                     backgroundImage: `url('/images/login-img.svg')`,
                     backgroundRepeat: 'no-repeat',
@@ -36,7 +37,7 @@ function Login() {
                     <Grid item xs={11} md={11}>
                       <h2 className={'loginTitle'}>Login</h2>
                     </Grid>
-                    <Grid item xs={11} md={11} justifyContent={'space-between'}>
+                    <Grid item xs={11} md={11} className={'loginIconGroup'}>
                       <Button className={'loginIconButton'} variant={'outlined'}>
                         <img
                           style={{
