@@ -40,3 +40,18 @@
   margin-top: 5vh!important;
   margin-bottom: 5vh!important;
 }
+.loginIconGroup{
+  display: flex;
+  justify-content: space-evenly;
+}
+.loginIconGroup button{
+  border: none;
+  box-shadow: 2px 2px 4px lightgray;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.loginIconGroup button img{
+  width: 2.25rem;
+  height: 2.25rem;
+
+}
