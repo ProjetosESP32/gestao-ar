@@ -1,0 +1,30 @@
+@media (max-width: 480px) {
+  .desktop{
+    display: none!important;
+  }
+  div.loginContainer{
+    margin-top: 0px;
+    border-radius: 0;
+    height: 100vh;
+    border: none;
+    display: flex;
+    align-items: center;
+  }
+  .recoverPassImg{
+    background-image: none!important;
+  }
+  p.resetPassText{
+    font-size: 1.2rem;
+    line-height: 1.4rem;
+  }
+  .recoverPassContainer{
+    padding-left: 0!important;
+  }
+  h2.resetPassTitle{
+    font-size: 1.6rem;
+  }
+  .loginInput fieldset {
+    border: 1px solid #5D99C6;
+    box-shadow: inset 1px 3px 6px #00000029;
+  }
+}

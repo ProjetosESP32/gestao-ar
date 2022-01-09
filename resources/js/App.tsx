@@ -4,6 +4,7 @@ import React from 'react'
 import { render } from 'react-dom'
 
 import '../css/global.css'
+import '../css/midia.css'
 
 createInertiaApp({
   resolve: name => require(`./pages/${name}`),
