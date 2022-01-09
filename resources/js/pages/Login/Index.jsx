@@ -34,10 +34,10 @@ function Login() {
                     alignItems={'center'}
                     justifyContent={'center'}
                   >
-                    <Grid item xs={11} md={11}>
+                    <Grid item xs={11} md={11} order={{ xs: 1, lg: 1 }}>
                       <h2 className={'loginTitle'}>Login</h2>
                     </Grid>
-                    <Grid item xs={11} md={11} className={'loginIconGroup'}>
+                    <Grid item xs={11} md={11} className={'loginIconGroup'} order={{ xs: 6, lg: 2 }}>
                       <Button className={'loginIconButton'} variant={'outlined'}>
                         <img
                           style={{
@@ -60,32 +60,37 @@ function Login() {
                       </Button>
                     </Grid>
 
-                    <Grid item className={'desktop'} xs={11} md={11}>
+                    <Grid item className={'desktop'} xs={11} md={11} order={{ xs: 2, lg: 3 }}>
                       <div className={'login-dividing-line'}>
                         <div></div>
                         <p>Ou</p>
                         <div></div>
                       </div>
                     </Grid>
-                    <Grid item xs={11} md={11}>
+                    <Grid item xs={11} md={11} order={{ xs: 3, lg: 4 }}>
                       <TextField label={'Email'} />
                     </Grid>
-                    <Grid item xs={11} md={11}>
+                    <Grid item xs={11} md={11} order={{ xs: 4, lg: 5 }}>
                       <TextField style={{ borderRadius: '8' }} type={'password'} label={'Senha'} />
                     </Grid>
 
-                    <Grid item xs={11} md={11}>
+                    <Grid item xs={5} md={11} order={{ xs: 5, lg: 6 }}>
                       <RadioGroup name={'controlled-radio-buttons-group'}>
-                        <FormControlLabel value={'female'} control={<Radio />} label={'Lembrar usuário'} />
+                        <FormControlLabel
+                          className={'rememberUser'}
+                          value={''}
+                          control={<Radio />}
+                          label={'Lembrar usuário'}
+                        />
                       </RadioGroup>
                     </Grid>
-                    <Grid item xs={11} md={11}>
+                    <Grid item xs={11} md={11} order={{ xs: 7, lg: 7 }}>
                       <Button variant={'contained'} style={{ borderRadius: '8' }}>
                         Entrar
                       </Button>
                     </Grid>
-                    <Grid item xs={11} md={11} justifyContent={'end'}>
-                      <p className={'forgot-password'}>Esqueceu a senha</p>
+                    <Grid className={'u'} item xs={5} md={11} justifyContent={'end'} order={{ xs: 5, lg: 8 }}>
+                      <p className={'forgotPassword'}>Esqueceu a senha</p>
                     </Grid>
                   </Grid>
                 </Grid>
