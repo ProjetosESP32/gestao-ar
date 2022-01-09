@@ -31,7 +31,7 @@
     max-width: 50%;
     margin: auto;
   }
-.forgot-password{
+.forgotPassword{
   text-align: right;
   text-decoration: underline;
 }
@@ -53,5 +53,4 @@
 .loginIconGroup button img{
   width: 2.25rem;
   height: 2.25rem;
-
 }
