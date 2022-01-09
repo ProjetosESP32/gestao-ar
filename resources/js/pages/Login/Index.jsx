@@ -7,10 +7,20 @@ function Login() {
   return (
     <ThemeProvider theme={theme}>
       <div className={'root'}>
-        <img src={'/images/login-wave.svg'} className={'loginWave'} />
+        <img src={'/images/login-wave.svg'} className={'loginWave desktop'} />
         <Grid container columns={{ xl: 12, lg: 12 }} justifyContent={'center'}>
           <Grid item xl={7} lg={9}>
             <div className={'loginContainer'}>
+              <Grid
+                container
+                columns={{ xs: 12, md: 12 }}
+                justifyContent={'space-around'}
+                style={{ position: 'fixed', top: theme.spacing(2) }}
+              >
+                <Grid item xs={11} md={11}>
+                  <img src={'/images/logo.svg'} />
+                </Grid>
+              </Grid>
               <Grid container columns={{ xs: 1, md: 12, lg: 12, xl: 12 }}>
                 <Grid
                   item
@@ -68,13 +78,17 @@ function Login() {
                       </div>
                     </Grid>
                     <Grid item xs={11} md={11} order={{ xs: 3, lg: 4 }}>
-                      <TextField label={'Email'} />
+                      <TextField className={'loginInput'} label={'Email'} />
                     </Grid>
                     <Grid item xs={11} md={11} order={{ xs: 4, lg: 5 }}>
-                      <TextField style={{ borderRadius: '8' }} type={'password'} label={'Senha'} />
+                      <TextField
+                        className={'loginInput'}
+                        style={{ borderRadius: '8' }}
+                        type={'password'}
+                        label={'Senha'}
+                      />
                     </Grid>
-
-                    <Grid item xs={5} md={11} order={{ xs: 5, lg: 6 }}>
+                    <Grid item xs={6} md={11} order={{ xs: 5, lg: 6 }}>
                       <RadioGroup name={'controlled-radio-buttons-group'}>
                         <FormControlLabel
                           className={'rememberUser'}
@@ -85,7 +99,7 @@ function Login() {
                       </RadioGroup>
                     </Grid>
                     <Grid item xs={11} md={11} order={{ xs: 7, lg: 7 }}>
-                      <Button variant={'contained'} style={{ borderRadius: '8' }}>
+                      <Button className={'loginButton'} variant={'contained'} style={{ borderRadius: '8' }}>
                         Entrar
                       </Button>
                     </Grid>

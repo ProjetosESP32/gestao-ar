@@ -19,3 +19,11 @@ button.recoverPassBackButton {
   display: block;
   margin: auto;
 }
+
+.recoverPassImg{
+  padding-top:6vh;
+  padding-bottom:7vh;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:left
+}
