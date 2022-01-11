@@ -2,6 +2,7 @@
   .root{
     height: 100%;
     max-height: 100vh;
+    line-height: 1.2rem;
   }
   .loginWave{
     width: 100vw;

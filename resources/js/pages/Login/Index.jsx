@@ -17,7 +17,7 @@ function Login() {
                 justifyContent={'space-around'}
                 style={{ position: 'fixed', top: theme.spacing(2) }}
               >
-                <Grid item xs={11} md={11}>
+                <Grid className={'logoContainer'} item xs={11} md={11} style={{ paddingTop: 0 }}>
                   <img src={'/images/logo.svg'} />
                 </Grid>
               </Grid>
