@@ -34,4 +34,6 @@ button.loginButton{
 .login-dividing-line p{
   margin: auto 0.5rem;
 }
-
+.logoContainer{
+  display: none;
+}

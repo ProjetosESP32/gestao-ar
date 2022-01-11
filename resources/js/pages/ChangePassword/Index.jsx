@@ -20,7 +20,7 @@ function ChangePassword() {
                 style={{ position: 'fixed', top: theme.spacing(2) }}
               >
                 <Grid item xs={11} md={11}>
-                  <img src={'/images/logo.svg'} />
+                  <img className={'logoContainer'} src={'/images/logo.svg'} />
                 </Grid>
               </Grid>
               <Grid container columns={{ xs: 1, md: 12, lg: 12, xl: 12 }}>

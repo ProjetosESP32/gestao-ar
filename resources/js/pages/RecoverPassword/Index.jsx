@@ -11,7 +11,7 @@ function RecoverPassword() {
         <img src={'/images/recover-pass-wave.svg'} className={'changePassWave desktop'} />
         <Grid container columns={{ xl: 12, lg: 12 }}>
           <Grid item>
-            <img src={'/images/logo.svg'} className={'changePassWave desktop'} />
+            <img src={'/images/logo.svg'} className={'changePassWave logoContainer desktop'} />
           </Grid>
         </Grid>
         <Grid spacing={1} container columns={{ xl: 12, lg: 12 }} justifyContent={'center'}>
