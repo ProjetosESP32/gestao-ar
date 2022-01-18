@@ -6,9 +6,13 @@ export default class UsersSchema extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, table => {
       table.increments('id').primary()
+      table.string('username').nullable()
       table.string('email', 255).notNullable()
       table.string('password', 180).notNullable()
       table.string('remember_me_token').nullable()
+      table.json('cover').nullable()
+
+      table.timestamp('email_verified_at', { useTz: true }).nullable()
 
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()

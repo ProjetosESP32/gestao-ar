@@ -9,6 +9,11 @@
     "lint": "eslint . --ext=.ts,.tsx,.js,.jsx --fix",
     "format": "prettier --write ."
   },
+  "engines": {
+    "node": ">=14.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "no use npm"
+  },
   "devDependencies": {
     "@adonisjs/assembler": "^5.3.0",
     "@babel/core": "^7.16.0",
@@ -51,6 +56,7 @@
     "@adonisjs/auth": "^8.0.10",
     "@adonisjs/core": "^5.4.0",
     "@adonisjs/lucid": "^16.3.2",
+    "@adonisjs/mail": "^7.2.4",
     "@adonisjs/repl": "^3.1.0",
     "@adonisjs/session": "^6.1.2",
     "@adonisjs/shield": "^7.0.0",
@@ -59,6 +65,7 @@
     "@inertiajs/inertia": "^0.10.1",
     "@inertiajs/inertia-react": "^0.7.1",
     "luxon": "^2.1.1",
+    "mjml": "^4.11.0",
     "mysql2": "^2.3.3",
     "phc-argon2": "^1.1.2",
     "proxy-addr": "^2.0.7",
