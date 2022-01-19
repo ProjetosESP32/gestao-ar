@@ -5,4 +5,5 @@ Route.group(() => {
   Route.get('', ({ inertia }) => inertia.render('Login/Index'))
   Route.get('/alterar-senha', ({ inertia }) => inertia.render('ChangePassword/Index'))
   Route.get('/recuperar-senha', ({ inertia }) => inertia.render('RecoverPassword/Index'))
+  Route.get('/inicio', ({ inertia }) => inertia.render('Home/Index'))
 }).middleware('inertia')
