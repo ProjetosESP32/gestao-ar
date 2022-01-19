@@ -5,14 +5,17 @@ import { render } from 'react-dom'
 
 import '../css/global.css'
 import '../css/midia.css'
+import { DrawerProvider } from './providers/drawer.jsx'
 
 createInertiaApp({
   resolve: name => require(`./pages/${name}`),
   setup({ el, App, props }) {
     render(
       <>
-        <CssBaseline />
-        <App {...props} />
+        <DrawerProvider>
+          <CssBaseline />
+          <App {...props} />
+        </DrawerProvider>
       </>,
       el
     )

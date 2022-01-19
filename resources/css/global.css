@@ -3,6 +3,10 @@
   margin: 0;
   color: #5D99C6;
 }
+:root {
+  --text: #5D99C6;
+  --white: #ffffff;
+}
 
 .loginIconButton {
   padding-top: 8px!important;
@@ -37,3 +41,51 @@ button.loginButton{
 .logoContainer{
   display: none;
 }
+
+.MuiDataGrid-columnHeaderTitle{
+  font-weight: bold!important;
+}
+
+th.MuiTableCell-head{
+  font-weight: bold!important;
+  color: var(--text);
+  padding: 0.7rem;
+}
+
+th, td {
+  color: var(--text)!important;
+}
+
+.MuiTableContainer-root{
+  border: none;
+  box-shadow: 0 0 0.5rem #00000029;
+  margin-bottom: 0.5rem;
+  border-radius: 0.8rem;
+}
+.MuiTablePagination-root p{
+  font-weight: bold!important;
+}
+.graphicsDuo canvas{
+  height: 44vh!important;
+}
+
+.MuiDrawer-root span{
+  font-weight: bold!important;
+}
+header.MuiPaper-root{
+  box-shadow: none;
+  z-index: 100;
+}
+header .MuiToolbar-root .MuiPaper-root{
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+
+header .MuiToolbar-root svg{
+  fill: #3F51B5!important;
+}
+
+.MuiDrawer-root .MuiList-root svg{
+  fill: #3F51B5!important;
+}
+
