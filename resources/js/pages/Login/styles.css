@@ -1,57 +1,63 @@
+.root {
+  height: 100%;
+  max-height: 100vh;
+  line-height: 1.2rem;
+}
 
-  .root{
-    height: 100%;
-    max-height: 100vh;
-    line-height: 1.2rem;
-  }
-  .loginWave{
-    width: 100vw;
-    position: fixed;
-    z-index: -1;
-    top: 0;
-  }
+.loginWave {
+  width: 100vw;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+}
 
-  .loginContainer{
-    background: white;
-    height: max-content;
-    margin: auto;
-    margin-top: 13vh;
-    border-radius: 20px;
-    display: flex;
-    border: 1px solid gray;
-  }
-  .loginTitle{
-    text-transform: uppercase;
-    color: #90CAF9;
-    text-align: center;
-    font-size: 2rem;
-  }
-  .loginIconGroup{
-    display: flex;
-    justify-content: space-between;
-    max-width: 50%;
-    margin: auto;
-  }
-.forgotPassword{
+.loginContainer {
+  background: white;
+  height: max-content;
+  margin: auto;
+  margin-top: 13vh;
+  border-radius: 20px;
+  display: flex;
+  border: 1px solid gray;
+}
+
+.loginTitle {
+  text-transform: uppercase;
+  color: #90caf9;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.loginIconGroup {
+  display: flex;
+  justify-content: space-between;
+  max-width: 50%;
+  margin: auto;
+}
+
+.forgotPassword {
   text-align: right;
   text-decoration: underline;
 }
 
-.loginBox{
-  margin-top: 5vh!important;
-  margin-bottom: 5vh!important;
+.loginBox {
+  margin-top: 5vh !important;
+  margin-bottom: 5vh !important;
 }
-.loginIconGroup{
+
+.loginIconGroup {
   display: flex;
   justify-content: space-evenly;
 }
-.loginIconGroup button{
+
+.loginIconGroup button {
   border: none;
   box-shadow: 2px 2px 4px lightgray;
   padding-left: 2rem;
   padding-right: 2rem;
 }
-.loginIconGroup button img{
+
+.loginIconGroup button img {
   width: 2.25rem;
   height: 2.25rem;
 }
