@@ -35,13 +35,7 @@
 
     "no-useless-constructor": "off",
     "import/order": ["error", { "alphabetize": { "order": "asc", "caseInsensitive": true } }],
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        "ts": "never"
-      }
-    ],
+    "import/extensions": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
