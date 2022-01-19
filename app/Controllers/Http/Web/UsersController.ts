@@ -6,10 +6,8 @@ import UserCoverValidator from 'App/Validators/UserCoverValidator'
 import { DateTime } from 'luxon'
 
 export default class UsersController {
-  public async show({ auth, inertia }: HttpContextContract) {
-    const user = auth.use('web').user!
-
-    return inertia.render('Users/Profile', { user })
+  public async show({ inertia }: HttpContextContract) {
+    return inertia.render('Users/Profile')
   }
 
   public async update({ auth, request, response }: HttpContextContract) {
