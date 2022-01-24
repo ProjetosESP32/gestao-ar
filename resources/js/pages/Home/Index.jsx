@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material'
 import Paper from '@mui/material/Paper'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -8,7 +8,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import { DataGrid } from '@mui/x-data-grid'
 import {
   Chart as ChartJS,
   ArcElement,
@@ -186,7 +185,7 @@ export default function Home() {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = newPage => {
     setPage(newPage)
   }
 
@@ -194,19 +193,21 @@ export default function Home() {
     setRowsPerPage(+event.target.value)
     setPage(0)
   }
+  const theme = useTheme()
+
   return (
     <MiniDrawer>
-      <Grid container spacing={2} columns={{ xl: 11, lg: 11 }} justifyContent={'center'}>
-        <Grid item xs={1}></Grid>
+      <Grid container spacing={2} columns={{ xl: 11, lg: 11, md: 11 }} justifyContent='center'>
+        <Grid item xl={1} md={0} display={{ md: 'none', xl: 'block' }}></Grid>
 
-        <Grid item xl={8}>
+        <Grid item xl={8} md={11}>
           <Item style={{ height: 'max-content', padding: '2rem' }}>
-            <Typography style={{ fontWeight: 'bolder', textAlign: 'left', margin: '1rem auto' }} variant={'h4'}>
+            <Typography style={{ fontWeight: 'bolder', textAlign: 'left', margin: '1rem auto' }} variant='h4'>
               Salas
             </Typography>
             <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none', padding: '0.5rem' }}>
               <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label={'sticky table'}>
+                <Table stickyHeader aria-label='sticky table'>
                   <TableHead>
                     <TableRow>
                       {columns.map(column => (
@@ -217,8 +218,8 @@ export default function Home() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-                      <TableRow hover role={'checkbox'} tabIndex={-1} key={row.code}>
+                    {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                      <TableRow hover role='checkbox' tabIndex={-1} key={index}>
                         {columns.map(column => {
                           const value = row[column.id]
                           return (
@@ -234,7 +235,7 @@ export default function Home() {
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 15]}
-                component={'div'}
+                component='div'
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
@@ -244,26 +245,26 @@ export default function Home() {
             </Paper>
           </Item>
         </Grid>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={3}>
-          <Item className={'graphicsDuo'}>
-            <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant={'h4'}>
+        <Grid item xl={1} md={0} display={{ md: 'none', xl: 'block' }}></Grid>
+        <Grid item xl={3} md={4}>
+          <Item className='graphicsDuo'>
+            <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gasto Atual
             </Typography>
             <Doughnut data={data} style={{ height: '44vh!important' }} />
           </Item>
         </Grid>
-        <Grid item xs={5}>
-          <Item className={'graphicsDuo'}>
-            <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant={'h4'}>
+        <Grid item xl={5} md={7}>
+          <Item className='graphicsDuo'>
+            <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gastos Diários
             </Typography>
             <Line options={lineOptions} data={lineData} style={{ height: '44vh!important' }} />
           </Item>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xl={8} md={11}>
           <Item>
-            <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant={'h4'}>
+            <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gastos Mensais
             </Typography>
             <Bar options={barOptions} data={barData} />
