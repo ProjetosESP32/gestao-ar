@@ -83,10 +83,10 @@ function Aside(props) {
 
   const { DrawerHeader } = props
   return (
-    <Drawer variant={'permanent'} open={props.open}>
+    <Drawer variant='permanent' open={open}>
       <DrawerHeader>
         <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
-          <img src={'/images/logo.svg'}></img>
+          <img src='/images/logo.svg'></img>
         </div>
 
         <IconButton
@@ -104,10 +104,10 @@ function Aside(props) {
         <ListItem button>
           <ListItemIcon>
             <IconButton
-              color={'inherit'}
-              aria-label={'open drawer'}
+              color='inherit'
+              aria-label='open drawer'
               onClick={handleDrawerOpen}
-              edge={'start'}
+              edge='start'
               sx={{
                 marginRight: '36px',
                 ...(open && { display: 'none' }),
@@ -116,50 +116,50 @@ function Aside(props) {
               <MdMenu />
             </IconButton>
           </ListItemIcon>
-          <ListItemText primary={'Geral'} />
+          <ListItemText primary='Geral' />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
             <Icon name={MdListAlt}></Icon>
           </ListItemIcon>
-          <ListItemText primary={'Controle de Salas'} />
+          <ListItemText primary='Controle de Salas' />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
             <Icon name={MdCalendarToday}></Icon>
           </ListItemIcon>
-          <ListItemText primary={'Agenda De Eventos'} />
+          <ListItemText primary='Agenda De Eventos' />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
             <Icon name={MdRequestQuote}></Icon>
           </ListItemIcon>
-          <ListItemText primary={'Historico de Consumo'} />
+          <ListItemText primary='Historico de Consumo' />
         </ListItem>
       </List>
       <Divider />
       <List>
         <ListItem button>
           <ListItemIcon></ListItemIcon>
-          <ListItemText primary={'Admin'} />
+          <ListItemText primary='Admin' />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
             <Icon name={MdOutlineAppRegistration}></Icon>
           </ListItemIcon>
-          <ListItemText primary={'Cadastro de Salas'} />
+          <ListItemText primary='Cadastro de Salas' />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
             <Icon name={MdHowToReg}></Icon>
           </ListItemIcon>
-          <ListItemText primary={'Cadastro de Usuários'} />
+          <ListItemText primary='Cadastro de Usuários' />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
             <Icon name={MdOutlineNotificationAdd}></Icon>
           </ListItemIcon>
-          <ListItemText primary={'Gerar Notificação'} />
+          <ListItemText primary='Gerar Notificação' />
         </ListItem>
       </List>
     </Drawer>
@@ -167,7 +167,6 @@ function Aside(props) {
 }
 
 Aside.propTypes = {
-  open: PropTypes.bool,
   handleDrawerClose: PropTypes.func,
   theme: PropTypes.any,
   DrawerHeader: PropTypes.any,
