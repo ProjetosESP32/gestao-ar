@@ -87,7 +87,7 @@ const rows = [
   createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
 ]
 
-export default function Home() {
+const Home = () => {
   const data = {
     labels: ['Bloco A', 'Bloco B', 'Bloco C'],
     datasets: [
@@ -274,3 +274,5 @@ export default function Home() {
     </MiniDrawer>
   )
 }
+
+export default Home
