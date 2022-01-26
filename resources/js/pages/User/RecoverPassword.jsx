@@ -1,7 +1,7 @@
 import { Button, Grid, Link, TextField, useTheme } from '@mui/material'
 import React from 'react'
-import '../ChangePassword/style.css'
-import '../Login/styles.css'
+import './style.css'
+import '../Auth/styles.css'
 
 const RecoverPassword = () => {
   const theme = useTheme()
