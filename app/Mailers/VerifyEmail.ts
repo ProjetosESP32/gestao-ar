@@ -5,7 +5,7 @@ import View from '@ioc:Adonis/Core/View'
 import User from 'App/Models/User'
 import mjml from 'mjml'
 
-export default class Welcome extends BaseMailer {
+export default class VerifyEmail extends BaseMailer {
   constructor(private readonly user: User) {
     super()
   }
@@ -17,9 +17,9 @@ export default class Welcome extends BaseMailer {
       { expiresIn: '15m', httpOnly: true, prefixUrl: Env.get('FRONTEND_URL') }
     )
 
-    const rendered = await View.render('emails/welcome', { username: this.user.username, link })
+    const rendered = await View.render('emails/verify_email', { username: this.user.username, link })
     const { html } = mjml(rendered)
 
-    message.subject('Bem vindo ao Gestão Ar').from('no-reply@gestaoar.com.br').to(this.user.email).html(html)
+    message.subject('Verifique seu e-mail').from('no-reply@gestaoar.com.br').to(this.user.email).html(html)
   }
 }

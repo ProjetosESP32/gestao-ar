@@ -5,21 +5,21 @@ import View from '@ioc:Adonis/Core/View'
 import User from 'App/Models/User'
 import mjml from 'mjml'
 
-export default class Welcome extends BaseMailer {
+export default class RecoverPassword extends BaseMailer {
   constructor(private readonly user: User) {
     super()
   }
 
   public async prepare(message: MessageContract) {
     const link = Route.makeSignedUrl(
-      'users.verifyEmail',
+      'users.changePassword',
       { email: this.user.email },
-      { expiresIn: '15m', httpOnly: true, prefixUrl: Env.get('FRONTEND_URL') }
+      { expiresIn: '2m', httpOnly: true, prefixUrl: Env.get('FRONTEND_URL') }
     )
 
-    const rendered = await View.render('emails/welcome', { username: this.user.username, link })
+    const rendered = await View.render('emails/recover_password', { username: this.user.username, link })
     const { html } = mjml(rendered)
 
-    message.subject('Bem vindo ao Gestão Ar').from('no-reply@gestaoar.com.br').to(this.user.email).html(html)
+    message.subject('Recuperação de senha').from('no-reply@gestaoar.com.br').to(this.user.email).html(html)
   }
 }
