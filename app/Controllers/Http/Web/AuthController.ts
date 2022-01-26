@@ -9,7 +9,7 @@ export default class AuthController {
   public async loginForm({ auth, inertia, response }: HttpContextContract) {
     if (redirectBackIfLogged(auth, response)) return
 
-    return inertia.render('Login/Index')
+    return inertia.render('Auth/Login')
   }
 
   public async registerForm({ auth, inertia, response }: HttpContextContract) {
