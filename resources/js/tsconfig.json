@@ -4,14 +4,10 @@
   "compilerOptions": {
     "target": "ES6",
     "allowJs": true,
-    "checkJs": true,
+
     "incremental": true,
     "jsx": "react",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "rootDir": "./",
     "sourceMap": true,
     "importHelpers": true,
@@ -20,6 +16,6 @@
     "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   }
 }

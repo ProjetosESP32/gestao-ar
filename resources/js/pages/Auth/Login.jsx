@@ -1,16 +1,41 @@
-import { Button, FormControlLabel, Grid, Radio, RadioGroup, TextField, useTheme } from '@mui/material'
+import { useForm } from '@inertiajs/inertia-react'
+import { Button, Checkbox, FormControlLabel, Grid, TextField, useTheme } from '@mui/material'
 import React from 'react'
+
 import './styles.css'
 
 const Login = () => {
   const theme = useTheme()
+  const { data, post, setData, errors } = useForm({
+    email: '',
+    password: '',
+    rememberMe: false,
+  })
+
+  const handleChange = e => {
+    const { name, value } = e.target
+
+    setData({ ...data, [name]: value })
+  }
+
+  const handleCheckChange = e => {
+    const { name } = e.target
+
+    setData({ ...data, [name]: !data[name] })
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    await post('login')
+  }
 
   return (
     <div className='root'>
       <img src='/images/login-wave.svg' className='loginWave desktop' />
       <Grid container columns={{ xl: 12, lg: 12 }} justifyContent='center'>
         <Grid item xl={7} lg={9}>
-          <div className='loginContainer'>
+          <form className='loginContainer' onSubmit={handleSubmit}>
             <Grid
               container
               columns={{ xs: 12, md: 12 }}
@@ -72,18 +97,41 @@ const Login = () => {
                     </div>
                   </Grid>
                   <Grid item xs={11} md={11} order={{ xs: 3, lg: 4 }}>
-                    <TextField className='loginInput' label='Email' />
+                    <TextField
+                      className='loginInput'
+                      label='Email'
+                      type='email'
+                      name='email'
+                      value={data.email}
+                      onChange={handleChange}
+                      error={errors.email}
+                    />
                   </Grid>
                   <Grid item xs={11} md={11} order={{ xs: 4, lg: 5 }}>
-                    <TextField className='loginInput' style={{ borderRadius: '8' }} type='password' label='Senha' />
+                    <TextField
+                      className='loginInput'
+                      style={{ borderRadius: '8' }}
+                      type='password'
+                      label='Senha'
+                      name='password'
+                      value={data.password}
+                      onChange={handleChange}
+                      error={errors.password}
+                    />
                   </Grid>
                   <Grid item xs={6} md={11} order={{ xs: 5, lg: 6 }}>
-                    <RadioGroup name='controlled-radio-buttons-group'>
-                      <FormControlLabel className='rememberUser' value='' control={<Radio />} label='Lembrar usuário' />
-                    </RadioGroup>
+                    <FormControlLabel
+                      className='rememberUser'
+                      name='rememberMe'
+                      value={data.rememberMe}
+                      control={<Checkbox value={data.rememberMe} />}
+                      onChange={handleCheckChange}
+                      label='Lembrar usuário'
+                    />
+                    <small>{errors.rememberMe}</small>
                   </Grid>
                   <Grid item xs={11} md={11} order={{ xs: 7, lg: 7 }}>
-                    <Button className='loginButton' variant='contained' style={{ borderRadius: '8' }}>
+                    <Button className='loginButton' variant='contained' style={{ borderRadius: '8' }} type='submit'>
                       Entrar
                     </Button>
                   </Grid>
@@ -93,7 +141,7 @@ const Login = () => {
                 </Grid>
               </Grid>
             </Grid>
-          </div>
+          </form>
         </Grid>
       </Grid>
     </div>
