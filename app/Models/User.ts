@@ -19,11 +19,14 @@ export default class User extends BaseModel {
   @column()
   public rememberMeToken?: string
 
+  @column()
+  public isRoot: boolean
+
   @attachment({ folder: 'users/cover', preComputeUrl: true })
-  public cover?: AttachmentContract
+  public cover?: AttachmentContract | null
 
   @column.dateTime()
-  public emailVerifiedAt?: DateTime
+  public emailVerifiedAt?: DateTime | null
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
