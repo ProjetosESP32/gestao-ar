@@ -9,16 +9,15 @@ import Paper from '@mui/material/Paper'
 import { styled } from '@mui/material/styles'
 import Toolbar from '@mui/material/Toolbar'
 import Tooltip from '@mui/material/Tooltip'
-import PropTypes from 'prop-types'
 import React, { useState, useContext } from 'react'
 import { MdSearch } from 'react-icons/md'
 import { DrawerContext } from '../../providers/drawer.jsx'
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open',
-  // @ts-ignore
 })(({ theme }) => {
-  const { drawerWidth, open, setOpen } = React.useContext(DrawerContext)
+  const { drawerWidth, open } = useContext(DrawerContext)
+
   return {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -52,12 +51,10 @@ const PanelAppbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
 
-  // @ts-ignore
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget)
   }
 
-  // @ts-ignore
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
   }
@@ -71,11 +68,7 @@ const PanelAppbar = () => {
   }
 
   return (
-    <AppBar
-      position='fixed'
-      // @ts-ignore
-      open={open}
-    >
+    <AppBar position='fixed' open={open}>
       <Toolbar style={{ backgroundColor: 'white', boxShadow: 'none', zIndex: '1' }}>
         <Grid
           sx={{

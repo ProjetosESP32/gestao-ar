@@ -1,10 +1,7 @@
 import Box from '@mui/material/Box'
-
-import Paper from '@mui/material/Paper'
 import { styled } from '@mui/material/styles'
-
+import PropTypes from 'prop-types'
 import React, { useContext } from 'react'
-
 import Aside from '../../components/Aside/Index.jsx'
 import { DrawerContext } from '../../providers/drawer.jsx'
 // @ts-ignore
@@ -20,28 +17,31 @@ const DrawerHeader = styled('div')(() => ({
   ...theme.mixins.toolbar,
 }))
 
-/**
- * @param {{ children: any }} props
- */
-const MiniDrawer = props => {
+const MiniDrawer = ({ children }) => {
   const { setOpen } = useContext(DrawerContext)
-
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
 
   const handleDrawerClose = () => {
     setOpen(false)
   }
+
   return (
     <Box sx={{ display: 'flex' }} style={{ backgroundColor: '#F7F7F7' }}>
       <PanelAppbar></PanelAppbar>
       <Aside handleDrawerClose={handleDrawerClose} theme={theme} DrawerHeader={DrawerHeader} />
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        {props.children}
+        {children}
       </Box>
     </Box>
   )
 }
+
+MiniDrawer.propTypes = {
+  children: PropTypes.node,
+}
+
+MiniDrawer.defaultProps = {
+  children: null,
+}
+
 export default MiniDrawer
