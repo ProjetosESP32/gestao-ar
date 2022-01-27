@@ -7,7 +7,7 @@ Route.group(() => {
   }).prefix('auth')
 
   Route.group(() => {
-    Route.post('logout', 'Api/AuthController.logout').prefix('auth')
+    Route.delete('logout', 'Api/AuthController.logout').prefix('auth')
 
     Route.group(() => {
       Route.get('me', 'Api/UsersController.show')
