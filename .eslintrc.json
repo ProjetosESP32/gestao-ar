@@ -56,7 +56,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".jsx"] }],
-    "react/jsx-closing-bracket-location": "error",
+    "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
     "react/no-unescaped-entities": "off",
     "react/prop-types": "warn",
     "react/jsx-props-no-spreading": "off",
