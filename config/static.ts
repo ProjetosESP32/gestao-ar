@@ -6,6 +6,7 @@
  */
 
 import { AssetsConfig } from '@ioc:Adonis/Core/Static'
+import Application from '@ioc:Adonis/Core/Application'
 
 const staticConfig: AssetsConfig = {
   /*
@@ -71,7 +72,7 @@ const staticConfig: AssetsConfig = {
   | Learn more: https://docs.adonisjs.com/guides/deployment#serving-static-assets
   |
   */
-  maxAge: 0,
+  maxAge: Application.inProduction ? '365d' : 0,
 
   /*
   |--------------------------------------------------------------------------
@@ -83,7 +84,7 @@ const staticConfig: AssetsConfig = {
   | contents change.
   |
   */
-  immutable: false,
+  immutable: Application.inProduction,
 }
 
 export default staticConfig
