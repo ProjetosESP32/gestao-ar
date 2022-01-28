@@ -28,4 +28,4 @@ Route.group(() => {
   Route.group(() => {
     Route.delete('logout', 'Web/AuthController.logout').prefix('auth')
   }).middleware(['auth:web'])
-}).middleware('inertia')
+}).middleware(['shield', 'inertia'])

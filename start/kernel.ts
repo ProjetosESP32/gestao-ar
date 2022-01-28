@@ -41,4 +41,5 @@ Server.middleware.register([() => import('@ioc:Adonis/Core/BodyParser'), () => i
 Server.middleware.registerNamed({
   auth: () => import('App/Middleware/Auth'),
   inertia: () => import('@ioc:EidelLev/Inertia/Middleware'),
+  shield: () => import('@ioc:Adonis/Addons/Shield'),
 })
