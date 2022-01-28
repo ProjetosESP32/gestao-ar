@@ -14,7 +14,7 @@ export default class VerifyEmail extends BaseMailer {
     const link = Route.makeSignedUrl(
       'users.verifyEmail',
       { email: this.user.email },
-      { expiresIn: '15m', httpOnly: true, prefixUrl: Env.get('FRONTEND_URL') }
+      { expiresIn: '15m', httpOnly: true, prefixUrl: Env.get('FRONTEND_URL') },
     )
 
     const rendered = await View.render('emails/verify_email', { username: this.user.username, link })

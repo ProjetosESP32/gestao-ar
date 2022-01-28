@@ -14,7 +14,7 @@ export default class RecoverPassword extends BaseMailer {
     const link = Route.makeSignedUrl(
       'users.changePassword',
       { email: this.user.email },
-      { expiresIn: '2m', httpOnly: true, prefixUrl: Env.get('FRONTEND_URL') }
+      { expiresIn: '2m', httpOnly: true, prefixUrl: Env.get('FRONTEND_URL') },
     )
 
     const rendered = await View.render('emails/recover_password', { username: this.user.username, link })
