@@ -223,7 +223,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  BarElement
+  BarElement,
 )
 
 const Item = styled(Paper)(({ theme }) => ({

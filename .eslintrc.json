@@ -1,105 +1,29 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "node": true
-  },
-  "extends": ["plugin:adonis/typescriptApp", "plugin:react/recommended", "standard", "prettier"],
-  "parser": "@typescript-eslint/parser",
+  "extends": ["plugin:adonis/typescriptApp", "plugin:react/recommended", "prettier"],
+  "plugins": ["react", "react-hooks", "prettier"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
-    },
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+    }
   },
-  "plugins": ["promise", "react", "@typescript-eslint", "react-hooks", "prettier"],
   "rules": {
     "prettier/prettier": ["error"],
-
-    "@typescript-eslint/naming-convention": [
-      "error",
-      { "selector": "variable", "format": ["camelCase", "PascalCase", "UPPER_CASE", "snake_case"] },
-      { "selector": "interface", "format": ["PascalCase"] }
-    ],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/strict-boolean-expressions": "off",
-    "no-return-await": "off",
-    "@typescript-eslint/return-await": ["error", "in-try-catch"],
-    "@typescript-eslint/restrict-template-expressions": "off",
-    "@typescript-eslint/prefer-nullish-coalescing": ["error", { "ignoreConditionalTests": true }],
-    "no-shadow": "off",
-    "@typescript-eslint/no-shadow": "error",
-
-    "no-useless-constructor": "off",
-    "import/order": ["error", { "alphabetize": { "order": "asc", "caseInsensitive": true } }],
-    "import/extensions": "off",
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": [
-          "**/*.spec.{ts,js}",
-          "**/*.test.{ts,js}",
-          "**/*.e2e-spec.ts",
-          "test/*.ts",
-          "resources/js/**/*.ts",
-          "resources/js/**/*.tsx",
-          "resources/js/**/*.jsx",
-          "*.js"
-        ]
-      }
-    ],
 
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".jsx"] }],
-    "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
+    "react/jsx-closing-bracket-location": "error",
     "react/no-unescaped-entities": "off",
     "react/prop-types": "warn",
     "react/jsx-props-no-spreading": "off",
     "react/display-name": "off",
 
-    "jsx-quotes": ["error", "prefer-single"],
-    "no-unused-vars": "off",
-
-    "no-undef": "off",
-    "no-void": "off",
-    "camelcase": "off",
-    "import/prefer-default-export": "off",
-    "no-unused-expressions": "error",
-    "no-console": "warn",
-    "no-use-before-define": "error",
     "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
     "prefer-arrow-callback": "error",
     "prefer-destructuring": "error",
-    "prefer-const": "error",
-    "no-confusing-arrow": "error",
-    "prefer-template": "error",
-    "for-direction": "error",
-    "getter-return": ["error", { "allowImplicit": true }],
-    "no-await-in-loop": "error",
-    "no-async-promise-executor": "error",
-    "no-compare-neg-zero": "error",
-    "no-loss-of-precision": "error",
-    "no-promise-executor-return": "error",
-    "no-prototype-builtins": "warn",
-    "no-setter-return": "error",
-    "no-unreachable-loop": "error",
-    "require-atomic-updates": "off",
-    "valid-typeof": "warn",
     "default-case": "warn",
     "default-case-last": "error",
-    "default-param-last": "error",
-    "guard-for-in": "warn",
-    "max-classes-per-file": ["warn", 1],
-    "no-else-return": "warn",
-    "yoda": ["error", "never", { "onlyEquality": true }],
-
-    "array-bracket-spacing": "warn",
-    "array-element-newline": ["error", "consistent"],
     "arrow-body-style": ["error", "as-needed"],
     "arrow-spacing": "error"
   },
