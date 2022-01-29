@@ -7,6 +7,7 @@ import React, { useContext } from 'react'
 
 import Aside from '../../components/Aside/Index.jsx'
 import { DrawerContext } from '../../providers/drawer.jsx'
+// @ts-ignore
 import { theme } from '../../theme.ts'
 import PanelAppbar from '../Appbar/Index.jsx'
 
