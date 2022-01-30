@@ -98,7 +98,7 @@ const PanelAppbar = () => {
                 <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title='Open settings'>
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt='Remy Sharp' src='images/perfil.jpg' />
+                      <Avatar alt='Remy Sharp' src='../../images/perfil.jpg' />
                     </IconButton>
                   </Tooltip>
                   <Menu
