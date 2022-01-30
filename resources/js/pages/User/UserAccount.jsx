@@ -14,7 +14,7 @@ import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import PropTypes from 'prop-types'
 import React from 'react'
-
+import UserTitle from '../../components/User/Title.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import UserButton from '../../components/User/SubmitButton.jsx'
 import AccountTextField from '../../components/User/TextField.jsx'
@@ -78,7 +78,7 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    'id': `simple-tab-${index}`,
+    id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   }
 }
