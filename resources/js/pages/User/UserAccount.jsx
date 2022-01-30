@@ -18,6 +18,9 @@ import UserTitle from '../../components/User/Title.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import UserButton from '../../components/User/SubmitButton.jsx'
 import AccountTextField from '../../components/User/TextField.jsx'
+import Avatar from '@mui/material/Avatar'
+import { typography } from '@mui/system'
+import { MdModeEdit } from 'react-icons/md'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -45,15 +48,6 @@ function TabPanel(props) {
     </div>
   )
 }
-
-const UserTitle = styled(Typography)({
-  color: '#5D99C6',
-  fontSize: '1.5rem',
-  fontWeight: 'bolder',
-  textAlign: 'left',
-  display: 'block',
-  width: '100%',
-})
 
 const CssDiv = styled('div')({
   display: 'flex',
@@ -125,6 +119,27 @@ const rows = [
   createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
 ]
 
+const UserAvatar = styled(Avatar)({
+  borderRadius: '50%',
+  height: '12vh',
+  width: '12vh',
+  [`& img`]: {
+    width: '100%',
+    height: '100%',
+  },
+  margin: 'auto',
+})
+
+const StyledTypography = styled(Typography)({
+  display: 'block',
+  marginTop: '1rem',
+  fontSize: '1.1rem',
+  [`& svg`]: {
+    width: '1.2rem',
+    height: '1.2rem',
+  },
+})
+
 const UserAccount = () => {
   const theme = useTheme()
 
@@ -162,11 +177,40 @@ const UserAccount = () => {
           <TabPanel value={value} index={0}>
             <Grid container spacing={2}>
               <Grid item xs={3}>
-                <Item>Olá mundo</Item>
+                <Item style={{ padding: '4rem 1rem' }}>
+                  <UserAvatar variant='square'>
+                    <img id='userImgPreview' src='../../images/perfil.jpg'></img>
+                  </UserAvatar>
+
+                  <input
+                    onChange={e => {
+                      var fotopreview = document.getElementById('userImgPreview')
+                      const { files } = e.target
+                      if (files && files[0]) {
+                        var reader = new FileReader()
+
+                        reader.onload = e => {
+                          fotopreview.src = e.target.result
+                        }
+
+                        reader.readAsDataURL(files[0])
+                      }
+                    }}
+                    id='userImage'
+                    type='file'
+                    accept='image/*'
+                    style={{ display: 'none' }}
+                  />
+                  <label style={{ cursor: 'pointer' }} htmlFor='userImage'>
+                    <StyledTypography variant='p'>
+                      Alterar <MdModeEdit />
+                    </StyledTypography>
+                  </label>
+                </Item>
               </Grid>
               <Grid item xs={8}>
                 <Item>
-                  <Grid container justifyContent={'center'} columns={11}>
+                  <Grid container justifyContent='center' columns={11}>
                     <Grid item xs={4}>
                       <UserTitle variant='p'>Dados Básicos</UserTitle>
                     </Grid>
