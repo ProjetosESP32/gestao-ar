@@ -1,2 +1,2 @@
-import '../routes/web.ts'
-import '../routes/api.ts'
+import '../routes/web'
+import '../routes/api'

@@ -7,7 +7,7 @@ export default class CreateUserValidator {
   public schema = schema.create({
     username: schema.string({ trim: true }, [rules.unique({ table: 'users', column: 'username' })]),
     email: schema.string({}, [rules.email(), rules.unique({ table: 'users', column: 'email' })]),
-    password: schema.string({}, [rules.minLength(6), rules.maxLength(16), rules.confirmed()]),
+    password: schema.string({}, [rules.minLength(6), rules.maxLength(16), rules.confirmed('passwordConfirmation')]),
     rememberMe: schema.boolean(),
   })
 

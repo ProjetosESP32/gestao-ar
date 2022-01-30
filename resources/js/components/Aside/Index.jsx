@@ -9,8 +9,6 @@ import { styled } from '@mui/material/styles'
 import PropTypes from 'prop-types'
 import React, { useContext } from 'react'
 import {
-  MdMail,
-  MdInbox,
   MdChevronLeft,
   MdChevronRight,
   MdListAlt,
@@ -24,7 +22,6 @@ import {
 import { DrawerContext } from '../../providers/drawer.jsx'
 import Icon from '../Icon/Index.jsx'
 
-// @ts-ignore
 const OpenedMixin = theme => {
   const { drawerWidth } = useContext(DrawerContext)
 
@@ -38,7 +35,6 @@ const OpenedMixin = theme => {
   }
 }
 
-// @ts-ignore
 const closedMixin = theme => ({
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -51,9 +47,7 @@ const closedMixin = theme => ({
   },
 })
 
-// @ts-ignore
 const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })(({ theme, open }) => {
-  // @ts-ignore
   const { drawerWidth } = useContext(DrawerContext)
 
   return {
@@ -72,16 +66,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
   }
 })
 
-/**
- * @param {{ open?: any; handleDrawerClose?: any; theme?: any; DrawerHeader?: any; }} props
- */
-function Aside(props) {
-  const { open, setOpen } = React.useContext(DrawerContext)
+const Aside = ({ DrawerHeader, theme, handleDrawerClose }) => {
+  const { open, setOpen } = useContext(DrawerContext)
+
   const handleDrawerOpen = () => {
     setOpen(true)
   }
 
-  const { DrawerHeader } = props
   return (
     <Drawer variant='permanent' open={open}>
       <DrawerHeader>
@@ -93,9 +84,9 @@ function Aside(props) {
           sx={{
             ...(!open && { display: 'none' }),
           }}
-          onClick={props.handleDrawerClose}
+          onClick={handleDrawerClose}
         >
-          {props.theme.direction === 'rtl' ? <MdChevronRight /> : <MdChevronLeft />}
+          {theme.direction === 'rtl' ? <MdChevronRight /> : <MdChevronLeft />}
         </IconButton>
       </DrawerHeader>
 
@@ -169,6 +160,7 @@ function Aside(props) {
 Aside.propTypes = {
   handleDrawerClose: PropTypes.func,
   theme: PropTypes.any,
-  DrawerHeader: PropTypes.any,
+  DrawerHeader: PropTypes.elementType.isRequired,
 }
+
 export default Aside

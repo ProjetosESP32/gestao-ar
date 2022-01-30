@@ -1,6 +1,6 @@
 import { Button, Grid, TextField, useTheme } from '@mui/material'
 import React from 'react'
-import '../Login/styles.css'
+import '../Auth/styles.css'
 import './style.css'
 
 const ChangePassword = () => {

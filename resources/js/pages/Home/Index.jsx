@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material'
 import Paper from '@mui/material/Paper'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -9,83 +9,21 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import {
-  Chart as ChartJS,
   ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
 } from 'chart.js'
 import faker from 'faker'
 import React from 'react'
-import { Doughnut, Line, Bar } from 'react-chartjs-2'
+import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-
-ChartJS.register(
-  ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement
-)
-
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}))
-
-const columns = [
-  { id: 'room', label: 'Sala', minWidth: 170 },
-  { id: 'block', label: 'Bloco', minWidth: 100 },
-  {
-    id: 'nextEvent',
-    label: 'Próximo Evento',
-    minWidth: 170,
-    align: 'right',
-  },
-  {
-    id: 'observations',
-    label: 'Obs',
-    minWidth: 170,
-    align: 'right',
-  },
-  {
-    id: 'atualStatus',
-    label: 'Status Atual',
-    minWidth: 170,
-    align: 'right',
-  },
-]
-
-/**
- * @param {string} room
- * @param {string} block
- * @param {string} nextEvent
- * @param {string} observations
- * @param {string} atualStatus
- */
-function createData(room, block, nextEvent, observations, atualStatus) {
-  return { room, block, nextEvent, observations, atualStatus }
-}
-
-const rows = [
-  createData('sala 01', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 03', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-]
 
 const Home = () => {
   const data = {
@@ -193,7 +131,6 @@ const Home = () => {
     setRowsPerPage(+event.target.value)
     setPage(0)
   }
-  const theme = useTheme()
 
   return (
     <MiniDrawer>
@@ -274,5 +211,67 @@ const Home = () => {
     </MiniDrawer>
   )
 }
+
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+)
+
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}))
+
+const columns = [
+  { id: 'room', label: 'Sala', minWidth: 170 },
+  { id: 'block', label: 'Bloco', minWidth: 100 },
+  {
+    id: 'nextEvent',
+    label: 'Próximo Evento',
+    minWidth: 170,
+    align: 'right',
+  },
+  {
+    id: 'observations',
+    label: 'Obs',
+    minWidth: 170,
+    align: 'right',
+  },
+  {
+    id: 'atualStatus',
+    label: 'Status Atual',
+    minWidth: 170,
+    align: 'right',
+  },
+]
+
+/**
+ * @param {string} room
+ * @param {string} block
+ * @param {string} nextEvent
+ * @param {string} observations
+ * @param {string} atualStatus
+ */
+function createData(room, block, nextEvent, observations, atualStatus) {
+  return { room, block, nextEvent, observations, atualStatus }
+}
+
+const rows = [
+  createData('sala 01', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 03', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+]
 
 export default Home
