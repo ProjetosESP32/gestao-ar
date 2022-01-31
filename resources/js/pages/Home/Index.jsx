@@ -123,7 +123,7 @@ const Home = () => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
-  const handleChangePage = newPage => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
 
@@ -270,8 +270,12 @@ function createData(room, block, nextEvent, observations, atualStatus) {
 const rows = [
   createData('sala 01', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
   createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 03', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
 ]
 
 export default Home
