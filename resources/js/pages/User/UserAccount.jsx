@@ -42,103 +42,12 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography variant='span'>{children}</Typography>
         </Box>
       )}
     </div>
   )
 }
-
-const CssDiv = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
-  width: 'max-content',
-  margin: '1rem 0',
-  [`& span`]: {
-    width: '100%',
-    textAlign: 'left',
-    fontSize: '1rem',
-    marginBottom: '0.5rem',
-  },
-})
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-}
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  }
-}
-
-/* Table data */
-const columns = [
-  { id: 'room', label: 'Sala', minWidth: 170 },
-  { id: 'block', label: 'Bloco', minWidth: 100 },
-  {
-    id: 'nextEvent',
-    label: 'Próximo Evento',
-    minWidth: 170,
-    align: 'right',
-  },
-  {
-    id: 'observations',
-    label: 'Obs',
-    minWidth: 170,
-    align: 'right',
-  },
-  {
-    id: 'atualStatus',
-    label: 'Status Atual',
-    minWidth: 170,
-    align: 'right',
-  },
-]
-
-/**
- * @param {string} room
- * @param {string} block
- * @param {string} nextEvent
- * @param {string} observations
- * @param {string} atualStatus
- */
-function createData(room, block, nextEvent, observations, atualStatus) {
-  return { room, block, nextEvent, observations, atualStatus }
-}
-
-const rows = [
-  createData('sala 01', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 03', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-]
-
-const UserAvatar = styled(Avatar)({
-  borderRadius: '50%',
-  height: '12vh',
-  width: '12vh',
-  [`& img`]: {
-    width: '100%',
-    height: '100%',
-  },
-  margin: 'auto',
-})
-
-const StyledTypography = styled(Typography)({
-  display: 'block',
-  marginTop: '1rem',
-  fontSize: '1.1rem',
-  [`& svg`]: {
-    width: '1.2rem',
-    height: '1.2rem',
-  },
-})
 
 const UserAccount = () => {
   const theme = useTheme()
@@ -149,7 +58,10 @@ const UserAccount = () => {
     setValue(newValue)
   }
 
-  const handleChangePage = newPage => {
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+
+  const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
 
@@ -157,8 +69,6 @@ const UserAccount = () => {
     setRowsPerPage(+event.target.value)
     setPage(0)
   }
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
   return (
     <MiniDrawer>
@@ -355,5 +265,102 @@ const UserAccount = () => {
     </MiniDrawer>
   )
 }
+
+const CssDiv = styled('div')({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  width: 'max-content',
+  margin: '1rem 0',
+  [`& span`]: {
+    width: '100%',
+    textAlign: 'left',
+    fontSize: '1rem',
+    marginBottom: '0.5rem',
+  },
+})
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+}
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
+}
+
+const UserAvatar = styled(Avatar)({
+  borderRadius: '50%',
+  height: '12vh',
+  width: '12vh',
+  [`& img`]: {
+    width: '100%',
+    height: '100%',
+  },
+  margin: 'auto',
+})
+
+const StyledTypography = styled(Typography)({
+  display: 'block',
+  marginTop: '1rem',
+  fontSize: '1.1rem',
+  [`& svg`]: {
+    width: '1.2rem',
+    height: '1.2rem',
+  },
+})
+
+/* Table data */
+const columns = [
+  { id: 'room', label: 'Sala', minWidth: 170 },
+  { id: 'block', label: 'Bloco', minWidth: 100 },
+  {
+    id: 'nextEvent',
+    label: 'Próximo Evento',
+    minWidth: 170,
+    align: 'right',
+  },
+  {
+    id: 'observations',
+    label: 'Obs',
+    minWidth: 170,
+    align: 'right',
+  },
+  {
+    id: 'atualStatus',
+    label: 'Status Atual',
+    minWidth: 170,
+    align: 'right',
+  },
+]
+
+/**
+ * @param {string} room
+ * @param {string} block
+ * @param {string} nextEvent
+ * @param {string} observations
+ * @param {string} atualStatus
+ */
+function createData(room, block, nextEvent, observations, atualStatus) {
+  return { room, block, nextEvent, observations, atualStatus }
+}
+
+const rows = [
+  createData('sala 01', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 03', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
+]
 
 export default UserAccount
