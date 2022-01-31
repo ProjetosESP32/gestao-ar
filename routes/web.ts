@@ -25,6 +25,8 @@ Route.group(() => {
     Route.post('/change-password/:email', 'UsersController.changePassword').mustBeSigned()
 
     Route.get('conta', ({ inertia }) => inertia.render('User/UserAccount'))
+    Route.get('lista-usuarios', ({ inertia }) => inertia.render('User/UserList'))
+    Route.get('cadastro', ({ inertia }) => inertia.render('User/UserRegister'))
   }).prefix('users')
 
   Route.group(() => {
