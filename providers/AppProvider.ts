@@ -1,4 +1,5 @@
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import { Exception } from '@poppinss/utils'
 
 export default class AppProvider {
   constructor(protected app: ApplicationContract) {}
@@ -13,13 +14,12 @@ export default class AppProvider {
     const { DatabaseQueryBuilder } = this.app.container.use('Adonis/Lucid/Database')
 
     Route.macro('mustBeSigned', function () {
-      this.middleware(async ({ request, response }, next) => {
+      this.middleware(async ({ request }, next) => {
         if (!request.hasValidSignature()) {
-          response.badRequest({ message: 'Invalid signature' })
-          return
+          throw new Exception('Assinatura inválida', 400, 'ERR_INVALID_SIGNATURE')
         }
 
-        next()
+        return next()
       })
 
       return this
