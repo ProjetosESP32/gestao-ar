@@ -11,8 +11,8 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import { MdLens } from 'react-icons/md'
-import AccountTextField from '../../components/User/TextField.jsx'
-import UserButton from '../../components/User/SubmitButton.jsx'
+import { AccountTextField } from '../../components/User/TextField.jsx'
+import { UserButton, AccountButton } from '../../components/User/Buttons.jsx'
 
 import { DataGrid } from '@mui/x-data-grid'
 
@@ -63,19 +63,6 @@ const StyledTab = styled(Tab)({
   margin: 'auto',
 })
 
-const StyledButton = styled(Button)({
-  fontWeight: 'bold',
-  width: 'max-content',
-  padding: '0.5rem 2.5rem',
-  backgroundColor: '#5D99C6',
-  fontSize: '0.8rem',
-  color: 'white!important',
-  borderRadius: 32,
-  margin: 'auto',
-  [`&:hover`]: {
-    backgroundColor: '#5D99C6',
-  },
-})
 const HiddenTab = styled(Tab)({
   display: 'flex',
   width: '1px',
@@ -150,7 +137,7 @@ const UserRegister = () => {
                   <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />
                 </div>
                 <div style={{ marginTop: '1rem' }}>
-                  <StyledButton>Salvar</StyledButton>
+                  <AccountButton>Salvar</AccountButton>
                 </div>
               </Item>
             </TabPanel>
