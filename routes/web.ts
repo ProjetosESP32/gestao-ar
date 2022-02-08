@@ -30,6 +30,13 @@ Route.group(() => {
   }).prefix('users')
 
   Route.group(() => {
+    Route.get('controle-sala', ({ inertia }) => inertia.render('Control/RoomControl'))
+    Route.get('gerir-notificacoes', ({ inertia }) => inertia.render('Control/NotificationControl'))
+    Route.get('controle-bloco', ({ inertia }) => inertia.render('Control/BlockControl'))
+    Route.get('controle-salas', ({ inertia }) => inertia.render('Control/RoomsControl'))
+  }).prefix('control')
+
+  Route.group(() => {
     Route.delete('logout', 'AuthController.logout').prefix('auth')
   }).middleware(['auth:web'])
 })
