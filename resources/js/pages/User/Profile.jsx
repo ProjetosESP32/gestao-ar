@@ -20,7 +20,6 @@ import { MdModeEdit } from 'react-icons/md'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import { UserButton } from '../../components/User/Buttons.jsx'
 import { AccountTextField } from '../../components/User/TextField.jsx'
-import Avatar from '@mui/material/Avatar'
 import UserTitle from '../../components/User/Title.jsx'
 
 const Item = styled(Paper)(({ theme }) => ({

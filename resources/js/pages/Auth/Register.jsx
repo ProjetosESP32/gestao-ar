@@ -1,7 +1,7 @@
 import { useForm } from '@inertiajs/inertia-react'
 import { Button, Checkbox, FormControlLabel, Grid, Typography, useTheme } from '@mui/material'
 import React from 'react'
-import AccountTextField from '../../components/User/TextField'
+import { AccountTextField } from '../../components/User/TextField'
 import './styles.css'
 
 const Login = () => {
