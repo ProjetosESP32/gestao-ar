@@ -1,3 +1,5 @@
+import { Inertia } from '@inertiajs/inertia'
+import { Link } from '@inertiajs/inertia-react'
 import Divider from '@mui/material/Divider'
 import MuiDrawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -76,7 +78,10 @@ const Aside = ({ DrawerHeader, theme, handleDrawerClose }) => {
   return (
     <Drawer variant='permanent' open={open}>
       <DrawerHeader>
-        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
+        <div
+          style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', cursor: 'pointer' }}
+          onClick={() => Inertia.visit('/')}
+        >
           <img src='/images/logo.svg'></img>
         </div>
 
@@ -109,7 +114,7 @@ const Aside = ({ DrawerHeader, theme, handleDrawerClose }) => {
           </ListItemIcon>
           <ListItemText primary='Geral' />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => Inertia.visit('/rooms')}>
           <ListItemIcon>
             <Icon name={MdListAlt}></Icon>
           </ListItemIcon>
@@ -140,7 +145,7 @@ const Aside = ({ DrawerHeader, theme, handleDrawerClose }) => {
           </ListItemIcon>
           <ListItemText primary='Cadastro de Salas' />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => Inertia.visit('/admin/users')}>
           <ListItemIcon>
             <Icon name={MdHowToReg}></Icon>
           </ListItemIcon>

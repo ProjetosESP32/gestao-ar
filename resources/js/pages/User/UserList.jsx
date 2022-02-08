@@ -14,6 +14,8 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
+import { usePage } from '@inertiajs/inertia-react'
+import { Inertia } from '@inertiajs/inertia'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -35,8 +37,7 @@ const StyledButton = styled(Button)({
 })
 
 const UserList = () => {
-  const theme = useTheme()
-
+  const { users } = usePage().props
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
@@ -61,7 +62,7 @@ const UserList = () => {
           <Item>
             <div style={{ display: 'flex', margin: '0.3rem auto' }}>
               <UserTitle variant='p'>Usuários Cadastrados</UserTitle>
-              <StyledButton>+ Usuário</StyledButton>
+              <StyledButton onClick={() => Inertia.visit('/admin/users/create')}>+ Usuário</StyledButton>
             </div>
             <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none', padding: '0.5rem' }}>
               <TableContainer sx={{ maxHeight: 440 }}>
@@ -76,12 +77,12 @@ const UserList = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                    {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                       <TableRow hover role='checkbox' tabIndex={-1} key={index}>
                         {columns.map(column => {
                           const value = row[column.id]
                           return (
-                            <TableCell key={column.id} align={column.align}>
+                            <TableCell key={`${column.id}_${row.id}-${row.email}`} align={column.align}>
                               {column.format && typeof value === 'number' ? column.format(value) : value}
                             </TableCell>
                           )
@@ -95,7 +96,7 @@ const UserList = () => {
                 labelRowsPerPage={'Linhas por página'}
                 rowsPerPageOptions={[5, 10, 15]}
                 component='div'
-                count={rows.length}
+                count={users.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -110,22 +111,14 @@ const UserList = () => {
 }
 /* Table data */
 const columns = [
-  { id: 'name', label: 'Nome', minWidth: 170 },
-  { id: 'occupation', label: 'Cargo', minWidth: 100 },
+  { id: 'username', label: 'Nome', minWidth: 170 },
+  { id: 'email', label: 'E-mail', minWidth: 100 },
   {
-    id: 'roomscount',
-    label: 'N° de Salas',
+    id: 'is_root',
+    label: 'Administrador',
     minWidth: 170,
     align: 'right',
   },
 ]
 
-const rows = [
-  { name: 'Nome do Usuário', occupation: 'admin', roomscount: 12 },
-  { name: 'Nome do Usuário', occupation: 'admin', roomscount: 12 },
-  { name: 'Nome do Usuário', occupation: 'admin', roomscount: 12 },
-  { name: 'Nome do Usuário', occupation: 'admin', roomscount: 12 },
-  { name: 'Nome do Usuário', occupation: 'admin', roomscount: 12 },
-  { name: 'Nome do Usuário', occupation: 'admin', roomscount: 12 },
-]
 export default UserList

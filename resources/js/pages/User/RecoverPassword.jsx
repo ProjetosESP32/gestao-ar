@@ -60,7 +60,12 @@ const RecoverPassword = () => {
                     </Button>
                   </Grid>
                   <Grid item xs={11} md={11}>
-                    <Link className='recoverPassBackButton' component='button' variant='body2'>
+                    <Link
+                      className='recoverPassBackButton'
+                      component='button'
+                      variant='body2'
+                      onClick={() => window.history.back()}
+                    >
                       Voltar
                     </Link>
                   </Grid>

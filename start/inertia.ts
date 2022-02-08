@@ -12,5 +12,5 @@ import Inertia from '@ioc:EidelLev/Inertia'
 
 Inertia.share({
   errors: ({ session }) => session.flashMessages.get('errors'),
-  user: ({ auth }) => auth.user,
+  user: ({ auth }) => auth.use('web').user,
 }).version(() => Inertia.manifestFile('public/assets/manifest.json'))
