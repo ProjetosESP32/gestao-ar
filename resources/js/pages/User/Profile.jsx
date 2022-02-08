@@ -18,8 +18,8 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { MdModeEdit } from 'react-icons/md'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-import UserButton from '../../components/User/SubmitButton.jsx'
-import AccountTextField from '../../components/User/TextField.jsx'
+import { UserButton } from '../../components/User/Buttons.jsx'
+import { AccountTextField } from '../../components/User/TextField.jsx'
 import UserTitle from '../../components/User/Title.jsx'
 
 const Item = styled(Paper)(({ theme }) => ({

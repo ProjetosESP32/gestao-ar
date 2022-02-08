@@ -221,7 +221,7 @@ const RoomControl = () => {
           </Item>
         </Grid>
         <Grid item xl={4} md={4}>
-          <Item className='graphicsDuo'>
+          <Item className='graphicsDuo' sx={{ paddingLeft: '4rem', paddingRight: '4rem' }}>
             <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gasto Atual
             </Typography>
