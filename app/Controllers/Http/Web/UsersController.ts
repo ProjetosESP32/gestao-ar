@@ -8,11 +8,11 @@ import { DateTime } from 'luxon'
 
 export default class UsersController {
   public async show({ inertia }: HttpContextContract) {
-    return inertia.render('Users/Profile')
+    return inertia.render('User/Profile')
   }
 
   public async update(context: HttpContextContract) {
-    await updateUser(context)
+    await updateUser(context, 'web')
 
     return context.response.redirect().toRoute('users.profile')
   }
@@ -27,10 +27,9 @@ export default class UsersController {
     const user = await User.findByOrFail('email', params.email)
 
     user.emailVerifiedAt = DateTime.now()
-
     await user.save()
 
-    return inertia.render('Users/VerifyEmail')
+    return inertia.render('User/VerifyEmail')
   }
 
   public async recoverPasswordView({ inertia }: HttpContextContract) {

@@ -1,7 +1,9 @@
-import { Grid, Button } from '@mui/material'
+import { useForm, usePage } from '@inertiajs/inertia-react'
+import { Button, Grid } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
-import { useTheme, styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import Tab from '@mui/material/Tab'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -13,14 +15,12 @@ import TableRow from '@mui/material/TableRow'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 import PropTypes from 'prop-types'
-import React from 'react'
-import UserTitle from '../../components/User/Title.jsx'
+import React, { useState } from 'react'
+import { MdModeEdit } from 'react-icons/md'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import UserButton from '../../components/User/SubmitButton.jsx'
 import AccountTextField from '../../components/User/TextField.jsx'
-import Avatar from '@mui/material/Avatar'
-import { typography } from '@mui/system'
-import { MdModeEdit } from 'react-icons/md'
+import UserTitle from '../../components/User/Title.jsx'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -50,16 +50,45 @@ function TabPanel(props) {
 }
 
 const UserAccount = () => {
-  const theme = useTheme()
+  const { user } = usePage().props
+  const [value, setValue] = useState(0)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const { data, setData, put, errors, processing } = useForm({
+    username: user.username,
+    email: user.email,
+    cover: null,
+  })
+  const [imagePreview, setImagePreview] = useState(null)
 
-  const [value, setValue] = React.useState(0)
+  const handleUserDataChange = e => {
+    const { name, value } = e.target
+
+    setData({ ...data, [name]: value })
+  }
+
+  const handleCoverChange = e => {
+    const file = e.target.files?.item(0)
+
+    if (file) {
+      var reader = new FileReader()
+
+      reader.onload = e => {
+        setImagePreview(e.target.result)
+        setData({ ...data, cover: file })
+      }
+
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleUpdate = async () => {
+    await put('/users')
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -89,24 +118,12 @@ const UserAccount = () => {
               <Grid item xs={3}>
                 <Item style={{ padding: '4rem 1rem' }}>
                   <UserAvatar variant='square'>
-                    <img id='userImgPreview' src='../../images/perfil.jpg'></img>
+                    <img src={imagePreview ?? user.cover?.url ?? '/images/user.png'} />
                   </UserAvatar>
 
                   <input
-                    onChange={e => {
-                      var fotopreview = document.getElementById('userImgPreview')
-                      const { files } = e.target
-                      if (files && files[0]) {
-                        var reader = new FileReader()
-
-                        reader.onload = e => {
-                          fotopreview.src = e.target.result
-                        }
-
-                        reader.readAsDataURL(files[0])
-                      }
-                    }}
                     id='userImage'
+                    onChange={handleCoverChange}
                     type='file'
                     accept='image/*'
                     style={{ display: 'none' }}
@@ -126,11 +143,29 @@ const UserAccount = () => {
                     </Grid>
                     <Grid item xs={7}>
                       <Grid item xs={11}>
-                        <AccountTextField label='Email' variant='outlined' />
-                        <AccountTextField label='Telefone' variant='outlined' />
-                        <AccountTextField label='Cargo' variant='outlined' />
-                        <AccountTextField label='Nome' variant='outlined' />
-                        <UserButton variant='contained'>Salvar</UserButton>
+                        <AccountTextField
+                          label='Nome'
+                          variant='outlined'
+                          type='text'
+                          name='username'
+                          value={data.username}
+                          onChange={handleUserDataChange}
+                          error={!!errors.username?.[0]}
+                          helperText={errors.username?.[0]}
+                        />
+                        <AccountTextField
+                          label='Email'
+                          variant='outlined'
+                          type='email'
+                          name='email'
+                          value={data.email}
+                          onChange={handleUserDataChange}
+                          error={!!errors.email?.[0]}
+                          helperText={errors.email?.[0]}
+                        />
+                        <UserButton variant='contained' onClick={handleUpdate} disabled={processing}>
+                          Salvar
+                        </UserButton>
                       </Grid>
                     </Grid>
                   </Grid>

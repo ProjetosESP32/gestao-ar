@@ -9,7 +9,7 @@ export default class UsersController {
   }
 
   public async update(context: HttpContextContract) {
-    return updateUser(context)
+    return updateUser(context, 'api')
   }
 
   public async updatePassword(context: HttpContextContract) {

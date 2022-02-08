@@ -33,7 +33,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  BarElement
+  BarElement,
 )
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -47,7 +47,7 @@ const FormGrid = styled(Grid)(
   display: flex;
   flex-direction: column;
   align-itens:center;
-`
+`,
 )
 const StyledInput = styled('input')(
   ({ theme }) => `
@@ -68,7 +68,7 @@ const StyledInput = styled('input')(
   &:after{
     border:none;
   }
-`
+`,
 )
 
 const RoomControl = () => {

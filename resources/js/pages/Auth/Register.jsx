@@ -1,14 +1,16 @@
-import { Link, useForm } from '@inertiajs/inertia-react'
-import { Button, Checkbox, FormControlLabel, Grid, TextField, useTheme } from '@mui/material'
+import { useForm } from '@inertiajs/inertia-react'
+import { Button, Checkbox, FormControlLabel, Grid, Typography, useTheme } from '@mui/material'
 import React from 'react'
-
+import AccountTextField from '../../components/User/TextField'
 import './styles.css'
 
 const Login = () => {
   const theme = useTheme()
   const { data, post, setData, errors } = useForm({
+    username: '',
     email: '',
     password: '',
+    passwordConfirmation: '',
     rememberMe: false,
   })
 
@@ -27,7 +29,7 @@ const Login = () => {
   const handleSubmit = async e => {
     e.preventDefault()
 
-    await post('/auth/login')
+    await post('/auth/register')
   }
 
   return (
@@ -47,25 +49,21 @@ const Login = () => {
               </Grid>
             </Grid>
             <Grid container columns={{ xs: 1, md: 12, lg: 12, xl: 12 }}>
-              <Grid
-                item
-                md={7}
-                xs={0}
-                lg={6}
-                xl={7}
-                className='login-img'
-                style={{
-                  backgroundImage: `url('/images/login-img.svg')`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'contain',
-                  backgroundPosition: 'center',
-                }}
-              ></Grid>
-              <Grid item md={5} xs={1} lg={6} xl={5} className='loginBox'>
-                <Grid container spacing={3} columns={{ xs: 12, md: 12 }} alignItems='center' justifyContent='center'>
-                  <Grid item xs={11} md={11} order={{ xs: 1, lg: 1 }}>
-                    <h2 className='loginTitle'>Login</h2>
-                  </Grid>
+              <Typography variant='h3'>Criar Conta</Typography>
+              <Grid container justifyContent={'center'} columns={11} alignItems={'center'}>
+                <Grid
+                  item
+                  xs={7}
+                  style={{
+                    padding: '0px',
+                    minHeight: '40vh',
+                    backgroundImage: "url('/images/user-register-img.svg')",
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                  }}
+                ></Grid>
+                <Grid item xs={4}>
                   <Grid item xs={11} md={11} className='loginIconGroup' order={{ xs: 6, lg: 2 }}>
                     <Button className='loginIconButton' variant='outlined'>
                       <img
@@ -96,10 +94,21 @@ const Login = () => {
                       <div></div>
                     </div>
                   </Grid>
-                  <Grid item xs={11} md={11} order={{ xs: 3, lg: 4 }}>
-                    <TextField
-                      className='loginInput'
+
+                  <Grid item xs={11}>
+                    <AccountTextField
+                      label='Nome'
+                      variant='outlined'
+                      type='text'
+                      name='username'
+                      value={data.username}
+                      onChange={handleChange}
+                      error={errors.username}
+                      helperText={errors.username}
+                    />
+                    <AccountTextField
                       label='Email'
+                      variant='outlined'
                       type='email'
                       name='email'
                       value={data.email}
@@ -107,49 +116,42 @@ const Login = () => {
                       error={errors.email}
                       helperText={errors.email}
                     />
-                  </Grid>
-                  <Grid item xs={11} md={11} order={{ xs: 4, lg: 5 }}>
-                    <TextField
-                      className='loginInput'
-                      style={{ borderRadius: '8' }}
-                      type='password'
+                    <AccountTextField
                       label='Senha'
+                      variant='outlined'
+                      type='password'
                       name='password'
                       value={data.password}
                       onChange={handleChange}
                       error={errors.password}
                       helperText={errors.password}
                     />
-                  </Grid>
-                  <Grid item xs={6} md={11} order={{ xs: 5, lg: 6 }}>
-                    <FormControlLabel
-                      className='rememberUser'
-                      name='rememberMe'
-                      value={data.rememberMe}
-                      control={<Checkbox value={data.rememberMe} />}
-                      onChange={handleCheckChange}
-                      label='Lembrar usuário'
+                    <AccountTextField
+                      label='Confirme Senha'
+                      variant='outlined'
+                      type='password'
+                      name='passwordConfirmation'
+                      value={data.passwordConfirmation}
+                      onChange={handleChange}
+                      error={errors.passwordConfirmation}
+                      helperText={errors.passwordConfirmation}
                     />
-                    <small>{errors.rememberMe}</small>
+                    <Grid item xs={6} md={11} order={{ xs: 5, lg: 6 }}>
+                      <FormControlLabel
+                        className='rememberUser'
+                        name='rememberMe'
+                        value={data.rememberMe}
+                        control={<Checkbox value={data.rememberMe} />}
+                        onChange={handleCheckChange}
+                        label='Lembrar usuário'
+                      />
+                      <small>{errors.rememberMe}</small>
+                    </Grid>
                   </Grid>
                   <Grid item xs={11} md={11} order={{ xs: 7, lg: 7 }}>
                     <Button className='loginButton' variant='contained' style={{ borderRadius: '8' }} type='submit'>
-                      Entrar
+                      Criar conta
                     </Button>
-                  </Grid>
-                  <Grid
-                    className='u'
-                    item
-                    xs={5}
-                    md={11}
-                    display='flex'
-                    justifyContent='space-between'
-                    order={{ xs: 5, lg: 8 }}
-                  >
-                    <Link href='/users/recover-password' className='forgotPassword'>
-                      Esqueceu a senha
-                    </Link>
-                    <Link href='/auth/register'>Criar uma conta</Link>
                   </Grid>
                 </Grid>
               </Grid>

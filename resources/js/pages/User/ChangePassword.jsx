@@ -1,10 +1,26 @@
+import { useForm, usePage } from '@inertiajs/inertia-react'
 import { Button, Grid, TextField, useTheme } from '@mui/material'
 import React from 'react'
 import '../Auth/styles.css'
 import './style.css'
 
 const ChangePassword = () => {
+  const { url } = usePage()
+  const { data, setData, post, errors } = useForm({
+    password: '',
+    passwordConfirmation: '',
+  })
   const theme = useTheme()
+
+  const handleChange = e => {
+    const { name, value } = e.target
+
+    setData({ ...data, [name]: value })
+  }
+
+  const handleSubmit = async () => {
+    await post(url)
+  }
 
   return (
     <div className='root'>
@@ -50,18 +66,38 @@ const ChangePassword = () => {
                     <p className='resetPassText'>Por favor, preencha os campos abaixo com a nova senha.</p>
                   </Grid>
                   <Grid item xs={11} md={11}>
-                    <TextField className='loginInput' style={{ borderRadius: '8' }} type='password' label='Senha' />
+                    <TextField
+                      className='loginInput'
+                      style={{ borderRadius: '8' }}
+                      type='password'
+                      label='Senha'
+                      value={data.password}
+                      name='password'
+                      onChange={handleChange}
+                      error={errors.password}
+                      helperText={errors.password}
+                    />
                   </Grid>
                   <Grid item xs={11} md={11}>
                     <TextField
                       className='loginInput'
                       style={{ borderRadius: '8' }}
                       type='password'
-                      label='Nova Senha'
+                      label='Confirmar Senha'
+                      value={data.passwordConfirmation}
+                      name='passwordConfirmation'
+                      onChange={handleChange}
+                      error={errors.passwordConfirmation}
+                      helperText={errors.passwordConfirmation}
                     />
                   </Grid>
                   <Grid item xs={11} md={11}>
-                    <Button className='loginButton' variant='contained' style={{ borderRadius: '8' }}>
+                    <Button
+                      className='loginButton'
+                      variant='contained'
+                      style={{ borderRadius: '8' }}
+                      onClick={handleSubmit}
+                    >
                       Confirmmar
                     </Button>
                   </Grid>

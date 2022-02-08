@@ -15,6 +15,7 @@ import AccountTextField from '../../components/User/TextField.jsx'
 import UserButton from '../../components/User/SubmitButton.jsx'
 
 import { DataGrid } from '@mui/x-data-grid'
+import { useForm } from '@inertiajs/inertia-react'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -84,12 +85,21 @@ const HiddenTab = styled(Tab)({
 })
 
 const UserRegister = () => {
-  const theme = useTheme()
-
+  const { data, setData, errors, post } = useForm({
+    username: '',
+    email: '',
+  })
   const [value, setValue] = React.useState(0)
 
-  const handleChange = (event, newValue) => {
+  const handleChange = async (_, newValue) => {
+    await post('/admin/users/create')
     setValue(newValue)
+  }
+
+  const handleUserDataChange = e => {
+    const { name, value } = e.target
+
+    setData({ ...data, [name]: value })
   }
 
   return (
@@ -117,7 +127,7 @@ const UserRegister = () => {
                         style={{
                           padding: '0px',
                           minHeight: '40vh',
-                          backgroundImage: `url('/images/user-register-img.svg')`,
+                          backgroundImage: "url('/images/user-register-img.svg')",
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'contain',
                           backgroundPosition: 'center',
@@ -125,10 +135,26 @@ const UserRegister = () => {
                       ></Grid>
                       <Grid item xs={4}>
                         <Grid item xs={11}>
-                          <AccountTextField label='Nome' variant='outlined' />
-                          <AccountTextField label='Email' variant='outlined' />
-                          <AccountTextField label='Telefone' variant='outlined' />
-                          <AccountTextField label='Cargo' variant='outlined' />
+                          <AccountTextField
+                            label='Nome'
+                            variant='outlined'
+                            type='text'
+                            name='username'
+                            value={data.username}
+                            onChange={handleUserDataChange}
+                            error={errors.username}
+                            helperText={errors.username}
+                          />
+                          <AccountTextField
+                            label='Email'
+                            variant='outlined'
+                            type='email'
+                            name='email'
+                            value={data.email}
+                            onChange={handleUserDataChange}
+                            error={errors.email}
+                            helperText={errors.email}
+                          />
                         </Grid>
                       </Grid>
                     </Grid>
