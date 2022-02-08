@@ -19,6 +19,7 @@
   border-radius: 20px;
   display: flex;
   border: 1px solid gray;
+  padding: 2rem;
 }
 
 .loginTitle {

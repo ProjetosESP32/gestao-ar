@@ -1,3 +1,5 @@
+import { Inertia } from '@inertiajs/inertia'
+import { Link, usePage } from '@inertiajs/inertia-react'
 import { Grid, Typography, useTheme } from '@mui/material'
 import MuiAppBar from '@mui/material/AppBar'
 import Avatar from '@mui/material/Avatar'
@@ -9,7 +11,7 @@ import Paper from '@mui/material/Paper'
 import { styled } from '@mui/material/styles'
 import Toolbar from '@mui/material/Toolbar'
 import Tooltip from '@mui/material/Tooltip'
-import React, { useState, useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { MdSearch } from 'react-icons/md'
 import { DrawerContext } from '../../providers/drawer.jsx'
 
@@ -43,24 +45,23 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 const PanelAppbar = () => {
+  const { user } = usePage().props
   const { open } = useContext(DrawerContext)
   const theme = useTheme()
-
-  const settings = ['Perfil', 'Dashboard', 'Logout']
-
-  const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
-
-  const handleOpenNavMenu = event => {
-    setAnchorElNav(event.currentTarget)
-  }
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
   }
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
+  const handleProfile = () => {
+    Inertia.visit('/users/me')
+    handleCloseUserMenu()
+  }
+
+  const handleLogout = () => {
+    Inertia.delete('/auth/logout', { replace: true })
+    handleCloseUserMenu()
   }
 
   const handleCloseUserMenu = () => {
@@ -96,33 +97,40 @@ const PanelAppbar = () => {
                 </Typography>
 
                 <Box sx={{ flexGrow: 0 }}>
-                  <Tooltip title='Open settings'>
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt='Remy Sharp' src='../../images/perfil.jpg' />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    sx={{ mt: '45px' }}
-                    id='menu-appbar'
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                  >
-                    {settings.map(setting => (
-                      <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                        <Typography textAlign='center'>{setting}</Typography>
-                      </MenuItem>
-                    ))}
-                  </Menu>
+                  {user ? (
+                    <>
+                      <Tooltip title='Open settings'>
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                          <Avatar alt={user.username} src={user.cover?.url ?? '/images/user.png'} />
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                        sx={{ mt: '45px' }}
+                        id='menu-appbar'
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                      >
+                        <MenuItem onClick={handleProfile}>
+                          <Typography textAlign='center'>Perfil</Typography>
+                        </MenuItem>
+                        <MenuItem onClick={handleLogout}>
+                          <Typography textAlign='center'>Logout</Typography>
+                        </MenuItem>
+                      </Menu>
+                    </>
+                  ) : (
+                    <Link href='auth/login'>Faça Login</Link>
+                  )}
                 </Box>
               </Toolbar>
             </Item>

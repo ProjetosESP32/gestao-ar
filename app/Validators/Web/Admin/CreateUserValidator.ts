@@ -1,5 +1,5 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class CreateUserValidator {
   constructor(protected ctx: HttpContextContract) {}
@@ -7,8 +7,6 @@ export default class CreateUserValidator {
   public schema = schema.create({
     username: schema.string({ trim: true }, [rules.unique({ table: 'users', column: 'username' })]),
     email: schema.string({}, [rules.email(), rules.unique({ table: 'users', column: 'email' })]),
-    password: schema.string({}, [rules.minLength(6), rules.maxLength(16), rules.confirmed('passwordConfirmation')]),
-    rememberMe: schema.boolean(),
   })
 
   public messages = {
@@ -17,11 +15,5 @@ export default class CreateUserValidator {
     'email.required': 'O campo email é obrigatório',
     'email.email': 'O campo email deve ser um email válido',
     'email.unique': 'Este email já está em uso',
-    'password.required': 'O campo senha é obrigatório',
-    'password.minLength': 'A senha deve ter no mínimo 6 caracteres',
-    'password.maxLength': 'A senha deve ter no máximo 16 caracteres',
-    'password.confirm': 'As senhas não conferem',
-    'rememberMe.required': 'O campo lembrar-me é obrigatório',
-    'rememberMe.boolean': 'O campo lembrar-me deve ser um booleano',
   }
 }

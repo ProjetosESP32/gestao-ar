@@ -1,4 +1,7 @@
 {
   "assets/app.css": "http://localhost:8080/assets/app.css",
-  "assets/app.js": "http://localhost:8080/assets/app.js"
+  "assets/app.js": "http://localhost:8080/assets/app.js",
+  "assets/vendors-node_modules_babel_runtime_regenerator_index_js-node_modules_inertiajs_inertia-react_-1e5231.js": "http://localhost:8080/assets/vendors-node_modules_babel_runtime_regenerator_index_js-node_modules_inertiajs_inertia-react_-1e5231.js",
+  "assets/vendors-node_modules_babel_runtime_regenerator_index_js-node_modules_inertiajs_inertia-react_-fa25c8.js": "http://localhost:8080/assets/vendors-node_modules_babel_runtime_regenerator_index_js-node_modules_inertiajs_inertia-react_-fa25c8.js",
+  "assets/vendors-node_modules_babel_runtime_regenerator_index_js-node_modules_inertiajs_inertia-react_-3e4be2.js": "http://localhost:8080/assets/vendors-node_modules_babel_runtime_regenerator_index_js-node_modules_inertiajs_inertia-react_-3e4be2.js"
 }
