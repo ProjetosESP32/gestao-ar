@@ -25,7 +25,7 @@ const MiniDrawer = ({ children }) => {
   }
 
   return (
-    <Box sx={{ display: 'flex' }} style={{ backgroundColor: '#F7F7F7' }}>
+    <Box sx={{ display: 'flex' }} style={{ minHeight: '100vh', backgroundColor: '#F7F7F7' }}>
       <PanelAppbar></PanelAppbar>
       <Aside handleDrawerClose={handleDrawerClose} theme={theme} DrawerHeader={DrawerHeader} />
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
