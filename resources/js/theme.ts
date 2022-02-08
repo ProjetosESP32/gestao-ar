@@ -8,6 +8,13 @@ export const theme = createTheme({
   },
 
   components: {
+    MuiTablePagination: {
+      defaultProps: {
+        labelRowsPerPage: 'Linhas por página:',
+        labelDisplayedRows: ({ from, to, count }) => `${from}-${to} de ${count !== -1 ? count : `mais que ${to}`}`,
+      },
+    },
+
     MuiButton: {
       styleOverrides: {
         root: {
