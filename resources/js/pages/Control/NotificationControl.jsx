@@ -130,13 +130,13 @@ const NotificationControl = () => {
                 </ControlSelect>
               </Grid>
               <Grid item xs={5}>
-                <ControlLabel>Título</ControlLabel>
+                <ControlLabel>Tipo</ControlLabel>
                 <ControlSelect>
                   <option>Olá mundo</option>
                 </ControlSelect>
               </Grid>
               <Grid item xs={5}>
-                <ControlLabel>Título</ControlLabel>
+                <ControlLabel>Data</ControlLabel>
                 <ControlInput type='date' />
               </Grid>
               <Grid item xs={11}>
