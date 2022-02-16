@@ -28,7 +28,7 @@ const Error404 = () => {
             URL? Certifique-se de verificar a ortografia.
           </p>
 
-          <img className='ErrorImg' src='Grupo23.png' alt='' />
+          <img className='ErrorImg' src='/images/error404-img.svg' alt='' />
         </Grid>
       </Grid>
     </Box>
