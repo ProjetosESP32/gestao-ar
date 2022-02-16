@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="696" height="434.53" viewBox="0 0 696 434.53">
+    <g data-name="Grupo 386">
+        <circle data-name="Elipse 107" cx="132.226" cy="132.226" r="132.226" transform="translate(49.42)" style="fill:#f2f2f2"/>
+        <path data-name="Caminho 755" d="M31.391 151.642c0 48.109 30.181 87.038 67.479 87.038" transform="translate(-31.391 -119.894)" style="fill:#2f2e41"/>
+        <path data-name="Caminho 756" d="M140.092 238.084c0-48.65 33.68-88.017 75.3-88.017" transform="translate(-72.612 -119.297)" style="fill:#90caf9"/>
+        <path data-name="Caminho 757" d="M70.775 158.668c0 45.7 19.246 82.677 43.03 82.677" transform="translate(-46.326 -122.558)" style="fill:#5d99c6"/>
+        <path data-name="Caminho 758" d="M140.092 223.149c0-62.164 38.929-112.466 87.038-112.466" transform="translate(-72.612 -104.362)" style="fill:#2f2e41"/>
+        <path data-name="Caminho 759" d="M117.224 289.68s9.57-.295 12.454-2.348 14.721-4.506 15.436-1.212 14.381 16.381 3.577 16.468-25.1-1.683-27.983-3.436-3.484-9.472-3.484-9.472z" transform="translate(-63.94 -170.114)" style="fill:#a8a8a8"/>
+        <path data-name="Caminho 760" d="M148.884 304.593c-10.8.087-25.1-1.683-27.982-3.436-2.192-1.335-3.066-6.127-3.358-8.337l-.319.012s.606 7.718 3.485 9.471 17.178 3.523 27.982 3.436c3.119-.025 4.2-1.135 4.137-2.778-.435.993-1.629 1.613-3.945 1.632z" transform="translate(-63.94 -173.26)" style="opacity:.2"/>
+        <ellipse data-name="Elipse 108" cx="116.086" cy="15.793" rx="116.086" ry="15.793" transform="translate(7.207 248.101)" style="fill:#3f3d56"/>
+        <ellipse data-name="Elipse 109" cx="97.463" cy="13.259" rx="97.463" ry="13.259" transform="translate(25.83 250.634)" style="opacity:.1"/>
+        <ellipse data-name="Elipse 110" cx="175.681" cy="23.9" rx="175.681" ry="23.9" transform="translate(344.638 386.73)" style="fill:#3f3d56"/>
+        <ellipse data-name="Elipse 111" cx="105.533" cy="14.357" rx="105.533" ry="14.357" transform="translate(87.287 386.962)" style="fill:#3f3d56"/>
+        <path data-name="Caminho 761" d="M494 692.37c55.87 14.278 163.265-18.624 175.06-55.87" transform="translate(-206.286 -303.157)" style="fill:none;stroke:#2f2e41;stroke-miterlimit:10;stroke-width:2px"/>
+        <path data-name="Caminho 762" d="M341 357.5s80.7-22.348 85.668 49.662-66.423 92.5-10.553 106.774" transform="translate(-148.495 -196.368)" style="fill:none;stroke:#2f2e41;stroke-miterlimit:10;stroke-width:2px"/>
+        <path data-name="Caminho 763" d="M215.4 637.181s24.255-6.717 25.748 14.926-19.964 27.8-3.172 32.092" transform="translate(-101.006 -303.042)" style="fill:none;stroke:#2f2e41;stroke-miterlimit:10;stroke-width:2px"/>
+        <path data-name="Caminho 764" d="m799.057 662.591-4.89 31.222s-24.075 12.79-7.147 13.166 96.676 0 96.676 0 15.423 0-9.028-13.542l-4.89-32.727z" transform="translate(-314.886 -312.338)" style="fill:#2f2e41"/>
+        <path data-name="Caminho 765" d="M783.617 706.64a66.586 66.586 0 0 1 10.553-6.985l4.89-31.222 70.72.066 4.89 30.78c5.7 3.158 9.234 5.579 11.3 7.436 3.14-.716 6.572-3.379-11.3-13.278l-4.89-32.727-70.72 1.881-4.89 31.222s-20.23 10.749-10.553 12.827z" transform="translate(-314.889 -312.338)" style="opacity:.1"/>
+        <rect data-name="Retângulo 255" width="318.617" height="221.941" rx="18.046" transform="translate(360.048 132.41)" style="fill:#2f2e41"/>
+        <path data-name="Retângulo 256" transform="translate(370.769 144.208)" style="fill:#3f3d56" d="M0 0h297.176v166.268H0z"/>
+        <circle data-name="Elipse 112" cx="1.881" cy="1.881" r="1.881" transform="translate(517.232 136.927)" style="fill:#f2f2f2"/>
+        <path data-name="Caminho 766" d="M928.443 621.322v19.456a11.2 11.2 0 0 1-11.2 11.2H621.027a11.2 11.2 0 0 1-11.2-11.2v-19.456z" transform="translate(-249.775 -297.521)" style="fill:#2f2e41"/>
+        <path data-name="Caminho 767" d="M845.349 659.193v3.762H642.968v-3.01l.279-.752 4.988-13.542H841.21z" transform="translate(-242.857 -244.239)" style="fill:#2f2e41"/>
+        <path data-name="Caminho 768" d="M1091.122 754.122c-.369 1.576-1.76 3.239-4.905 4.811-11.285 5.643-34.232-1.5-34.232-1.5s-17.68-3.009-17.68-10.909a14.086 14.086 0 0 1 1.55-.922c4.745-2.51 20.476-8.7 48.37.262a11.634 11.634 0 0 1 5.3 3.475 5.547 5.547 0 0 1 1.597 4.783z" transform="translate(-410.747 -342.85)" style="fill:#2f2e41"/>
+        <path data-name="Caminho 769" d="M1092.068 754.122c-13.813 5.293-26.125 5.688-38.761-3.088-6.372-4.424-12.162-5.518-16.506-5.436 4.745-2.51 20.476-8.7 48.37.262a11.633 11.633 0 0 1 5.3 3.475 5.546 5.546 0 0 1 1.597 4.787z" transform="translate(-411.694 -342.849)" style="opacity:.1"/>
+        <ellipse data-name="Elipse 113" cx="4.89" cy="1.505" rx="4.89" ry="1.505" transform="translate(658.166 405.174)" style="fill:#f2f2f2"/>
+        <circle data-name="Elipse 114" cx="7.147" cy="7.147" r="7.147" transform="translate(511.969 332.07)" style="fill:#f2f2f2"/>
+        <path data-name="Caminho 770" d="M845.349 667.466v3.762H642.968v-3.01l.279-.752z" transform="translate(-242.857 -252.511)" style="opacity:.1"/>
+        <path data-name="Retângulo 257" transform="translate(67.422 98.914)" style="fill:#2f2e41" d="M0 0h129.122v150.229H0z"/>
+        <path data-name="Retângulo 258" transform="translate(54.386 83.939)" style="fill:#3f3d56" d="M0 0h155.195v53.387H0z"/>
+        <path data-name="Retângulo 259" transform="translate(54.386 147.359)" style="fill:#3f3d56" d="M0 0h155.195v53.387H0z"/>
+        <path data-name="Retângulo 260" transform="translate(54.386 210.779)" style="fill:#3f3d56" d="M0 0h155.195v53.387H0z"/>
+        <path data-name="Retângulo 261" transform="translate(168.848 93.25)" style="opacity:.4;fill:#6c63ff" d="M0 0h9.932v9.932H0z"/>
+        <path data-name="Retângulo 262" transform="translate(183.146 93.25)" style="opacity:.8;fill:#6c63ff" d="M0 0h9.932v9.932H0z"/>
+        <path data-name="Retângulo 263" transform="translate(197.444 93.25)" style="fill:#6c63ff" d="M0 0h9.932v9.932H0z"/>
+        <path data-name="Retângulo 264" transform="translate(168.848 156.038)" style="opacity:.4;fill:#6c63ff" d="M0 0h9.932v9.932H0z"/>
+        <path data-name="Retângulo 265" transform="translate(183.146 156.038)" style="opacity:.8;fill:#6c63ff" d="M0 0h9.932v9.932H0z"/>
+        <path data-name="Retângulo 266" transform="translate(197.444 156.038)" style="fill:#6c63ff" d="M0 0h9.932v9.932H0z"/>
+        <path data-name="Retângulo 267" transform="translate(168.848 218.826)" style="opacity:.4;fill:#6c63ff" d="M0 0h9.932v9.932H0z"/>
+        <path data-name="Retângulo 268" transform="translate(183.146 218.826)" style="opacity:.8;fill:#6c63ff" d="M0 0h9.932v9.932H0z"/>
+        <path data-name="Retângulo 269" transform="translate(197.444 218.826)" style="fill:#6c63ff" d="M0 0h9.932v9.932H0z"/>
+        <circle data-name="Elipse 115" cx="49.042" cy="49.042" r="49.042" transform="translate(147.742 285.543)" style="fill:#2f2e41"/>
+        <path data-name="Retângulo 270" transform="translate(174.445 373.073)" style="fill:#2f2e41" d="M0 0h14.899v26.694H0z"/>
+        <path data-name="Retângulo 271" transform="translate(204.285 373.073)" style="fill:#2f2e41" d="M0 0h14.899v26.694H0z"/>
+        <ellipse data-name="Elipse 116" cx="12.416" cy="4.656" rx="12.416" ry="4.656" transform="translate(174.448 395.421)" style="fill:#2f2e41"/>
+        <ellipse data-name="Elipse 117" cx="12.416" cy="4.656" rx="12.416" ry="4.656" transform="translate(204.289 394.8)" style="fill:#2f2e41"/>
+        <circle data-name="Elipse 118" cx="16.761" cy="16.761" r="16.761" transform="translate(181.29 305.264)" style="fill:#fff"/>
+        <circle data-name="Elipse 119" cx="5.587" cy="5.587" r="5.587" transform="translate(192.471 316.429)" style="fill:#3f3d56"/>
+        <path data-name="Caminho 771" d="M270.924 539.99c-3.96-17.734 8.7-35.654 28.273-40.025s38.653 6.462 42.613 24.2-9.013 24.275-28.587 28.646-38.339 4.914-42.299-12.821z" transform="translate(-121.721 -251.222)" style="fill:#6c63ff"/>
+        <ellipse data-name="Elipse 120" cx="24.521" cy="7.698" rx="24.521" ry="7.698" transform="rotate(-23.171 887.949 -362.5)" style="fill:#2f2e41"/>
+        <ellipse data-name="Elipse 121" cx="24.521" cy="7.698" rx="24.521" ry="7.698" transform="rotate(-23.171 922.308 -121.607)" style="fill:#2f2e41"/>
+        <path data-name="Caminho 772" d="M361.766 659.426c0 4.8-12.359 14.278-26.073 14.278S309 664.847 309 660.047s12.98-3.725 26.694-3.725 26.072-1.696 26.072 3.104z" transform="translate(-136.406 -310.667)" style="fill:#fff"/>
+    </g>
+</svg>

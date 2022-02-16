@@ -47,6 +47,12 @@ Route.group(() => {
       Route.post('users/create', 'Admin/UsersController.store')
     }).prefix('admin')
   }).middleware(['auth:web'])
+
+  Route.group(() => {
+    Route.get('404', ({ inertia }) => inertia.render('Error/404'))
+    Route.get('500', ({ inertia }) => inertia.render('Error/500'))
+    Route.get('403', ({ inertia }) => inertia.render('Error/403'))
+  }).prefix('Errors')
 })
   .namespace('App/Controllers/Http/Web')
   .middleware(['inertia'])
