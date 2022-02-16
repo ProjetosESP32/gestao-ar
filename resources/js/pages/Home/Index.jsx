@@ -183,7 +183,7 @@ const Home = () => {
           </Item>
         </Grid>
         <Grid item xl={1} md={0} display={{ md: 'none', xl: 'block' }}></Grid>
-        <Grid item xl={4} md={4}>
+        <Grid item xl={4} md={5}>
           <Item className='graphicsDuo' sx={{ paddingLeft: '4rem', paddingRight: '4rem' }}>
             <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gasto Atual
@@ -191,7 +191,7 @@ const Home = () => {
             <Doughnut data={data} style={{ height: '44vh!important' }} />
           </Item>
         </Grid>
-        <Grid item xl={4} md={7}>
+        <Grid item xl={4} md={6}>
           <Item className='graphicsDuo'>
             <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gastos Diários
