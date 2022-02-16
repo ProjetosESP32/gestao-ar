@@ -220,7 +220,7 @@ const RoomControl = () => {
             </Box>
           </Item>
         </Grid>
-        <Grid item xl={4} md={4}>
+        <Grid item xl={4} md={5}>
           <Item className='graphicsDuo' sx={{ paddingLeft: '4rem', paddingRight: '4rem' }}>
             <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gasto Atual
@@ -228,7 +228,7 @@ const RoomControl = () => {
             <Doughnut data={data} style={{ height: '44vh!important' }} />
           </Item>
         </Grid>
-        <Grid item xl={4} md={7}>
+        <Grid item xl={4} md={6}>
           <Item className='graphicsDuo'>
             <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gastos Diários
