@@ -30,7 +30,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }))
 
-const BlockControl = () => {
+const RoomsControl = () => {
   const theme = useTheme()
 
   const [open, setOpen] = React.useState(false)
@@ -344,4 +344,4 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 }
 
-export default BlockControl
+export default RoomsControl
