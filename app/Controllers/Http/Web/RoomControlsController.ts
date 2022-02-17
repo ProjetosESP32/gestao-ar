@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class RoomControlsController {
   public async index({ inertia }: HttpContextContract) {
-    return inertia.render('RoomControl/Index')
+    return inertia.render('Control/RoomControl')
   }
 
   public async create({}: HttpContextContract) {}
