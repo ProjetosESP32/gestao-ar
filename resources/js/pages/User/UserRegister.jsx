@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import { useTheme, styled } from '@mui/material/styles'
 
-import React from 'react'
+import React, { useState } from 'react'
 import UserTitle from '../../components/User/Title.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import PropTypes from 'prop-types'
@@ -76,7 +76,7 @@ const UserRegister = () => {
     username: '',
     email: '',
   })
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = useState(0)
 
   const handleChange = async (_, newValue) => {
     await post('/admin/users/create')

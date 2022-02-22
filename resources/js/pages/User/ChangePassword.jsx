@@ -48,7 +48,7 @@ const ChangePassword = () => {
                 xl={6}
                 lg={6}
                 style={{
-                  backgroundImage: `url('/images/change-pass-img.svg')`,
+                  backgroundImage: "url('/images/change-pass-img.svg')",
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'contain',
                   backgroundPosition: 'center',
