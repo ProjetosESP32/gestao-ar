@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
 
-body{
-  background-color:#f7f7f7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .erro404{
   margin-top: 30px;
@@ -41,7 +35,7 @@ p.ErrorDescription{
   color: #5d99c6;
 }
 
-.container{
+.ErrorsContainer{
   margin:auto;
   max-width: 500px;
   max-height: 700px;
