@@ -1,5 +1,5 @@
 import { Inertia } from '@inertiajs/inertia'
-import { Link } from '@inertiajs/inertia-react'
+import { usePage } from '@inertiajs/inertia-react'
 import Divider from '@mui/material/Divider'
 import MuiDrawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -7,7 +7,7 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
 import React, { useContext } from 'react'
 import {
@@ -68,7 +68,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
   }
 })
 
-const Aside = ({ DrawerHeader, theme, handleDrawerClose }) => {
+const Aside = ({ DrawerHeader, handleDrawerClose }) => {
+  const theme = useTheme()
+  const { user } = usePage().props
   const { open, setOpen } = useContext(DrawerContext)
 
   const handleDrawerOpen = () => {
@@ -133,31 +135,35 @@ const Aside = ({ DrawerHeader, theme, handleDrawerClose }) => {
           <ListItemText primary='Historico de Consumo' />
         </ListItem>
       </List>
-      <Divider />
-      <List>
-        <ListItem button>
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary='Admin' />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <Icon name={MdOutlineAppRegistration}></Icon>
-          </ListItemIcon>
-          <ListItemText primary='Cadastro de Salas' />
-        </ListItem>
-        <ListItem button onClick={() => Inertia.visit('/admin/users')}>
-          <ListItemIcon>
-            <Icon name={MdHowToReg}></Icon>
-          </ListItemIcon>
-          <ListItemText primary='Cadastro de Usuários' />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <Icon name={MdOutlineNotificationAdd}></Icon>
-          </ListItemIcon>
-          <ListItemText primary='Gerar Notificação' />
-        </ListItem>
-      </List>
+      {user?.is_root && (
+        <>
+          <Divider />
+          <List>
+            <ListItem button>
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary='Admin' />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <Icon name={MdOutlineAppRegistration}></Icon>
+              </ListItemIcon>
+              <ListItemText primary='Cadastro de Salas' />
+            </ListItem>
+            <ListItem button onClick={() => Inertia.visit('/admin/users')}>
+              <ListItemIcon>
+                <Icon name={MdHowToReg}></Icon>
+              </ListItemIcon>
+              <ListItemText primary='Cadastro de Usuários' />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <Icon name={MdOutlineNotificationAdd}></Icon>
+              </ListItemIcon>
+              <ListItemText primary='Gerar Notificação' />
+            </ListItem>
+          </List>
+        </>
+      )}
     </Drawer>
   )
 }

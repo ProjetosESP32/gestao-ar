@@ -1,12 +1,8 @@
-import { Grid, Button } from '@mui/material'
-import Box from '@mui/material/Box'
+import { Inertia } from '@inertiajs/inertia'
+import { usePage } from '@inertiajs/inertia-react'
+import { Button, Grid } from '@mui/material'
 import Paper from '@mui/material/Paper'
-import { useTheme, styled } from '@mui/material/styles'
-
-import React from 'react'
-import UserTitle from '../../components/User/Title.jsx'
-import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-
+import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -14,8 +10,9 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import { usePage } from '@inertiajs/inertia-react'
-import { Inertia } from '@inertiajs/inertia'
+import React, { useState } from 'react'
+import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
+import UserTitle from '../../components/User/Title.jsx'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -38,10 +35,10 @@ const StyledButton = styled(Button)({
 
 const UserList = () => {
   const { users } = usePage().props
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage)
   }
 
@@ -69,7 +66,7 @@ const UserList = () => {
                 <Table stickyHeader aria-label='sticky table'>
                   <TableHead>
                     <TableRow>
-                      {columns.map(column => (
+                      {columnConfiguration.map(column => (
                         <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
                           {column.label}
                         </TableCell>
@@ -79,7 +76,7 @@ const UserList = () => {
                   <TableBody>
                     {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                       <TableRow hover role='checkbox' tabIndex={-1} key={index}>
-                        {columns.map(column => {
+                        {columnConfiguration.map(column => {
                           const value = row[column.id]
                           return (
                             <TableCell key={`${column.id}_${row.id}-${row.email}`} align={column.align}>
@@ -109,8 +106,8 @@ const UserList = () => {
     </MiniDrawer>
   )
 }
-/* Table data */
-const columns = [
+
+const columnConfiguration = [
   { id: 'username', label: 'Nome', minWidth: 170 },
   { id: 'email', label: 'E-mail', minWidth: 100 },
   {
