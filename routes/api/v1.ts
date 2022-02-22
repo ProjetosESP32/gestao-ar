@@ -18,5 +18,5 @@ Route.group(() => {
     }).prefix('users')
   }).middleware(['auth:api'])
 })
-  .namespace('App/Controllers/Http/Api')
-  .prefix('api')
+  .namespace('App/Controllers/Http/Api/V1')
+  .prefix('api/v1')
