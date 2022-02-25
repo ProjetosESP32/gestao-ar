@@ -1,5 +1,11 @@
 {
-  "extends": ["plugin:adonis/typescriptApp", "plugin:react/recommended", "prettier"],
+  "extends": [
+    "plugin:adonis/typescriptApp",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:react/recommended",
+    "prettier"
+  ],
   "plugins": ["react", "react-hooks", "prettier"],
   "parserOptions": {
     "ecmaFeatures": {
@@ -8,6 +14,10 @@
   },
   "rules": {
     "prettier/prettier": ["error"],
+
+    "import/order": ["error", { "alphabetize": { "order": "asc" } }],
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
 
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
@@ -30,6 +40,12 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {}
     }
   },
   "overrides": [
