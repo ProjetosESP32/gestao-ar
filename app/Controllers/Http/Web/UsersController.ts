@@ -1,10 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { DateTime } from 'luxon'
 import User from 'App/Models/User'
 import { recoverPassword } from 'App/Services/Users/recoverPassword'
 import { updatePassword } from 'App/Services/Users/updatePassword'
 import { updateUser } from 'App/Services/Users/updateUser'
 import ResetPasswordValidator from 'App/Validators/ResetPasswordValidator'
-import { DateTime } from 'luxon'
 
 export default class UsersController {
   public async show({ inertia }: HttpContextContract) {

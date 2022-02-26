@@ -4,7 +4,7 @@ import React from 'react'
 import { AccountTextField } from '../../components/User/TextField'
 import './styles.css'
 
-const Login = () => {
+const Register = () => {
   const theme = useTheme()
   const { data, post, setData, errors } = useForm({
     username: '',
@@ -50,7 +50,7 @@ const Login = () => {
             </Grid>
             <Grid container columns={{ xs: 1, md: 12, lg: 12, xl: 12 }}>
               <Typography variant='h3'>Criar Conta</Typography>
-              <Grid container justifyContent={'center'} columns={11} alignItems={'center'}>
+              <Grid container justifyContent='center' columns={11} alignItems='center'>
                 <Grid
                   item
                   xs={7}
@@ -163,4 +163,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register

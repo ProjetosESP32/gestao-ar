@@ -1,23 +1,22 @@
 import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import Input from '@mui/material/Input'
 import Paper from '@mui/material/Paper'
 import { styled, useTheme } from '@mui/material/styles'
 import {
-  Chart as ChartJS,
   ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
 } from 'chart.js'
 import faker from 'faker'
-import React from 'react'
-import { Doughnut, Line, Bar } from 'react-chartjs-2'
+import React, { useState } from 'react'
+import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 
 const ariaLabel = { 'aria-label': 'description' }
@@ -42,8 +41,9 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }))
+
 const FormGrid = styled(Grid)(
-  ({ theme }) => `
+  () => `
   display: flex;
   flex-direction: column;
   align-itens:center;
@@ -166,8 +166,8 @@ const RoomControl = () => {
     ],
   }
 
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
   const handleChangePage = newPage => {
     setPage(newPage)
@@ -198,7 +198,7 @@ const RoomControl = () => {
               noValidate
               autoComplete='off'
             >
-              <Grid container justifyContent={'flex-start'} columns={{ xl: 12, md: 12 }}>
+              <Grid container justifyContent='flex-start' columns={{ xl: 12, md: 12 }}>
                 <FormGrid xl={3} item>
                   <Typography variant='label'>Nome</Typography>
                   <StyledInput inputProps={ariaLabel} />

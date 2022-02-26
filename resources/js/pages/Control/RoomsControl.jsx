@@ -1,17 +1,8 @@
-import { Grid, Button } from '@mui/material'
+import { usePage } from '@inertiajs/inertia-react'
+import { Grid, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
+import Checkbox from '@mui/material/Checkbox'
 import Paper from '@mui/material/Paper'
-import { useTheme, styled } from '@mui/material/styles'
-import React from 'react'
-import UserTitle from '../../components/User/Title.jsx'
-import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-import PropTypes from 'prop-types'
-import Typography from '@mui/material/Typography'
-import { MdAddBox, MdDelete, MdFilterList } from 'react-icons/md'
-import { IconButton } from '@mui/material'
-import { ControlInput, ControlLabel, ControlTextArea, ControlSelect } from '../../components/User/TextField.jsx'
-import { AccountButton } from '../../components/User/Buttons'
-import Modal from '@mui/material/Modal'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -20,8 +11,17 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Toolbar from '@mui/material/Toolbar'
-import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
+import * as PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { MdAddBox, MdDelete, MdFilterList } from 'react-icons/md'
+import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
+import { AccountButton } from '../../components/User/Buttons'
+import { ControlInput, ControlLabel, ControlSelect, ControlTextArea } from '../../components/User/TextField.jsx'
+import UserTitle from '../../components/User/Title.jsx'
+import { NewRoomModal } from './NewRoomModal'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -31,26 +31,25 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 const BlockControl = () => {
-  const theme = useTheme()
+  const { rooms, loggedUser } = usePage().props
+  const [order, setOrder] = useState('asc')
+  const [orderBy, setOrderBy] = useState('calories')
+  const [selected, setSelected] = useState([])
+  const [page, setPage] = useState(0)
+  const [dense, setDense] = useState(false)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'))
+  const roomCount = rooms.length
 
-  const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'))
 
   const handleChange = newValue => {
     setValue(newValue)
   }
 
-  const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('calories')
-  const [selected, setSelected] = React.useState([])
-  const [page, setPage] = React.useState(0)
-  const [dense, setDense] = React.useState(false)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
-
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (_, property) => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
@@ -58,31 +57,31 @@ const BlockControl = () => {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.id)
+      const newSelecteds = rooms.map(n => n.id)
       setSelected(newSelecteds)
       return
     }
     setSelected([])
   }
 
-  const handleClick = (event, name) => {
+  const handleClick = (_, name) => {
     const selectedIndex = selected.indexOf(name)
-    let newSelected = []
+    const newSelected = []
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name)
+      newSelected.push(...selected, name)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1))
+      newSelected.push(...selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
+      newSelected.push(...selected.slice(0, -1))
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1))
+      newSelected.push(...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1))
     }
 
     setSelected(newSelected)
   }
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage)
   }
 
@@ -98,51 +97,12 @@ const BlockControl = () => {
   const isSelected = name => selected.indexOf(name) !== -1
 
   // Evita um salto de layout ao chegar à última página com linhas vazias
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - roomCount) : 0
 
   return (
     <MiniDrawer>
       <Grid container spacing={2} columns={{ xl: 11, lg: 11, md: 11 }} justifyContent='center'>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby='modal-modal-title'
-          aria-describedby='modal-modal-description'
-        >
-          <Box sx={Modalstyle}>
-            <UserTitle style={{ margin: '1.5rem 0' }} variant='p'>
-              Novo Sala
-            </UserTitle>
-
-            <Grid container justifyContent={'space-between'} columns={11} alignItems={'center'}>
-              <Grid item xs={11}>
-                <ControlLabel>Nome</ControlLabel>
-                <ControlInput />
-              </Grid>
-              <Grid item xs={11}>
-                <ControlLabel>Endereço MAC</ControlLabel>
-                <ControlInput />
-              </Grid>
-              <Grid item xs={11}>
-                <ControlLabel>Título</ControlLabel>
-                <ControlSelect>
-                  <option>Bloco 1</option>
-                  <option>Bloco 2</option>
-                  <option>Bloco 3</option>
-                </ControlSelect>
-              </Grid>
-              <Grid item xs={11}>
-                <ControlLabel>Descrição</ControlLabel>
-                <ControlTextArea />
-              </Grid>
-              <Grid item xs={11}>
-                <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
-                  <AccountButton>Salvar</AccountButton>
-                </div>
-              </Grid>
-            </Grid>
-          </Box>
-        </Modal>
+        <NewRoomModal isOpen={open} handleClose={handleClose} />
         <Grid item xl={8} md={11}>
           <div style={{ margin: '0.5rem 0' }}>
             <UserTitle variant='p'>Controle de Salas</UserTitle>
@@ -189,9 +149,11 @@ const BlockControl = () => {
                           <IconButton>
                             <MdFilterList />
                           </IconButton>
-                          <IconButton onClick={handleOpen}>
-                            <MdAddBox />
-                          </IconButton>
+                          {loggedUser?.is_root && (
+                            <IconButton onClick={handleOpen}>
+                              <MdAddBox />
+                            </IconButton>
+                          )}
                         </>
                       </Tooltip>
                     )}
@@ -205,10 +167,10 @@ const BlockControl = () => {
                         orderBy={orderBy}
                         onSelectAllClick={handleSelectAllClick}
                         onRequestSort={handleRequestSort}
-                        rowCount={rows.length}
+                        rowCount={roomCount}
                       />
                       <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                        {rooms.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                           const isItemSelected = isSelected(row.id)
                           const labelId = `enhanced-table-checkbox-${index}`
 
@@ -232,10 +194,9 @@ const BlockControl = () => {
                                 />
                               </TableCell>
 
-                              <TableCell>{row.title}</TableCell>
-                              <TableCell>{row.description}</TableCell>
+                              <TableCell>{row.name}</TableCell>
                               <TableCell>{row.block}</TableCell>
-                              <TableCell>{row.mac}</TableCell>
+                              <TableCell>{row.floor}</TableCell>
                             </TableRow>
                           )
                         })}
@@ -257,7 +218,7 @@ const BlockControl = () => {
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   component='div'
-                  count={rows.length}
+                  count={roomCount}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
@@ -272,75 +233,37 @@ const BlockControl = () => {
   )
 }
 
-const Modalstyle = {
-  position: 'absolute',
-  top: '40%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 500,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-  // backgroundColor: 'rgba(0,0,0,0)',
-  borderRadius: '0.5rem',
-}
-
-/*table data */
-
 const columns = [
-  { field: 'title', headerName: 'Título', minWidth: 130 },
-  { field: 'description', headerName: 'Descrição', minWidth: 130 },
-  { field: 'block', headerName: 'Bloco', minWidth: 190 },
-  { field: 'mac', headerName: 'MAC', minWidth: 130 },
+  { field: 'name', headerName: 'Nome', minWidth: 130 },
+  { field: 'block', headerName: 'Bloco', minWidth: 130 },
+  { field: 'floor', headerName: 'Piso', minWidth: 190 },
 ]
 
-const rows = [
-  { id: 1, title: 'Sala 1', description: 'descrição da sala', block: 'bloco 1', mac: '00-88-14-4D-4C-FB' },
-  { id: 2, title: 'Sala 2', description: 'descrição da sala', block: 'bloco 1', mac: '00-88-14-4D-4C-FB' },
-  { id: 3, title: 'Sala 3', description: 'descrição da sala', block: 'bloco 1', mac: '00-88-14-4D-4C-FB' },
-  { id: 4, title: 'Sala 4', description: 'descrição da sala', block: 'bloco 2', mac: '00-88-14-4D-4C-FB' },
-  { id: 5, title: 'Sala 5', description: 'descrição da sala', block: 'bloco 2', mac: '00-88-14-4D-4C-FB' },
-  { id: 6, title: 'Sala 6', description: 'descrição da sala', block: 'bloco 2', mac: '00-88-14-4D-4C-FB' },
-  { id: 7, title: 'Sala 7', description: 'descrição da sala', block: 'bloco 4', mac: '00-88-14-4D-4C-FB' },
-  { id: 8, title: 'Sala 8', description: 'descrição da sala', block: 'bloco 5', mac: '00-88-14-4D-4C-FB' },
-  { id: 10, title: 'Sala 10', description: 'descrição da sala', block: 'bloco 2', mac: '00-88-14-4D-4C-FB' },
-  { id: 9, title: 'Sala 9', description: 'descrição da sala', block: 'bloco 10', mac: '00-88-14-4D-4C-FB' },
-]
+const EnhancedTableHead = ({ onSelectAllClick, numSelected, rowCount }) => (
+  <TableHead>
+    <TableRow>
+      <TableCell padding='checkbox'>
+        <Checkbox
+          color='primary'
+          indeterminate={numSelected > 0 && numSelected < rowCount}
+          checked={rowCount > 0 && numSelected === rowCount}
+          onChange={onSelectAllClick}
+          inputProps={{
+            'aria-label': 'select all desserts',
+          }}
+        />
+      </TableCell>
 
-const EnhancedTableHead = props => {
-  const { onSelectAllClick, numSelected, rowCount, onRequestSort } = props
-  const createSortHandler = property => event => {
-    onRequestSort(event, property)
-  }
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding='checkbox'>
-          <Checkbox
-            color='primary'
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
-
-        {columns.map(headCell => (
-          <TableCell key={headCell.field}>{headCell.headerName}</TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
+      {columns.map(headCell => (
+        <TableCell key={headCell.field}>{headCell.headerName}</TableCell>
+      ))}
+    </TableRow>
+  </TableHead>
+)
 
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
-
   rowCount: PropTypes.number.isRequired,
 }
 

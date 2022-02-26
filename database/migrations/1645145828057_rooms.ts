@@ -10,10 +10,10 @@ export default class Rooms extends BaseSchema {
       table.string('name', 25)
       table.string('block', 10)
       table.string('floor', 10).defaultTo('0')
-      table.string('room_number', 10)
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
+      table.timestamp('deleted_at', { useTz: true }).nullable()
     })
   }
 

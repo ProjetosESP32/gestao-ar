@@ -1,6 +1,6 @@
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
-import { AccountTextField, ControlInput, ControlLabel } from '../../components/User/TextField.jsx'
+import NativeSelect from '@mui/material/NativeSelect'
 import Paper from '@mui/material/Paper'
 import { styled, useTheme } from '@mui/material/styles'
 import {
@@ -18,11 +18,10 @@ import {
 import faker from 'faker'
 import React, { useState } from 'react'
 import { Doughnut, Line, Bar } from 'react-chartjs-2'
+import { MdAdd, MdRemove } from 'react-icons/md'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 
-import NativeSelect from '@mui/material/NativeSelect'
-import { IconButton } from '@mui/material'
-import { MdAdd, MdRemove } from 'react-icons/md'
+import { AccountTextField, ControlInput, ControlLabel } from '../../components/User/TextField.jsx'
 
 const ariaLabel = { 'aria-label': 'description' }
 
@@ -115,8 +114,8 @@ const StyledIconButton = styled(IconButton)(() => ({
 }))
 const RoomControl = () => {
   const [temp, setTemp] = useState(20)
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
   const handleChangePage = newPage => {
     setPage(newPage)
@@ -138,7 +137,7 @@ const RoomControl = () => {
             <BlockTitle variant='h4'>Sala</BlockTitle>
 
             <Box component='form'>
-              <Grid container justifyContent={'flex-start'} spacing={1} columns={{ xl: 12, md: 12 }}>
+              <Grid container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                 <FormGrid xl={2} item>
                   <ControlLabel variant='label'>Nome</ControlLabel>
                   <ControlInput />
@@ -165,7 +164,7 @@ const RoomControl = () => {
           <Item style={{ height: 'max-content', padding: '2rem' }}>
             <BlockTitle variant='h4'>Controle</BlockTitle>
             <Box component='form'>
-              <Grid container justifyContent={'flex-start'} spacing={1} columns={{ xl: 12, md: 12 }}>
+              <Grid container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                 <FormGrid item xl={2.5}>
                   <ControlLabel variant='label'>Temperatura</ControlLabel>
                   <ControlButton>
@@ -207,7 +206,7 @@ const RoomControl = () => {
           <Item style={{ height: 'max-content', padding: '2rem' }}>
             <BlockTitle variant='h4'>Status</BlockTitle>
             <Box component='form'>
-              <Grid container justifyContent={'flex-start'} spacing={1} columns={{ xl: 12, md: 12 }}>
+              <Grid container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                 <FormGrid xl={3} item>
                   <ControlLabel variant='label'>Temp.</ControlLabel>
                   <ControlInput />

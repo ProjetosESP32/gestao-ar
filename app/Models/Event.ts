@@ -1,7 +1,7 @@
 import { BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
-import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 import { DateTime } from 'luxon'
 import Room from './Room'
+import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 
 export default class Event extends SoftDeletesBaseModel {
   @column({ isPrimary: true })

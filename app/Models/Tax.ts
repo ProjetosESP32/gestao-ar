@@ -1,7 +1,8 @@
-import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { DateTime } from 'luxon'
+import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 
-export default class Tax extends BaseModel {
+export default class Tax extends SoftDeletesBaseModel {
   @column({ isPrimary: true })
   public id: number
 

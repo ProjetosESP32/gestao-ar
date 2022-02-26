@@ -1,8 +1,8 @@
+import Logger from '@ioc:Adonis/Core/Logger'
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
+import { DateTime } from 'luxon'
 import User from 'App/Models/User'
 import { generatePassword } from 'App/Utils/generatePassword'
-import { DateTime } from 'luxon'
-import Logger from '@ioc:Adonis/Core/Logger'
 
 export default class AdminSeeder extends BaseSeeder {
   public async run() {
