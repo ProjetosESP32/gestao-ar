@@ -8,7 +8,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { styled, useTheme } from '@mui/material/styles'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import React, { useContext } from 'react'
 import {
   MdChevronLeft,
@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
 
 const Aside = ({ DrawerHeader, handleDrawerClose }) => {
   const theme = useTheme()
-  const { user } = usePage().props
+  const { loggedUser } = usePage().props
   const { open, setOpen } = useContext(DrawerContext)
 
   const handleDrawerOpen = () => {
@@ -155,19 +155,13 @@ const Aside = ({ DrawerHeader, handleDrawerClose }) => {
           <ListItemText primary='Historico de Consumo' />
         </ListItem>
       </List>
-      {user?.is_root && (
+      {loggedUser?.is_root && (
         <>
           <Divider />
           <List>
             <ListItem button>
               <ListItemIcon></ListItemIcon>
               <ListItemText primary='Admin' />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <Icon name={MdOutlineAppRegistration}></Icon>
-              </ListItemIcon>
-              <ListItemText primary='Cadastro de Salas' />
             </ListItem>
             <ListItem button onClick={() => Inertia.visit('/admin/users')}>
               <ListItemIcon>

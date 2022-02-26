@@ -1,15 +1,13 @@
 import { PageProps } from '@inertiajs/inertia'
 import { createInertiaApp, SetupOptions } from '@inertiajs/inertia-react'
+import { InertiaProgress } from '@inertiajs/progress'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import React, { FC } from 'react'
 import { render } from 'react-dom'
-import { InertiaProgress } from '@inertiajs/progress'
-import { DrawerProvider } from './providers/drawer.jsx'
-
-import { theme } from './theme'
-
 import '../css/global.css'
 import '../css/midia.css'
+import { DrawerProvider } from './providers/drawer.jsx'
+import { theme } from './theme'
 
 InertiaProgress.init()
 

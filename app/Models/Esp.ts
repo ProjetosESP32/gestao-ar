@@ -1,9 +1,10 @@
+import { BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
-import Room from './Room'
 import Consumption from './Consumption'
+import Room from './Room'
+import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 
-export default class Esp extends BaseModel {
+export default class Esp extends SoftDeletesBaseModel {
   @column({ isPrimary: true })
   public id: number
 

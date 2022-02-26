@@ -8,9 +8,9 @@ import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Paper from '@mui/material/Paper'
-import { styled } from '@mui/material/styles'
 import Toolbar from '@mui/material/Toolbar'
 import Tooltip from '@mui/material/Tooltip'
+import { styled } from '@mui/material/styles'
 import React, { useContext, useState } from 'react'
 import { MdSearch, MdNotifications } from 'react-icons/md'
 import { DrawerContext } from '../../providers/drawer.jsx'
@@ -52,7 +52,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 const PanelAppbar = () => {
-  const { user } = usePage().props
+  const { loggedUser } = usePage().props
   const { open } = useContext(DrawerContext)
   const theme = useTheme()
   const [anchorElUser, setAnchorElUser] = useState(null)
@@ -129,14 +129,14 @@ const PanelAppbar = () => {
                 </Typography>
 
                 <Box sx={{ flexGrow: 0 }}>
-                  {user ? (
+                  {loggedUser ? (
                     <>
                       <IconButton sx={{ p: 0, margin: '0 1rem' }}>
                         <MdNotifications size={36} />
                       </IconButton>
                       <Tooltip title='Open settings'>
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                          <Avatar alt={user.username} src={user.cover?.url ?? '/images/user.png'} />
+                          <Avatar alt={loggedUser.username} src={loggedUser.cover?.url ?? '/images/user.png'} />
                         </IconButton>
                       </Tooltip>
                       <Menu

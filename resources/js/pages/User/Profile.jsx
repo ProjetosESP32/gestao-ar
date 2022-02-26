@@ -3,7 +3,6 @@ import { Button, Grid } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
-import { styled } from '@mui/material/styles'
 import Tab from '@mui/material/Tab'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -14,7 +13,8 @@ import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
-import PropTypes from 'prop-types'
+import { styled } from '@mui/material/styles'
+import * as PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { MdModeEdit } from 'react-icons/md'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
@@ -50,13 +50,13 @@ function TabPanel(props) {
 }
 
 const UserAccount = () => {
-  const { user } = usePage().props
+  const { loggedUser } = usePage().props
   const [value, setValue] = useState(0)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const { data, setData, put, errors, processing } = useForm({
-    username: user.username,
-    email: user.email,
+    username: loggedUser.username,
+    email: loggedUser.email,
     cover: null,
   })
   const [imagePreview, setImagePreview] = useState(null)
@@ -86,11 +86,11 @@ const UserAccount = () => {
     await put('/users')
   }
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_, newValue) => {
     setValue(newValue)
   }
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage)
   }
 
@@ -118,7 +118,7 @@ const UserAccount = () => {
               <Grid item sm={11} md={3}>
                 <Item style={{ padding: '4rem 1rem' }}>
                   <UserAvatar variant='square'>
-                    <img src={imagePreview ?? user.cover?.url ?? '/images/user.png'} />
+                    <img src={imagePreview ?? loggedUser.cover?.url ?? '/images/user.png'} />
                   </UserAvatar>
 
                   <input
@@ -248,7 +248,7 @@ const UserAccount = () => {
                       </Table>
                     </TableContainer>
                     <TablePagination
-                      labelRowsPerPage={'Linhas por página'}
+                      labelRowsPerPage='Linhas por página'
                       rowsPerPageOptions={[5, 10, 15]}
                       component='div'
                       count={rows.length}
@@ -266,14 +266,14 @@ const UserAccount = () => {
             <Grid container spacing={2}>
               <Grid item xs={11}>
                 <Item>
-                  <Grid container justifyContent={'center'} columns={11} alignItems={'center'}>
+                  <Grid container justifyContent='center' columns={11} alignItems='center'>
                     <Grid
                       item
                       xs={7}
                       style={{
                         padding: '0px',
                         minHeight: '45vh',
-                        backgroundImage: `url('/images/user-resetpass-img.svg')`,
+                        backgroundImage: `url('/images/loggedUser-resetpass-img.svg')`,
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'contain',
                         backgroundPosition: 'center',
@@ -308,7 +308,7 @@ const CssDiv = styled('div')({
   alignItems: 'center',
   width: 'max-content',
   margin: '1rem 0',
-  [`& span`]: {
+  '& span': {
     width: '100%',
     textAlign: 'left',
     fontSize: '1rem',
@@ -333,7 +333,7 @@ const UserAvatar = styled(Avatar)({
   borderRadius: '50%',
   height: '12vh',
   width: '12vh',
-  [`& img`]: {
+  '& img': {
     width: '100%',
     height: '100%',
   },
@@ -344,7 +344,7 @@ const StyledTypography = styled(Typography)({
   display: 'block',
   marginTop: '1rem',
   fontSize: '1.1rem',
-  [`& svg`]: {
+  '& svg': {
     width: '1.2rem',
     height: '1.2rem',
   },

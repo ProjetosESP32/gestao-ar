@@ -1,5 +1,5 @@
-import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
 
 const UserTitle = styled(Typography)({
   color: '#5D99C6',

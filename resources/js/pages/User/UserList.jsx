@@ -2,7 +2,6 @@ import { Inertia } from '@inertiajs/inertia'
 import { usePage } from '@inertiajs/inertia-react'
 import { Button, Grid } from '@mui/material'
 import Paper from '@mui/material/Paper'
-import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -10,6 +9,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
+import { styled } from '@mui/material/styles'
 import React, { useState } from 'react'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import UserTitle from '../../components/User/Title.jsx'
@@ -90,7 +90,7 @@ const UserList = () => {
                 </Table>
               </TableContainer>
               <TablePagination
-                labelRowsPerPage={'Linhas por página'}
+                labelRowsPerPage='Linhas por página'
                 rowsPerPageOptions={[5, 10, 15]}
                 component='div'
                 count={users.length}
@@ -115,6 +115,7 @@ const columnConfiguration = [
     label: 'Administrador',
     minWidth: 170,
     align: 'right',
+    format: value => (value ? 'Sim' : 'Não'),
   },
 ]
 

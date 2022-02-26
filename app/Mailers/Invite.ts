@@ -1,9 +1,9 @@
 import { BaseMailer, MessageContract } from '@ioc:Adonis/Addons/Mail'
-import Route from '@ioc:Adonis/Core/Route'
 import Env from '@ioc:Adonis/Core/Env'
-import User from 'App/Models/User'
+import Route from '@ioc:Adonis/Core/Route'
 import View from '@ioc:Adonis/Core/View'
 import mjml from 'mjml'
+import User from 'App/Models/User'
 
 export default class Invite extends BaseMailer {
   constructor(private readonly user: User) {
