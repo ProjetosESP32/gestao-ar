@@ -114,8 +114,8 @@ const UserAccount = () => {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
+            <Grid container spacing={2} columns={{ sm: 11, md: 11 }}>
+              <Grid item sm={11} md={3}>
                 <Item style={{ padding: '4rem 1rem' }}>
                   <UserAvatar variant='square'>
                     <img src={imagePreview ?? user.cover?.url ?? '/images/user.png'} />
@@ -135,7 +135,7 @@ const UserAccount = () => {
                   </label>
                 </Item>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item sm={11} md={8}>
                 <Item>
                   <Grid container justifyContent='center' columns={11}>
                     <Grid item xs={4}>
@@ -172,8 +172,8 @@ const UserAccount = () => {
                 </Item>
               </Grid>
 
-              <Grid item xs={3}></Grid>
-              <Grid item xs={8}>
+              <Grid item md={3}></Grid>
+              <Grid item sm={11} md={8}>
                 <Item>
                   <Grid container columns={11}>
                     <Grid item xs={4}>
