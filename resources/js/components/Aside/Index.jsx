@@ -1,5 +1,6 @@
 import { Inertia } from '@inertiajs/inertia'
 import { usePage } from '@inertiajs/inertia-react'
+import { makeStyles } from '@material-ui/core'
 import Divider from '@mui/material/Divider'
 import MuiDrawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -23,7 +24,6 @@ import {
 } from 'react-icons/md'
 import { DrawerContext } from '../../providers/drawer.jsx'
 import Icon from '../Icon/Index.jsx'
-import { makeStyles } from '@material-ui/core'
 
 const OpenedMixin = theme => {
   const { drawerWidth } = useContext(DrawerContext)
