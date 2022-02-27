@@ -6,6 +6,7 @@ import React, { useContext } from 'react'
 import Aside from '../../components/Aside/Index.jsx'
 import { DrawerContext } from '../../providers/drawer.jsx'
 import PanelAppbar from '../Appbar/Index.jsx'
+import Navigation from '../BottomNavigation/index.jsx'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -25,13 +26,17 @@ const MiniDrawer = ({ children }) => {
   }
 
   return (
-    <Box sx={{ display: 'flex' }} style={{ minHeight: '100vh', backgroundColor: '#F7F7F7' }}>
+    <Box
+      sx={{ display: 'flex' }}
+      style={{ minHeight: '100vh', backgroundColor: '#F7F7F7', width: '100%', maxWidth: '100vw' }}
+    >
       <PanelAppbar></PanelAppbar>
       <Aside handleDrawerClose={handleDrawerClose} theme={theme} DrawerHeader={DrawerHeader} />
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {children}
       </Box>
+      <Navigation />
     </Box>
   )
 }

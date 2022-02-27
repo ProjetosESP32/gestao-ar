@@ -23,6 +23,7 @@ import {
 } from 'react-icons/md'
 import { DrawerContext } from '../../providers/drawer.jsx'
 import Icon from '../Icon/Index.jsx'
+import { makeStyles } from '@material-ui/core'
 
 const OpenedMixin = theme => {
   const { drawerWidth } = useContext(DrawerContext)
@@ -68,6 +69,23 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
   }
 })
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    [theme.breakpoints.up('sm')]: {
+      //my styles
+    },
+    [theme.breakpoints.down('md')]: {
+      display: 'none!important',
+    },
+    [theme.breakpoints.up('lg')]: {
+      //my styles
+    },
+    [theme.breakpoints.up('xl')]: {
+      //my styles
+    },
+  },
+}))
+
 const Aside = ({ DrawerHeader, handleDrawerClose }) => {
   const theme = useTheme()
   const { user } = usePage().props
@@ -77,8 +95,10 @@ const Aside = ({ DrawerHeader, handleDrawerClose }) => {
     setOpen(true)
   }
 
+  const classes = useStyles()
+
   return (
-    <Drawer variant='permanent' open={open}>
+    <Drawer className={classes.root} variant='permanent' open={open}>
       <DrawerHeader>
         <div
           style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', cursor: 'pointer' }}
