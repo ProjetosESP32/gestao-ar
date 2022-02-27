@@ -12,8 +12,9 @@ import { styled } from '@mui/material/styles'
 import Toolbar from '@mui/material/Toolbar'
 import Tooltip from '@mui/material/Tooltip'
 import React, { useContext, useState } from 'react'
-import { MdSearch } from 'react-icons/md'
+import { MdSearch, MdNotifications } from 'react-icons/md'
 import { DrawerContext } from '../../providers/drawer.jsx'
+import { useStyles } from '../Classes/Index'
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open',
@@ -36,6 +37,12 @@ const AppBar = styled(MuiAppBar, {
     }),
   }
 })
+
+const StyledToolbar = styled(Toolbar)(() => ({
+  backgroundColor: 'white',
+  boxShadow: 'none',
+  zIndex: '1',
+}))
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -67,10 +74,35 @@ const PanelAppbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+  const classes = useStyles()
 
   return (
     <AppBar position='fixed' open={open}>
-      <Toolbar style={{ backgroundColor: 'white', boxShadow: 'none', zIndex: '1' }}>
+      <StyledToolbar className={classes.mobile}>
+        <Grid
+          sx={{
+            ...!open,
+            backgroundColor: 'red',
+            margin: 'auto',
+          }}
+          container
+          spacing={2}
+          columns={{ xl: 11, lg: 11 }}
+          justifyContent='center'
+        >
+          <Grid item xs={11}>
+            <Item style={{ boxShadow: 'none' }}>
+              <IconButton sx={{ p: 0, margin: '0 1rem' }}>
+                <MdNotifications size={36} />
+              </IconButton>
+              <IconButton sx={{ p: 0, margin: '0 1rem' }}>
+                <MdNotifications size={36} />
+              </IconButton>
+            </Item>
+          </Grid>
+        </Grid>
+      </StyledToolbar>
+      <StyledToolbar className={classes.desktop}>
         <Grid
           sx={{
             ...(!open && { marginLeft: `calc(${theme.spacing(7)} + 1px)` }),
@@ -99,6 +131,9 @@ const PanelAppbar = () => {
                 <Box sx={{ flexGrow: 0 }}>
                   {user ? (
                     <>
+                      <IconButton sx={{ p: 0, margin: '0 1rem' }}>
+                        <MdNotifications size={36} />
+                      </IconButton>
                       <Tooltip title='Open settings'>
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                           <Avatar alt={user.username} src={user.cover?.url ?? '/images/user.png'} />
@@ -136,7 +171,7 @@ const PanelAppbar = () => {
             </Item>
           </Grid>
         </Grid>
-      </Toolbar>
+      </StyledToolbar>
     </AppBar>
   )
 }
