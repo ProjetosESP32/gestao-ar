@@ -1,21 +1,18 @@
-import { Grid, Button } from '@mui/material'
+import { useForm } from '@inertiajs/inertia-react'
+import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
-import { useTheme, styled } from '@mui/material/styles'
-
-import React, { useState } from 'react'
-import UserTitle from '../../components/User/Title.jsx'
-import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-import PropTypes from 'prop-types'
-import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
+import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
-import { MdLens } from 'react-icons/md'
-import { AccountTextField } from '../../components/User/TextField.jsx'
-import { UserButton, AccountButton } from '../../components/User/Buttons.jsx'
-
+import { styled } from '@mui/material/styles'
 import { DataGrid } from '@mui/x-data-grid'
-import { useForm } from '@inertiajs/inertia-react'
+import * as PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
+import { AccountButton } from '../../components/User/Buttons.jsx'
+import { AccountTextField } from '../../components/User/TextField.jsx'
+import UserTitle from '../../components/User/Title.jsx'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -107,7 +104,7 @@ const UserRegister = () => {
                       Dados Para Cadastro
                     </UserTitle>
 
-                    <Grid container justifyContent={'center'} columns={11} alignItems={'center'}>
+                    <Grid container justifyContent='center' columns={11} alignItems='center'>
                       <Grid
                         item
                         xs={7}

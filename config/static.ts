@@ -5,8 +5,8 @@
  * file.
  */
 
-import { AssetsConfig } from '@ioc:Adonis/Core/Static'
 import Application from '@ioc:Adonis/Core/Application'
+import { AssetsConfig } from '@ioc:Adonis/Core/Static'
 
 const staticConfig: AssetsConfig = {
   /*

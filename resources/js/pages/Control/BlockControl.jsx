@@ -1,17 +1,8 @@
-import { Grid, Button } from '@mui/material'
+import { Grid, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
-import { useTheme, styled } from '@mui/material/styles'
-import React from 'react'
-import UserTitle from '../../components/User/Title.jsx'
-import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-import PropTypes from 'prop-types'
-import Typography from '@mui/material/Typography'
-import { MdAddBox, MdDelete, MdFilterList } from 'react-icons/md'
-import { IconButton } from '@mui/material'
-import { ControlInput, ControlLabel, ControlTextArea, ControlSelect } from '../../components/User/TextField.jsx'
-import { AccountButton } from '../../components/User/Buttons'
+import Checkbox from '@mui/material/Checkbox'
 import Modal from '@mui/material/Modal'
+import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -20,8 +11,16 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Toolbar from '@mui/material/Toolbar'
-import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { styled, useTheme } from '@mui/material/styles'
+import * as PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { MdAddBox, MdDelete, MdFilterList } from 'react-icons/md'
+import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
+import { AccountButton } from '../../components/User/Buttons'
+import { ControlInput, ControlLabel, ControlTextArea } from '../../components/User/TextField.jsx'
+import UserTitle from '../../components/User/Title.jsx'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -33,24 +32,24 @@ const Item = styled(Paper)(({ theme }) => ({
 const BlockControl = () => {
   const theme = useTheme()
 
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'))
+  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'))
 
   const handleChange = newValue => {
     setValue(newValue)
   }
 
-  const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('calories')
-  const [selected, setSelected] = React.useState([])
-  const [page, setPage] = React.useState(0)
-  const [dense, setDense] = React.useState(false)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [order, setOrder] = useState('asc')
+  const [orderBy, setOrderBy] = useState('calories')
+  const [selected, setSelected] = useState([])
+  const [page, setPage] = useState(0)
+  const [dense, setDense] = useState(false)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (_, property) => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
@@ -114,7 +113,7 @@ const BlockControl = () => {
               Novo Bloco
             </UserTitle>
 
-            <Grid container justifyContent={'space-between'} columns={11} alignItems={'center'}>
+            <Grid container justifyContent='space-between' columns={11} alignItems='center'>
               <Grid item xs={11}>
                 <ControlLabel>Nome</ControlLabel>
                 <ControlInput />

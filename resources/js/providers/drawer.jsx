@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import * as PropTypes from 'prop-types'
+import React, { createContext, useState } from 'react'
 
-export const DrawerContext = React.createContext()
+export const DrawerContext = createContext()
 
 export function DrawerProvider({ children }) {
   const drawerWidth = 260

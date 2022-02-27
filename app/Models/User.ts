@@ -1,10 +1,11 @@
 import { attachment, AttachmentContract } from '@ioc:Adonis/Addons/AttachmentLite'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { BaseModel, beforeSave, column, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { beforeSave, column, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Room from './Room'
+import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 
-export default class User extends BaseModel {
+export default class User extends SoftDeletesBaseModel {
   @column({ isPrimary: true })
   public id: number
 

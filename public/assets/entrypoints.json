@@ -2,7 +2,7 @@
   "entrypoints": {
     "app": {
       "js": [
-        "http://localhost:8080/assets/vendors-node_modules_babel_runtime_regenerator_index_js-node_modules_inertiajs_inertia-react_-fa25c8.js",
+        "http://localhost:8080/assets/vendors-node_modules_babel_runtime_regenerator_index_js-node_modules_inertiajs_inertia-react_-eeeff2.js",
         "http://localhost:8080/assets/app.js"
       ],
       "css": [

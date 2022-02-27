@@ -1,9 +1,10 @@
+import { column, HasMany, hasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, hasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Esp from './Esp'
 import User from './User'
+import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 
-export default class Room extends BaseModel {
+export default class Room extends SoftDeletesBaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -15,9 +16,6 @@ export default class Room extends BaseModel {
 
   @column()
   public floor: string
-
-  @column()
-  public roomNumber: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 import { useTheme } from '@mui/system'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import React, { useContext } from 'react'
 import Aside from '../../components/Aside/Index.jsx'
 import { DrawerContext } from '../../providers/drawer.jsx'

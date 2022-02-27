@@ -23,6 +23,8 @@ Encore.cleanupOutputBeforeBuild()
 Encore.enableSourceMaps(!Encore.isProduction())
 Encore.enableVersioning(Encore.isProduction())
 
+Encore.enableEslintPlugin()
+
 /*
 |--------------------------------------------------------------------------
 | Configure dev server
