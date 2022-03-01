@@ -112,6 +112,7 @@ const StyledIconButton = styled(IconButton)(() => ({
     },
   },
 }))
+
 const RoomControl = () => {
   const [temp, setTemp] = useState(20)
   const [page, setPage] = useState(0)

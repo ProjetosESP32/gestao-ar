@@ -1,14 +1,12 @@
-import React from 'react'
 import BottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import Paper from '@mui/material/Paper'
-
-import { MdOutlineSpeakerPhone, MdHome, MdAccountCircle } from 'react-icons/md'
-import Avatar from '@mui/material/Avatar'
+import React, { useState } from 'react'
+import { MdAccountCircle, MdHome, MdOutlineSpeakerPhone } from 'react-icons/md'
 import { useStyles } from '../Classes/Index'
 
 const Navigation = () => {
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = useState(0)
   const classes = useStyles()
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
