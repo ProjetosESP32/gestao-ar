@@ -21,7 +21,7 @@ Route.group(() => {
     Route.get('verify-email/:email', 'UsersController.verifyEmail').mustBeSigned().as('users.verifyEmail')
 
     Route.get('recover-password', 'UsersController.recoverPasswordView')
-    Route.post('recover-password', 'UsersController.recoverPassword').mustBeSigned()
+    Route.post('recover-password', 'UsersController.recoverPassword')
 
     Route.get('change-password/:email', 'UsersController.changePasswordView').mustBeSigned().as('users.changePassword')
     Route.post('change-password/:email', 'UsersController.changePassword').mustBeSigned()

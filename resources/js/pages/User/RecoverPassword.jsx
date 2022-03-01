@@ -1,10 +1,14 @@
+import { useForm } from '@inertiajs/inertia-react'
 import { Button, Grid, Link, TextField, useTheme } from '@mui/material'
 import React from 'react'
-import './style.css'
 import '../Auth/styles.css'
+import './style.css'
 
 const RecoverPassword = () => {
   const theme = useTheme()
+  const { data, setData, errors, processing, post } = useForm({
+    email: '',
+  })
 
   return (
     <div className='root'>
@@ -51,11 +55,26 @@ const RecoverPassword = () => {
                     </p>
                   </Grid>
                   <Grid item xs={11} md={11}>
-                    <TextField className='loginInput' style={{ borderRadius: '8' }} type='email' label='Email' />
+                    <TextField
+                      className='loginInput'
+                      style={{ borderRadius: '8' }}
+                      type='email'
+                      label='Email'
+                      value={data.email}
+                      error={!!errors.email}
+                      helperText={errors.email}
+                      onChange={e => setData({ email: e.target.value })}
+                    />
                   </Grid>
 
                   <Grid item xs={11} md={11}>
-                    <Button className='loginButton' variant='contained' style={{ borderRadius: '8' }}>
+                    <Button
+                      className='loginButton'
+                      variant='contained'
+                      style={{ borderRadius: '8' }}
+                      disabled={processing}
+                      onClick={() => post('/users/recover-password')}
+                    >
                       Enviar
                     </Button>
                   </Grid>

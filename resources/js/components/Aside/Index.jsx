@@ -9,18 +9,18 @@ import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { styled, useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 import * as PropTypes from 'prop-types'
 import React, { useContext } from 'react'
 import {
+  MdCalendarToday,
   MdChevronLeft,
   MdChevronRight,
-  MdListAlt,
-  MdCalendarToday,
-  MdRequestQuote,
-  MdOutlineAppRegistration,
   MdHowToReg,
-  MdOutlineNotificationAdd,
+  MdListAlt,
   MdMenu,
+  MdOutlineNotificationAdd,
+  MdRequestQuote,
 } from 'react-icons/md'
 import { DrawerContext } from '../../providers/drawer.jsx'
 import Icon from '../Icon/Index.jsx'
