@@ -1,3 +1,5 @@
+import TabPanelUnstyled from '@mui/base/TabPanelUnstyled'
+import TabsUnstyled from '@mui/base/TabsUnstyled'
 import { Grid, Typography } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -23,9 +25,12 @@ import {
 import faker from 'faker'
 import React, { useState } from 'react'
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
+import { useStyles } from '../../components/Classes/Index.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
+import { SecondaryTab, SecondaryTabPanel, SecondaryTabsList, MainTab, MainTabList } from '../../components/User/Tabs'
 
 const Home = () => {
+  const classes = useStyles()
   const data = {
     labels: ['Bloco A', 'Bloco B', 'Bloco C'],
     datasets: [
@@ -134,7 +139,13 @@ const Home = () => {
 
   return (
     <MiniDrawer>
-      <Grid container spacing={2} columns={{ xl: 11, lg: 11, md: 11 }} justifyContent='center'>
+      <Grid
+        className={classes.desktop}
+        container
+        spacing={2}
+        columns={{ xl: 11, lg: 11, md: 11 }}
+        justifyContent='center'
+      >
         <Grid item xl={1} md={0} display={{ md: 'none', xl: 'block' }}></Grid>
 
         <Grid item xl={8} md={11}>
@@ -208,6 +219,103 @@ const Home = () => {
           </Item>
         </Grid>
       </Grid>
+      <Grid
+        className={classes.mobile}
+        container
+        spacing={2}
+        columns={{ xl: 11, lg: 11, md: 11 }}
+        justifyContent='center'
+      >
+        <Grid item xs={11} style={{ width: '100%', paddingTop: '0' }}>
+          <TabsUnstyled defaultValue={0}>
+            <MainTabList>
+              <MainTab>Agenda</MainTab>
+              <MainTab>Consumo</MainTab>
+              <MainTab>Salas</MainTab>
+            </MainTabList>
+            <TabPanelUnstyled value={0}>(Aqui vai ficar a agenda)</TabPanelUnstyled>
+            <TabPanelUnstyled value={1}>
+              <TabsUnstyled defaultValue={0}>
+                <SecondaryTabsList>
+                  <SecondaryTab>Atual</SecondaryTab>
+                  <SecondaryTab>Diário</SecondaryTab>
+                  <SecondaryTab>Mensal</SecondaryTab>
+                </SecondaryTabsList>
+                <SecondaryTabPanel value={0}>
+                  <Item className='graphicsDuo'>
+                    <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
+                      Gasto Atual
+                    </Typography>
+                    <Doughnut
+                      data={data}
+                      style={{ height: '44vh!important', maxWidth: '400px', margin: 'auto', width: '100%' }}
+                    />
+                  </Item>
+                </SecondaryTabPanel>
+                <SecondaryTabPanel value={1}>
+                  <Item className='graphicsDuo'>
+                    <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
+                      Gastos Diários
+                    </Typography>
+                    <Line options={lineOptions} data={lineData} style={{ height: '44vh!important' }} />
+                  </Item>
+                </SecondaryTabPanel>
+                <SecondaryTabPanel value={2}>
+                  <Item sx={{ overflowY: 'scroll' }}>
+                    <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
+                      Gastos Mensais
+                    </Typography>
+                    <Bar options={barOptions} data={barData} />
+                  </Item>
+                </SecondaryTabPanel>
+              </TabsUnstyled>
+            </TabPanelUnstyled>
+            <TabPanelUnstyled value={2}>
+              <Item style={{ height: 'max-content', padding: '0.5rem' }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none', padding: '0.5rem' }}>
+                  <TableContainer sx={{ maxHeight: 440 }}>
+                    <Table stickyHeader aria-label='sticky table'>
+                      <TableHead>
+                        <TableRow>
+                          {columns.map(column => (
+                            <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
+                              {column.label}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                          <TableRow hover role='checkbox' tabIndex={-1} key={index}>
+                            {columns.map(column => {
+                              const value = row[column.id]
+                              return (
+                                <TableCell key={column.id} align={column.align}>
+                                  {column.format && typeof value === 'number' ? column.format(value) : value}
+                                </TableCell>
+                              )
+                            })}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 15]}
+                    component='div'
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    labelRowsPerPage={'Linhas'}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </Paper>
+              </Item>
+            </TabPanelUnstyled>
+          </TabsUnstyled>
+        </Grid>
+      </Grid>
     </MiniDrawer>
   )
 }
@@ -234,8 +342,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 const columns = [
-  { id: 'room', label: 'Sala', minWidth: 170 },
-  { id: 'block', label: 'Bloco', minWidth: 100 },
+  { id: 'room', label: 'Sala', minWidth: 120 },
+  { id: 'block', label: 'Bloco', minWidth: 60 },
   {
     id: 'nextEvent',
     label: 'Próximo Evento',
@@ -251,7 +359,7 @@ const columns = [
   {
     id: 'atualStatus',
     label: 'Status Atual',
-    minWidth: 170,
+    minWidth: 130,
     align: 'right',
   },
 ]
