@@ -82,24 +82,20 @@ const PanelAppbar = () => {
         <Grid
           sx={{
             ...!open,
-            backgroundColor: 'red',
             margin: 'auto',
           }}
           container
           spacing={2}
           columns={{ xl: 11, lg: 11 }}
-          justifyContent='center'
+          justifyContent='space-between'
         >
-          <Grid item xs={11}>
-            <Item style={{ boxShadow: 'none' }}>
-              <IconButton sx={{ p: 0, margin: '0 1rem' }}>
-                <MdNotifications size={36} />
-              </IconButton>
-              <IconButton sx={{ p: 0, margin: '0 1rem' }}>
-                <MdNotifications size={36} />
-              </IconButton>
-            </Item>
-          </Grid>
+          <IconButton sx={{ p: 0, margin: '0 1rem' }}>
+            <img src='/images/if-icon.svg' alt='' />
+          </IconButton>
+
+          <IconButton sx={{ p: 0, margin: '0 1rem' }}>
+            <MdNotifications size={36} />
+          </IconButton>
         </Grid>
       </StyledToolbar>
       <StyledToolbar className={classes.desktop}>
