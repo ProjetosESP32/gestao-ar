@@ -40,7 +40,7 @@ export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, handleClose }) => 
 
     if (processing) return
 
-    await post('/rooms/create')
+    await post('/admin/rooms')
     handleClose()
   }
 

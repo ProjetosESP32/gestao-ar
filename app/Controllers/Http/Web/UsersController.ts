@@ -38,6 +38,8 @@ export default class UsersController {
 
   public async recoverPassword(context: HttpContextContract) {
     await recoverPassword(context)
+
+    return context.response.redirect('/auth/login')
   }
 
   public async changePasswordView({ inertia }: HttpContextContract) {
@@ -54,6 +56,6 @@ export default class UsersController {
 
     await user.save()
 
-    return response.redirect('/')
+    return response.redirect('/auth/login')
   }
 }

@@ -77,7 +77,7 @@ const UserRegister = () => {
   const [value, setValue] = useState(0)
 
   const handleChange = async (_, newValue) => {
-    await post('/admin/users/create')
+    await post('/admin/users')
     setValue(newValue)
   }
 

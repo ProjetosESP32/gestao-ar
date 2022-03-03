@@ -17,6 +17,9 @@ export default class Esp extends SoftDeletesBaseModel {
   @column()
   public macAddress: string
 
+  @column()
+  public isOn: boolean
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@mui/styles'
 
-const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles(theme => ({
   desktop: {
     [theme.breakpoints.up('sm')]: {
       //my styles
@@ -30,5 +30,3 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }))
-
-export { useStyles }

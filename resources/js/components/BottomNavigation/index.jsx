@@ -2,7 +2,7 @@ import BottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import Paper from '@mui/material/Paper'
 import React, { useState } from 'react'
-import { MdOutlineSpeakerPhone, MdHome, MdAccountCircle } from 'react-icons/md'
+import { MdAccountCircle, MdHome, MdOutlineSpeakerPhone } from 'react-icons/md'
 import { useStyles } from '../Classes/Index'
 
 const Navigation = () => {

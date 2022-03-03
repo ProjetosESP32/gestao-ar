@@ -18,8 +18,6 @@ import * as PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { MdAddBox, MdDelete, MdFilterList } from 'react-icons/md'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-import { AccountButton } from '../../components/User/Buttons'
-import { ControlInput, ControlLabel, ControlSelect, ControlTextArea } from '../../components/User/TextField.jsx'
 import UserTitle from '../../components/User/Title.jsx'
 import { NewRoomModal } from './NewRoomModal'
 
@@ -30,7 +28,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }))
 
-const BlockControl = () => {
+const RoomsControl = () => {
   const { rooms, loggedUser } = usePage().props
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('calories')

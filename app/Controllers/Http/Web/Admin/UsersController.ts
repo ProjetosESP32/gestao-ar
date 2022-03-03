@@ -52,7 +52,7 @@ export default class UsersController {
     user.merge(data)
     await user.save()
 
-    return response.redirect('/admin/users')
+    return response.redirect().toRoute('admin.users.index')
   }
 
   public async destroy({ params, response }: HttpContextContract) {
@@ -60,6 +60,6 @@ export default class UsersController {
 
     await user.softDelete()
 
-    return response.redirect('/admin/users')
+    return response.redirect().toRoute('admin.users.index')
   }
 }
