@@ -1,6 +1,7 @@
 import { useForm } from '@inertiajs/inertia-react'
 import { Button, Checkbox, FormControlLabel, Grid, Typography, useTheme } from '@mui/material'
 import React from 'react'
+import { useStyles } from '../../components/Classes/Index.jsx'
 import { AccountTextField } from '../../components/User/TextField'
 import './styles.css'
 
@@ -31,6 +32,7 @@ const Register = () => {
 
     await post('/auth/register')
   }
+  const classes = useStyles()
 
   return (
     <div className='root'>
@@ -52,6 +54,7 @@ const Register = () => {
               <Typography variant='h3'>Criar Conta</Typography>
               <Grid container justifyContent='center' columns={11} alignItems='center'>
                 <Grid
+                  className={classes.desktop}
                   item
                   xs={7}
                   style={{
@@ -63,7 +66,7 @@ const Register = () => {
                     backgroundPosition: 'center',
                   }}
                 ></Grid>
-                <Grid item xs={4}>
+                <Grid item md={4} sm={11}>
                   <Grid item xs={11} md={11} className='loginIconGroup' order={{ xs: 6, lg: 2 }}>
                     <Button className='loginIconButton' variant='outlined'>
                       <img

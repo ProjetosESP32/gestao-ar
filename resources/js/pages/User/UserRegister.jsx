@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles'
 import { DataGrid } from '@mui/x-data-grid'
 import * as PropTypes from 'prop-types'
 import React, { useState } from 'react'
+import { useStyles } from '../../components/Classes/Index'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import { AccountButton } from '../../components/User/Buttons.jsx'
 import { AccountTextField } from '../../components/User/TextField.jsx'
@@ -85,6 +86,7 @@ const UserRegister = () => {
 
     setData({ ...data, [name]: value })
   }
+  const classes = useStyles()
 
   return (
     <MiniDrawer>
@@ -106,6 +108,7 @@ const UserRegister = () => {
 
                     <Grid container justifyContent='center' columns={11} alignItems='center'>
                       <Grid
+                        className={classes.desktop}
                         item
                         xs={7}
                         style={{
@@ -117,7 +120,7 @@ const UserRegister = () => {
                           backgroundPosition: 'center',
                         }}
                       ></Grid>
-                      <Grid item xs={4}>
+                      <Grid item md={4} sm={11}>
                         <Grid item xs={11}>
                           <AccountTextField
                             label='Nome'
