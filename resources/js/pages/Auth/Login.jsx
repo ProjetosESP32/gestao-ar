@@ -121,7 +121,7 @@ const Login = () => {
                       helperText={errors.password}
                     />
                   </Grid>
-                  <Grid item xs={6} md={11} order={{ xs: 5, lg: 6 }}>
+                  <Grid item xs={11} md={11} order={{ xs: 5, lg: 6 }}>
                     <FormControlLabel
                       className='rememberUser'
                       name='rememberMe'
@@ -140,7 +140,7 @@ const Login = () => {
                   <Grid
                     className='u'
                     item
-                    xs={5}
+                    xs={11}
                     md={11}
                     display='flex'
                     justifyContent='space-between'
