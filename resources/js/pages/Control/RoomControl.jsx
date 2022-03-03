@@ -1,4 +1,5 @@
 import { Grid, Typography, IconButton } from '@mui/material'
+
 import Box from '@mui/material/Box'
 import NativeSelect from '@mui/material/NativeSelect'
 import Paper from '@mui/material/Paper'
@@ -19,6 +20,9 @@ import faker from 'faker'
 import React, { useState } from 'react'
 import { Doughnut, Line, Bar } from 'react-chartjs-2'
 import { MdAdd, MdRemove } from 'react-icons/md'
+import { RiShutDownLine } from 'react-icons/ri'
+
+import { useStyles } from '../../components/Classes/Index.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 
 import { AccountTextField, ControlInput, ControlLabel } from '../../components/User/TextField.jsx'
@@ -97,6 +101,43 @@ const ControlButton = styled(Paper)(() => ({
   fontSize: '1.1rem',
 }))
 
+const StyledLabel = styled(Paper)(() => ({
+  padding: '0.75rem 0.35rem',
+  width: '48%',
+  boxShadow: ' 0px 3px 6px #00000029',
+  display: 'flex',
+  margin: '0.5rem auto',
+  '& span': {
+    color: '#90CAF9',
+  },
+  '& p': {
+    marginLeft: '0.4rem',
+    color: '#002984',
+  },
+}))
+
+const MobileControlButton = styled(Paper)(() => ({
+  padding: '0.75rem 0.35rem',
+  width: '100%',
+  boxShadow: ' 0px 3px 6px #00000029',
+  display: 'block',
+  margin: '0.5rem auto',
+  '& span': {
+    color: '#5D99C6',
+    fontSize: '1.75rem',
+    fontWeight: 'bolder',
+    textAlign: 'center',
+    width: '100%',
+  },
+  '& p': {
+    color: '#5D99C6',
+    fontSize: '1.2rem',
+    fontWeight: 'bolder',
+    textAlign: 'center',
+    width: '100%',
+  },
+}))
+
 const StyledIconButton = styled(IconButton)(() => ({
   color: 'white',
   padding: '0.3rem',
@@ -113,6 +154,7 @@ const StyledIconButton = styled(IconButton)(() => ({
   },
 }))
 const RoomControl = () => {
+  const classes = useStyles()
   const [temp, setTemp] = useState(20)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -129,7 +171,13 @@ const RoomControl = () => {
 
   return (
     <MiniDrawer>
-      <Grid container spacing={2} columns={{ xl: 11, lg: 11, md: 11 }} justifyContent='center'>
+      <Grid
+        className={classes.desktop}
+        container
+        spacing={2}
+        columns={{ xl: 11, lg: 11, md: 11 }}
+        justifyContent='center'
+      >
         <Grid item xl={1} md={0} display={{ md: 'none', xl: 'block' }}></Grid>
 
         <Grid item xl={8} md={11}>
@@ -241,6 +289,56 @@ const RoomControl = () => {
               Gastos Mensais
             </Typography>
             <Bar options={barOptions} data={barData} />
+          </Item>
+        </Grid>
+      </Grid>
+      <Grid
+        className={classes.mobile}
+        container
+        spacing={2}
+        columns={{ xl: 11, lg: 11, md: 11 }}
+        justifyContent='center'
+      >
+        <Grid item sm={11} sx={{ width: '100%' }}>
+          <Item style={{ padding: '2rem' }}>
+            <BlockTitle variant='h4'>Controle Ar</BlockTitle>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <StyledLabel>
+                <span>Nome:</span>
+                <p>Sala1</p>
+              </StyledLabel>
+              <StyledLabel>
+                <span>Bloco:</span>
+                <p>B1</p>
+              </StyledLabel>
+              <StyledLabel>
+                <span>Status:</span>
+                <p>Ativa</p>
+              </StyledLabel>
+              <StyledLabel>
+                <span>Humidade:</span>
+                <p>40%</p>
+              </StyledLabel>
+            </div>
+            <MobileControlButton>
+              <span>24 °C</span>
+              <p>Temp. Atual</p>
+            </MobileControlButton>
+            <MobileControlButton>
+              <IconButton>
+                <MdAdd size={32}></MdAdd>
+              </IconButton>
+            </MobileControlButton>
+            <MobileControlButton>
+              <IconButton>
+                <MdRemove size={32}></MdRemove>
+              </IconButton>
+            </MobileControlButton>
+            <MobileControlButton>
+              <IconButton>
+                <RiShutDownLine size={32} style={{ fill: 'red' }}></RiShutDownLine>
+              </IconButton>
+            </MobileControlButton>
           </Item>
         </Grid>
       </Grid>
