@@ -12,6 +12,7 @@
     border: none;
     display: flex;
     align-items: center;
+    border: none;
   }
   .recoverPassImg{
     background-image: none!important;
@@ -29,5 +30,8 @@
   .loginInput fieldset {
     border: 1px solid #5D99C6;
     box-shadow: inset 1px 3px 6px #00000029;
+  }
+  .loginContainer{
+    border:none!important;
   }
 }
