@@ -16,7 +16,6 @@ import TableRow from '@mui/material/TableRow'
 
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
-import * as PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { MdModeEdit } from 'react-icons/md'
 import { useStyles } from '../../components/Classes/Index.jsx'
