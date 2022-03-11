@@ -103,7 +103,7 @@ const Aside = ({ DrawerHeader, handleDrawerClose }) => {
           style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', cursor: 'pointer' }}
           onClick={() => Inertia.visit('/')}
         >
-          <img src='/images/logo.svg'></img>
+          <img src='/images/if-icon.svg'></img>
         </div>
 
         <IconButton
