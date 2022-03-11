@@ -1,4 +1,4 @@
-import { BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { beforeSave, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Consumption from './Consumption'
 import Room from './Room'
@@ -31,4 +31,11 @@ export default class Esp extends SoftDeletesBaseModel {
 
   @hasMany(() => Consumption)
   public consumptions: HasMany<typeof Consumption>
+
+  @beforeSave()
+  public static clearMacAddress(esp: Esp) {
+    if (esp.$dirty.macAddress) {
+      esp.macAddress = esp.macAddress.replace(/[^0-9A-Fa-f]/g, '')
+    }
+  }
 }

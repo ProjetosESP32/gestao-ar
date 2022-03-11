@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/inertia-react'
 import TabPanelUnstyled from '@mui/base/TabPanelUnstyled'
 import TabsUnstyled from '@mui/base/TabsUnstyled'
 import { Grid, Typography } from '@mui/material'
@@ -22,111 +23,54 @@ import {
   Title,
   Tooltip,
 } from 'chart.js'
-import faker from 'faker'
+import { DateTime } from 'luxon'
 import React, { useState } from 'react'
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { useStyles } from '../../components/Classes/Index.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-import { SecondaryTab, SecondaryTabPanel, SecondaryTabsList, MainTab, MainTabList } from '../../components/User/Tabs'
+import { MainTab, MainTabList, SecondaryTab, SecondaryTabPanel, SecondaryTabsList } from '../../components/User/Tabs'
 
 const Home = () => {
   const classes = useStyles()
+  const { rooms, consumptionNow, dailyConsumption, monthConsumption } = usePage().props
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+
   const data = {
-    labels: ['Bloco A', 'Bloco B', 'Bloco C'],
+    labels: consumptionNow.map(({ block }) => `Bloco ${block.toUpperCase()}`),
     datasets: [
       {
-        label: '# of Votes',
-        data: [12, 19, 3],
+        label: 'Blocos',
+        data: consumptionNow.map(({ totalPotency }) => Number(totalPotency)),
         backgroundColor: ['#36a1ea', '#005b9f', '#0288d1'],
       },
     ],
   }
 
-  const lineOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          color: 'rgba(0,0,0,0)',
-        },
-      },
-      y: {
-        grid: {
-          color: 'rgba(0,0,0,0)',
-        },
-      },
-    },
-  }
-
-  const labels = ['00h', '02h', '04h', '06h', '08h', '10h', '12h', '14h', '16h', '18h', '20h', '22h', '23:59h']
+  const labels = dailyConsumption.map(({ createdAt }) => DateTime.fromISO(createdAt).toFormat('dd'))
 
   const lineData = {
     labels,
     datasets: [
       {
-        label: 'Watts',
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 50 })),
+        label: 'Consumo (Watts)',
+        data: dailyConsumption.map(({ totalPotency }) => Number(totalPotency)),
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235)',
       },
     ],
   }
 
-  const barOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          color: 'rgba(0,0,0,0)',
-        },
-      },
-      y: {
-        grid: {
-          color: 'rgba(0,0,0,0)',
-        },
-      },
-    },
-  }
-
   const barData = {
-    labels: [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro',
-    ],
+    labels: monthConsumption.map(({ month }) => getMonthsByNumber(month - 1)),
     datasets: [
       {
-        label: 'Consumo em Watt',
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+        label: 'Consumo (Watts)',
+        data: monthConsumption.map(({ totalPotency }) => Number(totalPotency)),
         backgroundColor: ['#005b9f', '#0288d1', '#c3fdff', '#36a1ea', '#005b9f'],
       },
     ],
   }
-
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -166,13 +110,13 @@ const Home = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                    {rooms.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                       <TableRow hover role='checkbox' tabIndex={-1} key={index}>
                         {columns.map(column => {
                           const value = row[column.id]
                           return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === 'number' ? column.format(value) : value}
+                            <TableCell key={`${column.id}__${value}`} align={column.align}>
+                              {column.format ? column.format(value) : value}
                             </TableCell>
                           )
                         })}
@@ -184,7 +128,7 @@ const Home = () => {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 15]}
                 component='div'
-                count={rows.length}
+                count={rooms.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -285,13 +229,13 @@ const Home = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                        {rooms.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                           <TableRow hover role='checkbox' tabIndex={-1} key={index}>
                             {columns.map(column => {
                               const value = row[column.id]
                               return (
-                                <TableCell key={column.id} align={column.align}>
-                                  {column.format && typeof value === 'number' ? column.format(value) : value}
+                                <TableCell key={`${column.id}__${value}`} align={column.align}>
+                                  {column.format ? column.format(value) : value}
                                 </TableCell>
                               )
                             })}
@@ -303,7 +247,7 @@ const Home = () => {
                   <TablePagination
                     rowsPerPageOptions={[5, 10, 15]}
                     component='div'
-                    count={rows.length}
+                    count={rooms.length}
                     rowsPerPage={rowsPerPage}
                     labelRowsPerPage={'Linhas'}
                     page={page}
@@ -318,6 +262,51 @@ const Home = () => {
       </Grid>
     </MiniDrawer>
   )
+}
+
+const lineOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        color: 'rgba(0,0,0,0)',
+      },
+    },
+    y: {
+      grid: {
+        color: 'rgba(0,0,0,0)',
+      },
+    },
+  },
+}
+
+const barOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+    title: {
+      display: true,
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        color: 'rgba(0,0,0,0)',
+      },
+    },
+    y: {
+      grid: {
+        color: 'rgba(0,0,0,0)',
+      },
+    },
+  },
 }
 
 ChartJS.register(
@@ -342,8 +331,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 const columns = [
-  { id: 'room', label: 'Sala', minWidth: 120 },
+  { id: 'name', label: 'Sala', minWidth: 120 },
   { id: 'block', label: 'Bloco', minWidth: 60 },
+  { id: 'floor', label: 'Piso', minWidth: 30 },
   {
     id: 'nextEvent',
     label: 'Próximo Evento',
@@ -357,33 +347,28 @@ const columns = [
     align: 'right',
   },
   {
-    id: 'atualStatus',
+    id: 'lastStatus',
     label: 'Status Atual',
     minWidth: 130,
     align: 'right',
+    format: value => (value ? 'Ligada' : 'Desligada'),
   },
 ]
 
-/**
- * @param {string} room
- * @param {string} block
- * @param {string} nextEvent
- * @param {string} observations
- * @param {string} atualStatus
- */
-function createData(room, block, nextEvent, observations, atualStatus) {
-  return { room, block, nextEvent, observations, atualStatus }
-}
-
-const rows = [
-  createData('sala 01', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-]
+const getMonthsByNumber = num =>
+  [
+    'JANEIRO',
+    'FEVEREIRO',
+    'MARÇO',
+    'ABRIL',
+    'MAIO',
+    'JUNHO',
+    'JULHO',
+    'AGOSTO',
+    'SETEMBRO',
+    'OUTUBRO',
+    'NOVEMBRO',
+    'DEZEMBRO',
+  ][num]
 
 export default Home
