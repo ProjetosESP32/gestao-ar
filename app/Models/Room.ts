@@ -1,4 +1,14 @@
-import { column, HasMany, hasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import {
+  beforeFetch,
+  beforeFind,
+  column,
+  computed,
+  HasMany,
+  hasMany,
+  ManyToMany,
+  manyToMany,
+  ModelQueryBuilderContract,
+} from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Esp from './Esp'
 import User from './User'
@@ -17,15 +27,26 @@ export default class Room extends SoftDeletesBaseModel {
   @column()
   public floor: string
 
+  @computed()
+  public get lastStatus() {
+    return this.esps.some(({ isOn }) => isOn)
+  }
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasMany(() => Esp)
+  @hasMany(() => Esp, { serializeAs: null })
   public esps: HasMany<typeof Esp>
 
   @manyToMany(() => User)
   public users: ManyToMany<typeof User>
+
+  @beforeFetch()
+  @beforeFind()
+  public static loadEsps(query: ModelQueryBuilderContract<typeof Room>) {
+    query.preload('esps')
+  }
 }
