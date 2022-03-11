@@ -7,6 +7,7 @@ import Aside from '../../components/Aside/Index.jsx'
 import { DrawerContext } from '../../providers/drawer.jsx'
 import PanelAppbar from '../Appbar/Index.jsx'
 import Navigation from '../BottomNavigation/index.jsx'
+import { useStyles } from '../Classes/Index.jsx'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -24,19 +25,46 @@ const MiniDrawer = ({ children }) => {
   const handleDrawerClose = () => {
     setOpen(false)
   }
-
+  const Footer = styled('div')(() => ({
+    backgroundColor: '#3F51B5',
+    color: 'white',
+    textAlign: 'center',
+    width: '100%',
+    display: 'block',
+    fontWeight: 'bold',
+    fontSize: '1.1rem',
+    lineHeight: '1.35rem',
+    padding: '2.2rem 0',
+    '& p': {
+      color: 'white',
+    },
+  }))
+  const classes = useStyles()
   return (
     <Box
-      sx={{ display: 'flex' }}
-      style={{ minHeight: '100vh', backgroundColor: '#F7F7F7', width: '100%', maxWidth: '100vw' }}
+      // sx={{ display: 'flex' }}
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#F7F7F7',
+        width: '100%',
+        maxWidth: '100vw',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
     >
-      <PanelAppbar></PanelAppbar>
-      <Aside handleDrawerClose={handleDrawerClose} theme={theme} DrawerHeader={DrawerHeader} />
-      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        {children}
-      </Box>
+      <div style={{ display: 'flex' }}>
+        <PanelAppbar></PanelAppbar>
+        <Aside handleDrawerClose={handleDrawerClose} theme={theme} DrawerHeader={DrawerHeader} />
+        <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
+          {children}
+        </Box>
+      </div>
       <Navigation />
+      <Footer className={classes.desktop}>
+        <p> copyright Copyright, 2021</p> <p>SASC, Todos Os Direitos Reservados</p>
+      </Footer>
     </Box>
   )
 }
