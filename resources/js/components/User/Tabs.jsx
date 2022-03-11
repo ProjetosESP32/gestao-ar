@@ -72,6 +72,7 @@ const MainTab = styled(TabUnstyled)(() => ({
   [`&.${tabUnstyledClasses.selected}`]: {
     borderBottom: '2px solid #5D99C6',
   },
+  width: 'max-content',
 }))
 
 const MainTabList = styled(TabsListUnstyled)(
