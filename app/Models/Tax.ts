@@ -1,4 +1,4 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 
