@@ -43,7 +43,7 @@ const Login = () => {
               style={{ position: 'fixed', top: theme.spacing(2) }}
             >
               <Grid className='logoContainer' item xs={11} md={11} style={{ paddingTop: 0 }}>
-                <img src='/images/logo.svg' />
+                <img src='/images/if-icon.svg' />
               </Grid>
             </Grid>
             <Grid container columns={{ xs: 1, md: 12, lg: 12, xl: 12 }}>

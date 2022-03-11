@@ -15,7 +15,7 @@ const RecoverPassword = () => {
       <img src='/images/recover-pass-wave.svg' className='changePassWave desktop' />
       <Grid container columns={{ xl: 12, lg: 12 }}>
         <Grid item>
-          <img src='/images/logo.svg' className='changePassWave logoContainer desktop' />
+          <img src='/images/if-icon.svg' className='changePassWave logoContainer desktop' />
         </Grid>
       </Grid>
       <Grid spacing={1} container columns={{ xl: 12, lg: 12 }} justifyContent='center'>
@@ -33,7 +33,7 @@ const RecoverPassword = () => {
               style={{ position: 'fixed', top: theme.spacing(2) }}
             >
               <Grid item xs={11} md={11}>
-                <img src='/images/logo.svg' />
+                <img src='/images/if-icon.svg' />
               </Grid>
             </Grid>
             <Grid

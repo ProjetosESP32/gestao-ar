@@ -5,7 +5,6 @@ import { Button, Grid } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
-
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -13,7 +12,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import React, { useState } from 'react'
@@ -89,13 +87,13 @@ const UserAccount = () => {
         <Grid item xl={7} md={11}>
           <UserTitle variant='p'>Conta</UserTitle>
         </Grid>
-        <Grid item xl={7} md={11}>
+        <Grid item xl={7} md={11} sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabsUnstyled defaultValue={0}>
+            <TabsUnstyled defaultValue={0} style={{ width: '100%' }}>
               <MainTabList>
-                <MainTab>Agenda</MainTab>
-                <MainTab>Consumo</MainTab>
+                <MainTab>Geral</MainTab>
                 <MainTab>Salas</MainTab>
+                <MainTab>Segurança</MainTab>
               </MainTabList>
               <TabPanelUnstyled value={0}>
                 <Grid container spacing={2} columns={{ sm: 11, md: 11 }}>
@@ -205,7 +203,7 @@ const UserAccount = () => {
               <TabPanelUnstyled value={1}>
                 <Grid container spacing={2}>
                   <Grid item xs={11}>
-                    <Item style={{ height: 'max-content', padding: '1.2rem' }}>
+                    <Item style={{ height: 'max-content', padding: '1.2rem', width: '90%' }}>
                       <UserTitle variant='p'>Registro de Salas</UserTitle>
                       <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none', padding: '0.5rem' }}>
                         <TableContainer sx={{ maxHeight: 440 }}>
