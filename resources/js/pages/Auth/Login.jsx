@@ -1,7 +1,7 @@
 import { Link, useForm } from '@inertiajs/inertia-react'
 import { Button, Checkbox, FormControlLabel, Grid, TextField, useTheme } from '@mui/material'
 import React from 'react'
-
+import { LoginTextField } from '../../components/Login/Input'
 import './styles.css'
 
 const Login = () => {
@@ -33,7 +33,7 @@ const Login = () => {
   return (
     <div className='root'>
       <img src='/images/login-wave.svg' className='loginWave desktop' />
-      <Grid container columns={{ xl: 12, lg: 12 }} justifyContent='center'>
+      <Grid container columns={{ xl: 12, lg: 12, height: '100vh' }} justifyContent='center'>
         <Grid item xl={7} lg={9}>
           <form className='loginContainer' onSubmit={handleSubmit}>
             <Grid
@@ -97,7 +97,7 @@ const Login = () => {
                     </div>
                   </Grid>
                   <Grid item xs={11} md={11} order={{ xs: 3, lg: 4 }}>
-                    <TextField
+                    <LoginTextField
                       className='loginInput'
                       label='Email'
                       type='email'
@@ -109,7 +109,7 @@ const Login = () => {
                     />
                   </Grid>
                   <Grid item xs={11} md={11} order={{ xs: 4, lg: 5 }}>
-                    <TextField
+                    <LoginTextField
                       className='loginInput'
                       style={{ borderRadius: '8' }}
                       type='password'

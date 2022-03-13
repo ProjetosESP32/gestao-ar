@@ -2,6 +2,7 @@ import { useForm } from '@inertiajs/inertia-react'
 import { Button, Checkbox, FormControlLabel, Grid, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import { useStyles } from '../../components/Classes/Index.jsx'
+import { LoginTextField } from '../../components/Login/Input.jsx'
 import { AccountTextField } from '../../components/User/TextField'
 import './styles.css'
 
@@ -37,7 +38,7 @@ const Register = () => {
   return (
     <div className='root'>
       <img src='/images/login-wave.svg' className='loginWave desktop' />
-      <Grid container columns={{ xl: 12, lg: 12 }} justifyContent='center'>
+      <Grid container columns={{ xl: 12, lg: 12, height: '100vh' }} justifyContent='center'>
         <Grid item xl={7} lg={9}>
           <form className='loginContainer' onSubmit={handleSubmit}>
             <Grid
@@ -66,7 +67,7 @@ const Register = () => {
                     backgroundPosition: 'center',
                   }}
                 ></Grid>
-                <Grid item md={4} sm={11}>
+                <Grid item sx={{ width: '100%' }} md={4} sm={11}>
                   <Grid item xs={11} md={11} className='loginIconGroup' order={{ xs: 6, lg: 2 }}>
                     <Button className='loginIconButton' variant='outlined'>
                       <img
@@ -98,8 +99,8 @@ const Register = () => {
                     </div>
                   </Grid>
 
-                  <Grid item xs={11}>
-                    <AccountTextField
+                  <Grid item sx={{ marginTop: '16px' }} xs={11}>
+                    <LoginTextField
                       label='Nome'
                       variant='outlined'
                       type='text'
@@ -109,7 +110,9 @@ const Register = () => {
                       error={errors.username}
                       helperText={errors.username}
                     />
-                    <AccountTextField
+                  </Grid>
+                  <Grid item xs={11} sx={{ marginTop: '16px' }}>
+                    <LoginTextField
                       label='Email'
                       variant='outlined'
                       type='email'
@@ -119,7 +122,9 @@ const Register = () => {
                       error={errors.email}
                       helperText={errors.email}
                     />
-                    <AccountTextField
+                  </Grid>
+                  <Grid item xs={11} sx={{ marginTop: '16px' }}>
+                    <LoginTextField
                       label='Senha'
                       variant='outlined'
                       type='password'
@@ -129,7 +134,9 @@ const Register = () => {
                       error={errors.password}
                       helperText={errors.password}
                     />
-                    <AccountTextField
+                  </Grid>
+                  <Grid item xs={11} sx={{ marginTop: '16px' }}>
+                    <LoginTextField
                       label='Confirme Senha'
                       variant='outlined'
                       type='password'
@@ -139,6 +146,8 @@ const Register = () => {
                       error={errors.passwordConfirmation}
                       helperText={errors.passwordConfirmation}
                     />
+                  </Grid>
+                  <Grid item xs={11} sx={{ marginTop: '16px' }}>
                     <Grid item xs={6} md={11} order={{ xs: 5, lg: 6 }}>
                       <FormControlLabel
                         className='rememberUser'
