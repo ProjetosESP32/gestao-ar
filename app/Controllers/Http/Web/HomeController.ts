@@ -15,7 +15,7 @@ export default class HomeController {
         .sum('consumptions.potency', 'totalPotency')
         .useTransaction(client)
       const dailyConsumption = await Database.from('consumptions')
-        .select(Database.raw('ANY_VALUE(`created_at`) AS `createdAt`'), Database.raw('HOUR(`created_at`) as `hour`'))
+        .select(Database.raw('MIN(`created_at`) AS `createdAt`'), Database.raw('HOUR(`created_at`) as `hour`'))
         .where('created_at', '>', Database.raw('NOW() - INTERVAL 1 DAY'))
         .sum('potency AS totalPotency')
         .groupBy('hour')
