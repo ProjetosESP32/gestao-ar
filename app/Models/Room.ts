@@ -38,7 +38,7 @@ export default class Room extends SoftDeletesBaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasMany(() => Esp, { serializeAs: null })
+  @hasMany(() => Esp)
   public esps: HasMany<typeof Esp>
 
   @manyToMany(() => User)

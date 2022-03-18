@@ -28,12 +28,16 @@ Route.group(() => {
   }).prefix('users')
 
   Route.group(() => {
-    Route.get('controle-sala', ({ inertia }) => inertia.render('Control/RoomControl'))
     Route.get('gerir-notificacoes', ({ inertia }) => inertia.render('Control/NotificationControl'))
     Route.get('controle-bloco', ({ inertia }) => inertia.render('Control/BlockControl'))
   }).prefix('control')
 
-  Route.resource('rooms', 'RoomsController').only(['index', 'show'])
+  Route.group(() => {
+    Route.resource('/', 'RoomsController').only(['index'])
+    Route.resource('/control', 'RoomControlsController').only(['show']).where('id', Route.matchers.number())
+  })
+    .prefix('rooms')
+    .as('rooms')
 
   Route.group(() => {
     Route.delete('logout', 'AuthController.logout').prefix('auth')
