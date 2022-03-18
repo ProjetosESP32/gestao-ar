@@ -1,5 +1,6 @@
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import { Exception } from '@poppinss/utils'
+import { CamelCaseNamingStrategy } from './CamelCaseNamingStrategy'
 
 export default class AppProvider {
   constructor(protected app: ApplicationContract) {}
@@ -12,6 +13,7 @@ export default class AppProvider {
     const { Route } = this.app.container.use('Adonis/Core/Route')
     const { ModelQueryBuilder } = this.app.container.use('Adonis/Lucid/Database')
     const { DatabaseQueryBuilder } = this.app.container.use('Adonis/Lucid/Database')
+    const { BaseModel } = this.app.container.use('Adonis/Lucid/Orm')
 
     Route.macro('mustBeSigned', function () {
       this.middleware(async ({ request }, next) => {
@@ -34,6 +36,8 @@ export default class AppProvider {
       const result = await this.count('* as total')
       return BigInt(result[0].total)
     })
+
+    BaseModel.namingStrategy = new CamelCaseNamingStrategy()
   }
 
   public async ready() {
