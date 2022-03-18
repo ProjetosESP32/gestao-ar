@@ -1,5 +1,5 @@
+import { usePage } from '@inertiajs/inertia-react'
 import { Grid, Typography, IconButton } from '@mui/material'
-
 import Box from '@mui/material/Box'
 import NativeSelect from '@mui/material/NativeSelect'
 import Paper from '@mui/material/Paper'
@@ -155,6 +155,7 @@ const StyledIconButton = styled(IconButton)(() => ({
 }))
 
 const RoomControl = () => {
+  const { room, canEdit } = usePage().props
   const classes = useStyles()
   const [temp, setTemp] = useState(20)
   const [page, setPage] = useState(0)
@@ -187,21 +188,21 @@ const RoomControl = () => {
 
             <Box component='form'>
               <Grid container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
-                <FormGrid xl={2} item>
-                  <ControlLabel variant='label'>Nome</ControlLabel>
-                  <ControlInput />
-                </FormGrid>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Id</ControlLabel>
-                  <ControlInput />
+                  <ControlInput value={room.id} />
+                </FormGrid>
+                <FormGrid xl={2} item>
+                  <ControlLabel variant='label'>Nome</ControlLabel>
+                  <ControlInput value={room.name} />
                 </FormGrid>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Bloco</ControlLabel>
-                  <ControlInput />
+                  <ControlInput value={room.block} />
                 </FormGrid>
                 <FormGrid item xl={2}>
-                  <ControlLabel variant='label'>N. MAC</ControlLabel>
-                  <ControlInput />
+                  <ControlLabel variant='label'>Piso</ControlLabel>
+                  <ControlInput value={room.floor} />
                 </FormGrid>
               </Grid>
             </Box>
@@ -218,14 +219,16 @@ const RoomControl = () => {
                   <ControlLabel variant='label'>Temperatura</ControlLabel>
                   <ControlButton>
                     <StyledIconButton
+                      disabled={!room.lastStatus}
                       onClick={() => {
                         setTemp(temp - 1)
                       }}
                     >
                       <MdRemove />
                     </StyledIconButton>
-                    {temp} C
+                    {room.lastStatus ? `${temp} °C` : '--'}
                     <StyledIconButton
+                      disabled={!room.lastStatus}
                       onClick={() => {
                         setTemp(temp + 1)
                       }}
@@ -237,14 +240,14 @@ const RoomControl = () => {
                 <FormGrid xl={1.5} item>
                   <ControlLabel variant='label'>Power</ControlLabel>
                   <StyledSelect
-                    defaultValue={30}
+                    value={room.lastStatus ? 'on' : 'off'}
                     inputProps={{
                       name: 'age',
                       id: 'uncontrolled-native',
                     }}
                   >
-                    <option value={10}>On</option>
-                    <option value={20}>Off</option>
+                    <option value='on'>On</option>
+                    <option value='off'>Off</option>
                   </StyledSelect>
                 </FormGrid>
               </Grid>
@@ -255,16 +258,22 @@ const RoomControl = () => {
           <Item style={{ height: 'max-content', padding: '2rem' }}>
             <BlockTitle variant='h4'>Status</BlockTitle>
             <Box component='form'>
-              <Grid container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
-                <FormGrid xl={3} item>
-                  <ControlLabel variant='label'>Temp.</ControlLabel>
-                  <ControlInput />
-                </FormGrid>
-                <FormGrid item xl={3}>
-                  <ControlLabel variant='label'>Humidade</ControlLabel>
-                  <ControlInput />
-                </FormGrid>
-              </Grid>
+              {room.esps.map(({ id, name, macAddress, lastConsumption }) => (
+                <Grid key={id} container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
+                  <FormGrid xl={3} item>
+                    <ControlLabel variant='label'>ESP.</ControlLabel>
+                    <ControlInput value={`${name} - ${macAddress}`} />
+                  </FormGrid>
+                  <FormGrid xl={3} item>
+                    <ControlLabel variant='label'>Temp.</ControlLabel>
+                    <ControlInput value={lastConsumption.temperature} />
+                  </FormGrid>
+                  <FormGrid item xl={3}>
+                    <ControlLabel variant='label'>Humidade</ControlLabel>
+                    <ControlInput value={lastConsumption.humidity} />
+                  </FormGrid>
+                </Grid>
+              ))}
             </Box>
           </Item>
         </Grid>
