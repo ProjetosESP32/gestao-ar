@@ -154,7 +154,7 @@ const Aside = ({ DrawerHeader, handleDrawerClose }) => {
           <ListItemText primary='Historico de Consumo' />
         </ListItem>
       </List>
-      {loggedUser?.is_root && (
+      {loggedUser?.isRoot && (
         <>
           <Divider />
           <List>
