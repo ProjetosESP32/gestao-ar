@@ -26,6 +26,7 @@ import {
 import { DateTime } from 'luxon'
 import React, { useState } from 'react'
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
+import Agenda from '../../components/Agenda'
 import { useStyles } from '../../components/Classes/Index.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import { MainTab, MainTabList, SecondaryTab, SecondaryTabPanel, SecondaryTabsList } from '../../components/User/Tabs'
@@ -137,7 +138,16 @@ const Home = () => {
             </Paper>
           </Item>
         </Grid>
+
         <Grid item xl={1} md={0} display={{ md: 'none', xl: 'block' }}></Grid>
+        <Grid item xl={8} md={11}>
+          <Item style={{ height: 'max-content', padding: '2rem' }}>
+            <Typography style={{ fontWeight: 'bolder', textAlign: 'left', margin: '1rem auto' }} variant='h4'>
+              Agenda
+            </Typography>
+            <Agenda />
+          </Item>
+        </Grid>
         <Grid item xl={4} md={5}>
           <Item className='graphicsDuo' sx={{ paddingLeft: '4rem', paddingRight: '4rem' }}>
             <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
