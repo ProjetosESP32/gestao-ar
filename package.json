@@ -25,6 +25,7 @@
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "@inertiajs/progress": "^0.2.7",
+    "@mui/lab": "^5.0.0-alpha.74",
     "@mui/material": "^5.2.6",
     "@mui/styles": "^5.2.3",
     "@mui/system": "^5.4.4",
