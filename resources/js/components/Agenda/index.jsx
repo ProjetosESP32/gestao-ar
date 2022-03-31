@@ -48,6 +48,11 @@ const Agenda = () => {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const salas = [
+    { name: 'sala1', hours: steps },
+    { name: 'sala2', hours: steps },
+    { name: 'sala3', hours: steps },
+  ]
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -116,36 +121,48 @@ const Agenda = () => {
         </div>
         <ScheduleButton onClick={handleOpen}>+ Agendar</ScheduleButton>
       </div>
+
       <StyledStepperGroup>
         <Stepper activeStep={1} alternativeLabel connector={<InvisibleConector />}>
           <Step sx={{ fontWeight: 'bold', marginBottom: '1.1rem' }}>{'Sala'}</Step>
-          {steps.map(label => (
+          {stepsHeader.map(label => (
             <Step sx={{ fontWeight: 'bold', marginBottom: '1.1rem' }} key={label}>
               {label}
             </Step>
           ))}
         </Stepper>
 
-        <Stepper activeStep={7} alternativeLabel connector={<ColorlibConnector />}>
-          <Step>
-            <p
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: 32,
-              }}
-            >
-              Sala1
-            </p>
-          </Step>
-
-          {steps.map(label => (
-            <Step sx={{ cursor: 'pointer' }} key={label} onClick={handleOpen}>
-              <StepLabel StepIconComponent={ColorlibStepIcon} />
+        {salas.map((sala, index) => (
+          <Stepper
+            sx={{ marginBottom: '1.5rem' }}
+            key={index}
+            activeStep={7}
+            alternativeLabel
+            connector={<ColorlibConnector />}
+          >
+            <Step>
+              <p
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: 32,
+                }}
+              >
+                {sala.name}
+              </p>
             </Step>
-          ))}
-        </Stepper>
+
+            {sala.hours.map((label, index) => {
+              console.log(label)
+              return (
+                <Step sx={{ cursor: 'pointer' }} key={index} onClick={handleOpen}>
+                  <StepLabel StepIconComponent={ColorlibStepIcon} StepIconProps={label} />
+                </Step>
+              )
+            })}
+          </Stepper>
+        ))}
       </StyledStepperGroup>
     </Box>
   )
@@ -178,27 +195,35 @@ const StyledDate = styled('input')(() => ({
   fontWeight: 'bold',
 }))
 
-function ColorlibStepIcon(props) {
+function ColorlibStepIcon({ status }) {
   const icons = {
-    4: <MdPowerSettingsNew style={{ fill: '#FF0000' }} />,
+    1: <MdPowerSettingsNew style={{ fill: '#FF0000' }} />,
     2: <MdPowerSettingsNew style={{ fill: '#90CAF9' }} />,
     3: <MdBuild style={{ fill: '#002984' }} />,
   }
+  let aux = <></>
 
-  return <ColorlibStepIconRoot>{icons[String(props.icon)]}</ColorlibStepIconRoot>
+  if (status === 'off') {
+    // eslint-disable-next-line prefer-destructuring
+    aux = icons[1]
+  } else if (status === 'on') {
+    // eslint-disable-next-line prefer-destructuring
+    aux = icons[2]
+  } else if (status === 'maintence') {
+    // eslint-disable-next-line prefer-destructuring
+    aux = icons[3]
+  }
+
+  return <ColorlibStepIconRoot>{aux}</ColorlibStepIconRoot>
+}
+ColorlibStepIcon.propTypes = {
+  status: String,
 }
 const StyledStepperGroup = styled('div')(() => ({
   boxShadow: '0 3px 6px #00000049',
   padding: '1rem 0',
   borderRadius: '0.5rem',
 }))
-
-ColorlibStepIcon.propTypes = {
-  /**
-   * The label displayed in the step icon.
-   */
-  icon: node,
-}
 
 const InvisibleConector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -245,6 +270,21 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
 }))
 
-const steps = ['00am', '01am', '02am', '03am', '04am', '05am', '06am', '07am', '08am', '09am', '10am', '11am']
+//
+const stepsHeader = ['00am', '01am', '02am', '03am', '04am', '05am', '06am', '07am', '08am', '09am', '10am', '11am']
+const steps = [
+  { hour: '00am', status: 'on' },
+  { hour: '01am', status: 'off' },
+  { hour: '02am', status: 'off' },
+  { hour: '03am', status: 'off' },
+  { hour: '04am', status: 'off' },
+  { hour: '05am', status: 'on' },
+  { hour: '06am', status: 'off' },
+  { hour: '07am', status: 'off' },
+  { hour: '08am', status: 'off' },
+  { hour: '09am', status: 'maintence' },
+  { hour: '10am', status: 'off' },
+  { hour: '11am', status: 'off' },
+]
 
 export default Agenda
