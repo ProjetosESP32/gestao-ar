@@ -187,7 +187,9 @@ const Home = () => {
               <MainTab>Consumo</MainTab>
               <MainTab>Salas</MainTab>
             </MainTabList>
-            <TabPanelUnstyled value={0}>(Aqui vai ficar a agenda)</TabPanelUnstyled>
+            <TabPanelUnstyled value={0}>
+              <Agenda />
+            </TabPanelUnstyled>
             <TabPanelUnstyled value={1}>
               <TabsUnstyled defaultValue={0}>
                 <SecondaryTabsList>

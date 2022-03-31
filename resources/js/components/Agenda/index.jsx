@@ -1,20 +1,20 @@
-import { Grid, IconButton } from '@mui/material'
+import { Grid, IconButton, Tooltip } from '@mui/material'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Step from '@mui/material/Step'
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import StepLabel from '@mui/material/StepLabel'
 import Stepper from '@mui/material/Stepper'
-
+import { tooltipClasses } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
-import { node } from 'prop-types'
+import { makeStyles } from '@mui/styles'
+import { any, node } from 'prop-types'
 import * as React from 'react'
 import { MdSearch, MdPowerSettingsNew, MdBuild } from 'react-icons/md'
 import { AccountButton, ScheduleButton } from '../../components/User/Buttons'
 import { ControlInput, ControlLabel, ControlSelect, ControlTextArea } from '../../components/User/TextField.jsx'
 import UserTitle from '../../components/User/Title.jsx'
 import Icon from '../Icon/Index'
-
 const style = {
   position: 'absolute',
   top: '40%',
@@ -41,6 +41,24 @@ const StyledControlSelect = styled(ControlSelect)(() => ({
   [`& option`]: {
     color: 'black',
     fontWeight: 'bold',
+  },
+}))
+
+const StyledStepHeader = styled(Step)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: {
+    //my styles
+  },
+  [theme.breakpoints.down('md')]: {
+    // backgroundColor: 'red!important',
+
+    paddingRight: '0px!important',
+    paddingLeft: '7px!important',
+  },
+  [theme.breakpoints.up('lg')]: {
+    //my styles
+  },
+  [theme.breakpoints.up('xl')]: {
+    //my styles
   },
 }))
 
@@ -124,11 +142,13 @@ const Agenda = () => {
 
       <StyledStepperGroup>
         <Stepper activeStep={1} alternativeLabel connector={<InvisibleConector />}>
-          <Step sx={{ fontWeight: 'bold', marginBottom: '1.1rem' }}>{'Sala'}</Step>
+          <StyledStepHeader sx={{ fontWeight: 'bold', marginBottom: '1.1rem', marginRight: '0.6rem' }}>
+            {'Sala'}
+          </StyledStepHeader>
           {stepsHeader.map(label => (
-            <Step sx={{ fontWeight: 'bold', marginBottom: '1.1rem' }} key={label}>
+            <StyledStepHeader sx={{ fontWeight: 'bold', marginBottom: '1.1rem' }} key={label}>
               {label}
-            </Step>
+            </StyledStepHeader>
           ))}
         </Stepper>
 
@@ -153,14 +173,11 @@ const Agenda = () => {
               </p>
             </Step>
 
-            {sala.hours.map((label, index) => {
-              console.log(label)
-              return (
-                <Step sx={{ cursor: 'pointer' }} key={index} onClick={handleOpen}>
-                  <StepLabel StepIconComponent={ColorlibStepIcon} StepIconProps={label} />
-                </Step>
-              )
-            })}
+            {sala.hours.map((label, index) => (
+              <Step sx={{ cursor: 'pointer' }} key={index} onClick={handleOpen}>
+                <StepLabel StepIconComponent={ColorlibStepIcon} StepIconProps={label} />
+              </Step>
+            ))}
           </Stepper>
         ))}
       </StyledStepperGroup>
@@ -197,9 +214,27 @@ const StyledDate = styled('input')(() => ({
 
 function ColorlibStepIcon({ status }) {
   const icons = {
-    1: <MdPowerSettingsNew style={{ fill: '#FF0000' }} />,
-    2: <MdPowerSettingsNew style={{ fill: '#90CAF9' }} />,
-    3: <MdBuild style={{ fill: '#002984' }} />,
+    1: (
+      <LightTooltip title='Off' placement='top-end'>
+        <IconButton>
+          <MdPowerSettingsNew style={{ fill: '#FF0000' }} />
+        </IconButton>
+      </LightTooltip>
+    ),
+    2: (
+      <LightTooltip title='On' placement='top-end'>
+        <IconButton>
+          <MdPowerSettingsNew style={{ fill: '#90CAF9' }} />
+        </IconButton>
+      </LightTooltip>
+    ),
+    3: (
+      <LightTooltip title='Manutenção' placement='top-end'>
+        <IconButton>
+          <MdBuild style={{ fill: '#002984' }} />
+        </IconButton>
+      </LightTooltip>
+    ),
   }
   let aux = <></>
 
@@ -217,12 +252,13 @@ function ColorlibStepIcon({ status }) {
   return <ColorlibStepIconRoot>{aux}</ColorlibStepIconRoot>
 }
 ColorlibStepIcon.propTypes = {
-  status: String,
+  status: any,
 }
 const StyledStepperGroup = styled('div')(() => ({
   boxShadow: '0 3px 6px #00000049',
   padding: '1rem 0',
   borderRadius: '0.5rem',
+  overflowX: 'scroll',
 }))
 
 const InvisibleConector = styled(StepConnector)(({ theme }) => ({
@@ -243,8 +279,16 @@ const InvisibleConector = styled(StepConnector)(({ theme }) => ({
   },
   [`& .${stepConnectorClasses.line}`]: {
     borderColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : 'rgba(0,0,0,0)',
-    borderTopWidth: 3,
+    borderTopWidth: 16,
     borderRadius: 1,
+  },
+}))
+const LightTooltip = styled(Tooltip)(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: 'white',
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
   },
 }))
 
