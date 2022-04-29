@@ -7,6 +7,7 @@ import { render } from 'react-dom'
 import { DrawerProvider } from './providers/drawer.jsx'
 import { theme } from './theme'
 
+import 'react-image-crop/dist/ReactCrop.css'
 import '../css/global.css'
 import '../css/midia.css'
 
