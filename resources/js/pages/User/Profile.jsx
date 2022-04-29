@@ -15,8 +15,8 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import React, { useState } from 'react'
-import { MdModeEdit } from 'react-icons/md'
 import { useStyles } from '../../components/Classes/Index.jsx'
+import Cropper from '../../components/Cropper'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import { UserButton } from '../../components/User/Buttons.jsx'
 import { MainTab, MainTabList } from '../../components/User/Tabs'
@@ -33,7 +33,6 @@ const Item = styled(Paper)(({ theme }) => ({
 const UserAccount = () => {
   const classes = useStyles()
   const { loggedUser } = usePage().props
-  const [value, setValue] = useState(0)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const { data, setData, put, errors, processing } = useForm({
@@ -49,19 +48,10 @@ const UserAccount = () => {
     setData({ ...data, [name]: value })
   }
 
-  const handleCoverChange = e => {
-    const file = e.target.files?.item(0)
-
-    if (file) {
-      var reader = new FileReader()
-
-      reader.onload = e => {
-        setImagePreview(e.target.result)
-        setData({ ...data, cover: file })
-      }
-
-      reader.readAsDataURL(file)
-    }
+  const processBlob = blob => {
+    setData({ ...data, cover: blob })
+    const objectUrl = URL.createObjectURL(blob)
+    setImagePreview(objectUrl)
   }
 
   const handleUpdate = async () => {
@@ -99,18 +89,7 @@ const UserAccount = () => {
                         <img src={imagePreview ?? loggedUser.cover?.url ?? '/images/user.png'} />
                       </UserAvatar>
 
-                      <input
-                        id='userImage'
-                        onChange={handleCoverChange}
-                        type='file'
-                        accept='image/*'
-                        style={{ display: 'none' }}
-                      />
-                      <label style={{ cursor: 'pointer' }} htmlFor='userImage'>
-                        <StyledTypography variant='p'>
-                          Alterar <MdModeEdit />
-                        </StyledTypography>
-                      </label>
+                      <Cropper onChange={processBlob} />
                     </Item>
                   </Grid>
                   <Grid item sm={11} md={8}>
