@@ -1,6 +1,7 @@
 import { Attachment } from '@ioc:Adonis/Addons/AttachmentLite'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Invite from 'App/Mailers/Invite'
+import Room from 'App/Models/Room'
 import User from 'App/Models/User'
 import { generatePassword } from 'App/Utils/generatePassword'
 import CreateUserValidator from 'App/Validators/Web/Admin/CreateUserValidator'
@@ -14,11 +15,13 @@ export default class UsersController {
   }
 
   public async create({ inertia }: HttpContextContract) {
-    return inertia.render('User/UserRegister')
+    const rooms = await Room.all()
+
+    return inertia.render('User/UserRegister', { rooms })
   }
 
-  public async store({ request }: HttpContextContract) {
-    const { username, email } = await request.validate(CreateUserValidator)
+  public async store({ request, response }: HttpContextContract) {
+    const { username, email, roomIds } = await request.validate(CreateUserValidator)
     const generatedPassword = generatePassword(12)
 
     const user = await User.create({
@@ -26,7 +29,10 @@ export default class UsersController {
       email,
       password: generatedPassword,
     })
+    await user.related('rooms').attach(roomIds)
     await new Invite(user).sendLater()
+
+    return response.redirect().toRoute('admin.users.index')
   }
 
   public async show({ params, inertia }: HttpContextContract) {

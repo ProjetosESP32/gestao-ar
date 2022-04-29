@@ -1,7 +1,7 @@
 import { useForm, usePage } from '@inertiajs/inertia-react'
 import TabPanelUnstyled from '@mui/base/TabPanelUnstyled'
 import TabsUnstyled from '@mui/base/TabsUnstyled'
-import { Button, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
@@ -66,10 +66,6 @@ const UserAccount = () => {
 
   const handleUpdate = async () => {
     await put('/users')
-  }
-
-  const handleChange = (_, newValue) => {
-    setValue(newValue)
   }
 
   const handleChangePage = (_, newPage) => {
@@ -153,7 +149,7 @@ const UserAccount = () => {
                   </Grid>
 
                   <Grid item md={3} sm={0} className={classes.desktop}></Grid>
-                  <Grid item md={8} sm={11} style={{ width: '100%' }}>
+                  {/* <Grid item md={8} sm={11} style={{ width: '100%' }}>
                     <Item>
                       <Grid container>
                         <Grid item md={4} sm={11}>
@@ -168,7 +164,7 @@ const UserAccount = () => {
                           style={{ flexDirection: ' column', width: '100%' }}
                         >
                           <CssDiv>
-                            <Typography variant='p'>Vinculada</Typography>
+                            <Typography variant='p'>Vincular</Typography>
                             <Button className='loginIconButton'>
                               <img
                                 style={{
@@ -180,24 +176,10 @@ const UserAccount = () => {
                               />
                             </Button>
                           </CssDiv>
-                          <CssDiv>
-                            <Typography variant='p'>Vincular</Typography>
-
-                            <Button className='loginIconButton'>
-                              <img
-                                style={{
-                                  width: '80%',
-                                  display: 'block',
-                                  margin: 'auto',
-                                }}
-                                src='/images/apple-icon.svg'
-                              />
-                            </Button>
-                          </CssDiv>
                         </Grid>
                       </Grid>
                     </Item>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </TabPanelUnstyled>
               <TabPanelUnstyled value={1}>
@@ -210,7 +192,7 @@ const UserAccount = () => {
                           <Table stickyHeader aria-label='sticky table'>
                             <TableHead>
                               <TableRow>
-                                {columns.map(column => (
+                                {loggedUser.rooms.map(column => (
                                   <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
                                     {column.label}
                                   </TableCell>
@@ -218,18 +200,20 @@ const UserAccount = () => {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-                                <TableRow hover role='checkbox' tabIndex={-1} key={index}>
-                                  {columns.map(column => {
-                                    const value = row[column.id]
-                                    return (
-                                      <TableCell key={column.id} align={column.align}>
-                                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                                      </TableCell>
-                                    )
-                                  })}
-                                </TableRow>
-                              ))}
+                              {loggedUser.rooms
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row, index) => (
+                                  <TableRow hover role='checkbox' tabIndex={-1} key={index}>
+                                    {columns.map(column => {
+                                      const value = row[column.id]
+                                      return (
+                                        <TableCell key={column.id} align={column.align}>
+                                          {column.format && typeof value === 'number' ? column.format(value) : value}
+                                        </TableCell>
+                                      )
+                                    })}
+                                  </TableRow>
+                                ))}
                             </TableBody>
                           </Table>
                         </TableContainer>
@@ -237,7 +221,7 @@ const UserAccount = () => {
                           labelRowsPerPage='Linhas por página'
                           rowsPerPageOptions={[5, 10, 15]}
                           component='div'
-                          count={rows.length}
+                          count={loggedUser.rooms.length}
                           rowsPerPage={rowsPerPage}
                           page={page}
                           onPageChange={handleChangePage}
@@ -290,7 +274,7 @@ const UserAccount = () => {
   )
 }
 
-const CssDiv = styled('div')({
+/* const CssDiv = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
@@ -303,7 +287,7 @@ const CssDiv = styled('div')({
     fontSize: '1rem',
     marginBottom: '0.5rem',
   },
-})
+}) */
 
 const UserAvatar = styled(Avatar)({
   borderRadius: '50%',
@@ -326,52 +310,21 @@ const StyledTypography = styled(Typography)({
   },
 })
 
-/* Table data */
 const columns = [
-  { id: 'room', label: 'Sala', minWidth: 170 },
+  { id: 'name', label: 'Sala', minWidth: 170 },
   { id: 'block', label: 'Bloco', minWidth: 100 },
   {
-    id: 'nextEvent',
-    label: 'Próximo Evento',
-    minWidth: 170,
+    id: 'floor',
+    label: 'Piso',
+    minWidth: 50,
     align: 'right',
   },
   {
-    id: 'observations',
-    label: 'Obs',
-    minWidth: 170,
-    align: 'right',
-  },
-  {
-    id: 'atualStatus',
+    id: 'lastStatus',
     label: 'Status Atual',
     minWidth: 170,
     align: 'right',
   },
-]
-
-/**
- * @param {string} room
- * @param {string} block
- * @param {string} nextEvent
- * @param {string} observations
- * @param {string} atualStatus
- */
-function createData(room, block, nextEvent, observations, atualStatus) {
-  return { room, block, nextEvent, observations, atualStatus }
-}
-
-const rows = [
-  createData('sala 01', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 02', 'B1', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 03', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
-  createData('sala 04', 'B2', '13 / agosto / 2021 às 13:00h', '-', 'ativa'),
 ]
 
 export default UserAccount

@@ -43,9 +43,7 @@ export const softDeletesMixin = <T extends NormalizeConstructor<LucidModel>>(Sup
       }
 
       this.deletedAt = null
-      this.save()
-
-      return this
+      await this.save()
     }
 
     private static isIgnoring<M extends typeof ModelWithSoftDeletes>(query: ModelQueryBuilderContract<M>) {

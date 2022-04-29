@@ -147,18 +147,18 @@ const Aside = ({ DrawerHeader, handleDrawerClose }) => {
           </ListItemIcon>
           <ListItemText primary='Agenda De Eventos' />
         </ListItem>
-        <ListItem button>
+        {/* <ListItem button>
           <ListItemIcon>
             <Icon name={MdRequestQuote}></Icon>
           </ListItemIcon>
           <ListItemText primary='Historico de Consumo' />
-        </ListItem>
+        </ListItem> */}
       </List>
       {loggedUser?.isRoot && (
         <>
           <Divider />
           <List>
-            <ListItem button>
+            <ListItem>
               <ListItemIcon></ListItemIcon>
               <ListItemText primary='Admin' />
             </ListItem>
@@ -166,14 +166,14 @@ const Aside = ({ DrawerHeader, handleDrawerClose }) => {
               <ListItemIcon>
                 <Icon name={MdHowToReg}></Icon>
               </ListItemIcon>
-              <ListItemText primary='Cadastro de Usuários' />
+              <ListItemText primary='Usuários' />
             </ListItem>
-            <ListItem button>
+            {/* <ListItem button>
               <ListItemIcon>
                 <Icon name={MdOutlineNotificationAdd}></Icon>
               </ListItemIcon>
               <ListItemText primary='Gerar Notificação' />
-            </ListItem>
+            </ListItem> */}
           </List>
         </>
       )}

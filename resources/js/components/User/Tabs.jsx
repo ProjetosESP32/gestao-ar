@@ -81,7 +81,7 @@ const MainTabList = styled(TabsListUnstyled)(
   padding: 0.75rem 0.25rem;
   width: 100%;
 
-  margin-bottom:0.75rem;]
+  margin-bottom:0.75rem;
 
 `,
 )

@@ -13,13 +13,14 @@ const Navigation = () => {
   const handleProfile = () => {
     Inertia.visit('/users/me')
   }
+
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
       <BottomNavigation
         className={classes.mobile}
         showLabels
         value={value}
-        onChange={(event, newValue) => {
+        onChange={(_, newValue) => {
           setValue(newValue)
         }}
       >

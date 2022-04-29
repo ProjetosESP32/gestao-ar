@@ -28,13 +28,21 @@ Route.group(() => {
   }).prefix('users')
 
   Route.group(() => {
-    Route.get('gerir-notificacoes', ({ inertia }) => inertia.render('Control/NotificationControl'))
-    Route.get('controle-bloco', ({ inertia }) => inertia.render('Control/BlockControl'))
+    Route.inertia('gerir-notificacoes', 'Control/NotificationControl')
   }).prefix('control')
 
   Route.group(() => {
     Route.resource('/', 'RoomsController').only(['index'])
-    Route.resource('/control', 'RoomControlsController').only(['show']).where('id', Route.matchers.number())
+    Route.group(() => {
+      Route.get('/', 'RoomControlsController.show').as('show')
+      Route.post('/add-esp', 'RoomControlsController.addEsp').as('addEsp')
+      Route.delete('/remove-esp/:espId', 'RoomControlsController.removeEsp')
+        .where('espId', Route.matchers.number())
+        .as('removeEsp')
+    })
+      .prefix('/control/:id')
+      .where('id', Route.matchers.number())
+      .as('control')
   })
     .prefix('rooms')
     .as('rooms')
