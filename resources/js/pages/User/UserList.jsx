@@ -52,7 +52,7 @@ const UserList = () => {
       <Grid container spacing={2} columns={{ xl: 11, lg: 11, md: 11 }} justifyContent='center'>
         <Grid item xl={8} md={11}>
           <div style={{ margin: '0.5rem 0' }}>
-            <UserTitle variant='p'>Cadastro de usuário</UserTitle>
+            <UserTitle variant='p'>Usuários</UserTitle>
           </div>
         </Grid>
         <Grid item xl={8} md={11}>
@@ -80,7 +80,7 @@ const UserList = () => {
                           const value = row[column.id]
                           return (
                             <TableCell key={`${column.id}_${row.id}-${row.email}`} align={column.align}>
-                              {column.format && typeof value === 'number' ? column.format(value) : value}
+                              {column.format ? column.format(value) : value}
                             </TableCell>
                           )
                         })}
@@ -111,7 +111,7 @@ const columnConfiguration = [
   { id: 'username', label: 'Nome', minWidth: 170 },
   { id: 'email', label: 'E-mail', minWidth: 100 },
   {
-    id: 'is_root',
+    id: 'isRoot',
     label: 'Administrador',
     minWidth: 170,
     align: 'right',

@@ -3,10 +3,10 @@ import { Button, Checkbox, FormControlLabel, Grid, Typography, useTheme } from '
 import React from 'react'
 import { useStyles } from '../../components/Classes/Index.jsx'
 import { LoginTextField } from '../../components/Login/Input.jsx'
-import { AccountTextField } from '../../components/User/TextField'
 import './styles.css'
 
 const Register = () => {
+  const classes = useStyles()
   const theme = useTheme()
   const { data, post, setData, errors } = useForm({
     username: '',
@@ -33,7 +33,6 @@ const Register = () => {
 
     await post('/auth/register')
   }
-  const classes = useStyles()
 
   return (
     <div className='root'>

@@ -153,14 +153,11 @@ const Agenda = () => {
               </p>
             </Step>
 
-            {sala.hours.map((label, index) => {
-              console.log(label)
-              return (
-                <Step sx={{ cursor: 'pointer' }} key={index} onClick={handleOpen}>
-                  <StepLabel StepIconComponent={ColorlibStepIcon} StepIconProps={label} />
-                </Step>
-              )
-            })}
+            {sala.hours.map((label, index) => (
+              <Step sx={{ cursor: 'pointer' }} key={index} onClick={handleOpen}>
+                <StepLabel StepIconComponent={ColorlibStepIcon} StepIconProps={label} />
+              </Step>
+            ))}
           </Stepper>
         ))}
       </StyledStepperGroup>

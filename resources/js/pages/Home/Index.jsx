@@ -42,7 +42,7 @@ const Home = () => {
     datasets: [
       {
         label: 'Blocos',
-        data: consumptionNow.map(({ totalPotency }) => Number(totalPotency)),
+        data: consumptionNow.map(({ totalPotency }) => totalPotency),
         backgroundColor: ['#36a1ea', '#005b9f', '#0288d1'],
       },
     ],
@@ -55,7 +55,7 @@ const Home = () => {
     datasets: [
       {
         label: 'Consumo (Watts)',
-        data: dailyConsumption.map(({ totalPotency }) => Number(totalPotency)),
+        data: dailyConsumption.map(({ totalPotency }) => totalPotency),
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235)',
       },
@@ -67,7 +67,7 @@ const Home = () => {
     datasets: [
       {
         label: 'Consumo (Watts)',
-        data: monthConsumption.map(({ totalPotency }) => Number(totalPotency)),
+        data: monthConsumption.map(({ totalPotency }) => totalPotency),
         backgroundColor: ['#005b9f', '#0288d1', '#c3fdff', '#36a1ea', '#005b9f'],
       },
     ],

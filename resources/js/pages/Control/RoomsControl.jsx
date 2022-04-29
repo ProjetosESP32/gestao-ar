@@ -1,3 +1,4 @@
+import { Inertia } from '@inertiajs/inertia'
 import { usePage } from '@inertiajs/inertia-react'
 import { Grid, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -16,7 +17,7 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import * as PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { MdAddBox, MdDelete, MdFilterList } from 'react-icons/md'
+import { MdAddBox, MdFilterList, MdRemoveRedEye } from 'react-icons/md'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import UserTitle from '../../components/User/Title.jsx'
 import { NewRoomModal } from './NewRoomModal'
@@ -37,15 +38,10 @@ const RoomsControl = () => {
   const [dense, setDense] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'))
   const roomCount = rooms.length
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const handleChange = newValue => {
-    setValue(newValue)
-  }
 
   const handleRequestSort = (_, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -88,10 +84,6 @@ const RoomsControl = () => {
     setPage(0)
   }
 
-  const handleChangeDense = event => {
-    setDense(event.target.checked)
-  }
-
   const isSelected = name => selected.indexOf(name) !== -1
 
   // Evita um salto de layout ao chegar à última página com linhas vazias
@@ -125,34 +117,35 @@ const RoomsControl = () => {
                         {selected.length} selected
                       </Typography>
                     ) : (
-                      <Typography
-                        sx={{ flex: '1 1 100%', textAlign: 'left', fontWeight: 'bold' }}
-                        variant='h6'
-                        id='tableTitle'
-                        component='div'
-                      >
-                        Salas
-                      </Typography>
+                      <>
+                        <Typography
+                          sx={{ flex: '1 1 100%', textAlign: 'left', fontWeight: 'bold' }}
+                          variant='h6'
+                          id='tableTitle'
+                          component='div'
+                        >
+                          Salas
+                        </Typography>
+                        <Tooltip title='Filter list'>
+                          <>
+                            <IconButton>
+                              <MdFilterList />
+                            </IconButton>
+                            {loggedUser?.isRoot && (
+                              <IconButton onClick={handleOpen}>
+                                <MdAddBox />
+                              </IconButton>
+                            )}
+                          </>
+                        </Tooltip>
+                      </>
                     )}
 
-                    {selected.length > 0 ? (
-                      <Tooltip title='Delete'>
-                        <IconButton>
-                          <MdDelete />
+                    {selected.length === 1 && (
+                      <Tooltip title='See'>
+                        <IconButton onClick={() => Inertia.visit(`/rooms/control/${selected[0]}`)}>
+                          <MdRemoveRedEye />
                         </IconButton>
-                      </Tooltip>
-                    ) : (
-                      <Tooltip title='Filter list'>
-                        <>
-                          <IconButton>
-                            <MdFilterList />
-                          </IconButton>
-                          {loggedUser?.isRoot && (
-                            <IconButton onClick={handleOpen}>
-                              <MdAddBox />
-                            </IconButton>
-                          )}
-                        </>
                       </Tooltip>
                     )}
                   </Toolbar>
@@ -246,14 +239,13 @@ const EnhancedTableHead = ({ onSelectAllClick, numSelected, rowCount }) => (
           indeterminate={numSelected > 0 && numSelected < rowCount}
           checked={rowCount > 0 && numSelected === rowCount}
           onChange={onSelectAllClick}
-          inputProps={{
-            'aria-label': 'select all desserts',
-          }}
         />
       </TableCell>
 
       {columns.map(headCell => (
-        <TableCell key={headCell.field}>{headCell.headerName}</TableCell>
+        <TableCell key={headCell.field} align={headCell.align}>
+          {headCell.headerName}
+        </TableCell>
       ))}
     </TableRow>
   </TableHead>

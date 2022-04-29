@@ -44,12 +44,9 @@ export default class Esp extends SoftDeletesBaseModel {
   @hasMany(() => Consumption)
   public consumptions: HasMany<typeof Consumption>
 
-  @hasMany(() => Consumption, { serializeAs: null })
-  public lastConsumptions: HasMany<typeof Consumption>
-
   @computed()
   public get lastConsumption() {
-    return this.lastConsumptions?.[0]
+    return this.consumptions?.[0]
   }
 
   @beforeSave()
@@ -62,7 +59,7 @@ export default class Esp extends SoftDeletesBaseModel {
   @beforeFind()
   @beforeFetch()
   public static loadLastConsumption(query: ModelQueryBuilderContract<typeof Esp>) {
-    query.preload('lastConsumptions', builder => {
+    query.preload('consumptions', builder => {
       builder.whereNotExists(
         Database.from('consumptions as c')
           .select('*')

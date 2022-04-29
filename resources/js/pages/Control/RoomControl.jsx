@@ -1,33 +1,30 @@
-import { usePage } from '@inertiajs/inertia-react'
-import { Grid, Typography, IconButton } from '@mui/material'
+import { Inertia } from '@inertiajs/inertia'
+import { useForm, usePage } from '@inertiajs/inertia-react'
+import { Button, Grid, IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import NativeSelect from '@mui/material/NativeSelect'
 import Paper from '@mui/material/Paper'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import {
-  Chart as ChartJS,
   ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
 } from 'chart.js'
 import faker from 'faker'
 import React, { useState } from 'react'
-import { Doughnut, Line, Bar } from 'react-chartjs-2'
-import { MdAdd, MdRemove } from 'react-icons/md'
+import { Bar, Doughnut, Line } from 'react-chartjs-2'
+import { MdAdd, MdDelete, MdRemove } from 'react-icons/md'
 import { RiShutDownLine } from 'react-icons/ri'
-
 import { useStyles } from '../../components/Classes/Index.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-
-import { AccountTextField, ControlInput, ControlLabel } from '../../components/User/TextField.jsx'
-
-const ariaLabel = { 'aria-label': 'description' }
+import { ControlInput, ControlLabel } from '../../components/User/TextField.jsx'
 
 ChartJS.register(
   ArcElement,
@@ -155,21 +152,17 @@ const StyledIconButton = styled(IconButton)(() => ({
 }))
 
 const RoomControl = () => {
-  const { room, canEdit } = usePage().props
   const classes = useStyles()
+  const { props: pageProps, url } = usePage()
+  const { room, esps, canEdit } = pageProps
   const [temp, setTemp] = useState(20)
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const { data, setData, post, processing } = useForm({ espMac: 'default' })
 
-  const handleChangePage = newPage => {
-    setPage(newPage)
-  }
+  const handleAddEsp = async () => {
+    if (data.espMac === 'default') return
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value)
-    setPage(0)
+    await post(`${url}/add-esp`)
   }
-  const theme = useTheme()
 
   return (
     <MiniDrawer>
@@ -190,19 +183,19 @@ const RoomControl = () => {
               <Grid container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Id</ControlLabel>
-                  <ControlInput value={room.id} />
+                  <ControlInput value={room.id} readOnly={!canEdit} />
                 </FormGrid>
                 <FormGrid xl={2} item>
                   <ControlLabel variant='label'>Nome</ControlLabel>
-                  <ControlInput value={room.name} />
+                  <ControlInput value={room.name} readOnly={!canEdit} />
                 </FormGrid>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Bloco</ControlLabel>
-                  <ControlInput value={room.block} />
+                  <ControlInput value={room.block} readOnly={!canEdit} />
                 </FormGrid>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Piso</ControlLabel>
-                  <ControlInput value={room.floor} />
+                  <ControlInput value={room.floor} readOnly={!canEdit} />
                 </FormGrid>
               </Grid>
             </Box>
@@ -219,7 +212,7 @@ const RoomControl = () => {
                   <ControlLabel variant='label'>Temperatura</ControlLabel>
                   <ControlButton>
                     <StyledIconButton
-                      disabled={!room.lastStatus}
+                      disabled={!room.lastStatus || !canEdit}
                       onClick={() => {
                         setTemp(temp - 1)
                       }}
@@ -228,7 +221,7 @@ const RoomControl = () => {
                     </StyledIconButton>
                     {room.lastStatus ? `${temp} °C` : '--'}
                     <StyledIconButton
-                      disabled={!room.lastStatus}
+                      disabled={!room.lastStatus || !canEdit}
                       onClick={() => {
                         setTemp(temp + 1)
                       }}
@@ -239,13 +232,7 @@ const RoomControl = () => {
                 </FormGrid>
                 <FormGrid xl={1.5} item>
                   <ControlLabel variant='label'>Power</ControlLabel>
-                  <StyledSelect
-                    value={room.lastStatus ? 'on' : 'off'}
-                    inputProps={{
-                      name: 'age',
-                      id: 'uncontrolled-native',
-                    }}
-                  >
+                  <StyledSelect value={room.lastStatus ? 'on' : 'off'} disabled={!canEdit} onClick={console.log}>
                     <option value='on'>On</option>
                     <option value='off'>Off</option>
                   </StyledSelect>
@@ -262,18 +249,44 @@ const RoomControl = () => {
                 <Grid key={id} container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                   <FormGrid xl={3} item>
                     <ControlLabel variant='label'>ESP.</ControlLabel>
-                    <ControlInput value={`${name} - ${macAddress}`} />
+                    <ControlInput value={`${name} - ${macAddress}`} readOnly />
                   </FormGrid>
                   <FormGrid xl={3} item>
                     <ControlLabel variant='label'>Temp.</ControlLabel>
-                    <ControlInput value={lastConsumption.temperature} />
+                    <ControlInput value={lastConsumption.temperature} readOnly />
                   </FormGrid>
                   <FormGrid item xl={3}>
                     <ControlLabel variant='label'>Humidade</ControlLabel>
-                    <ControlInput value={lastConsumption.humidity} />
+                    <ControlInput value={lastConsumption.humidity} readOnly />
+                  </FormGrid>
+                  <FormGrid item xl={1.5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <IconButton onClick={() => Inertia.delete(`${url}/remove-esp/${id}`)}>
+                      <MdDelete />
+                    </IconButton>
                   </FormGrid>
                 </Grid>
               ))}
+              {canEdit && (
+                <FormGrid xl={3} item>
+                  <ControlLabel variant='label'>Adicionar ESP</ControlLabel>
+                  <StyledSelect value={data.espMac} onChange={e => setData({ espMac: e.target.value })}>
+                    <option value='default'>Selecione um MAC</option>
+                    {esps.map(({ id, macAddress }) => (
+                      <option key={id} value={macAddress}>
+                        {macAddress}
+                      </option>
+                    ))}
+                  </StyledSelect>
+                  <Button
+                    variant='contained'
+                    sx={{ margin: 1, padding: 1 }}
+                    onClick={handleAddEsp}
+                    disabled={data.espMac === 'default' || processing}
+                  >
+                    Adicionar
+                  </Button>
+                </FormGrid>
+              )}
             </Box>
           </Item>
         </Grid>
@@ -282,7 +295,7 @@ const RoomControl = () => {
             <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gasto Atual
             </Typography>
-            <Doughnut data={data} style={{ height: '44vh!important' }} />
+            <Doughnut data={doughnutData} style={{ height: '44vh!important' }} />
           </Item>
         </Grid>
         <Grid item xl={4} md={6}>
@@ -314,20 +327,24 @@ const RoomControl = () => {
             <BlockTitle variant='h4'>Controle Ar</BlockTitle>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               <StyledLabel>
+                <span>ID:</span>
+                <p>{room.id}</p>
+              </StyledLabel>
+              <StyledLabel>
                 <span>Nome:</span>
-                <p>Sala1</p>
+                <p>{room.name}</p>
               </StyledLabel>
               <StyledLabel>
                 <span>Bloco:</span>
-                <p>B1</p>
+                <p>{room.block}</p>
+              </StyledLabel>
+              <StyledLabel>
+                <span>Piso:</span>
+                <p>{room.floor}</p>
               </StyledLabel>
               <StyledLabel>
                 <span>Status:</span>
-                <p>Ativa</p>
-              </StyledLabel>
-              <StyledLabel>
-                <span>Humidade:</span>
-                <p>40%</p>
+                <p>{room.lastStatus}</p>
               </StyledLabel>
             </div>
             <MobileControlButton>
@@ -356,7 +373,7 @@ const RoomControl = () => {
   )
 }
 
-const data = {
+const doughnutData = {
   labels: ['Bloco A', 'Bloco B', 'Bloco C'],
   datasets: [
     {
