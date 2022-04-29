@@ -8,19 +8,22 @@ import CreateUserValidator from 'App/Validators/Web/Admin/CreateUserValidator'
 import UpdateUserValidator from 'App/Validators/Web/Admin/UpdateUserValidator'
 
 export default class UsersController {
-  public async index({ inertia }: HttpContextContract) {
+  public async index({ inertia, bouncer }: HttpContextContract) {
+    await bouncer.authorize('admin')
     const users = await User.all()
 
     return inertia.render('User/UserList', { users })
   }
 
-  public async create({ inertia }: HttpContextContract) {
+  public async create({ inertia, bouncer }: HttpContextContract) {
+    await bouncer.authorize('admin')
     const rooms = await Room.all()
 
     return inertia.render('User/UserRegister', { rooms })
   }
 
-  public async store({ request, response }: HttpContextContract) {
+  public async store({ request, response, bouncer }: HttpContextContract) {
+    await bouncer.authorize('admin')
     const { username, email, roomIds } = await request.validate(CreateUserValidator)
     const generatedPassword = generatePassword(12)
 
@@ -35,19 +38,22 @@ export default class UsersController {
     return response.redirect().toRoute('admin.users.index')
   }
 
-  public async show({ params, inertia }: HttpContextContract) {
+  public async show({ params, inertia, bouncer }: HttpContextContract) {
+    await bouncer.authorize('admin')
     const user = await User.findOrFail(params.id)
 
     return inertia.render('User/UserShow', { user })
   }
 
-  public async edit({ params, inertia }: HttpContextContract) {
+  public async edit({ params, inertia, bouncer }: HttpContextContract) {
+    await bouncer.authorize('admin')
     const user = await User.findOrFail(params.id)
 
     return inertia.render('User/UserEdit', { user })
   }
 
-  public async update({ params, request, response }: HttpContextContract) {
+  public async update({ params, request, response, bouncer }: HttpContextContract) {
+    await bouncer.authorize('admin')
     const user = await User.findOrFail(params.id)
     const { cover, ...data } = await request.validate(UpdateUserValidator)
 
@@ -61,7 +67,8 @@ export default class UsersController {
     return response.redirect().toRoute('admin.users.index')
   }
 
-  public async destroy({ params, response }: HttpContextContract) {
+  public async destroy({ params, response, bouncer }: HttpContextContract) {
+    await bouncer.authorize('admin')
     const user = await User.findOrFail(params.id)
 
     await user.softDelete()
