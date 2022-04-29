@@ -1,7 +1,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.get('/', 'HomeController.index')
+  Route.get('/', 'HomeController.index').as('home')
 
   Route.group(() => {
     Route.inertia('403', 'Error/403')
@@ -10,21 +10,22 @@ Route.group(() => {
   }).prefix('errors')
 
   Route.group(() => {
-    Route.get('login', 'AuthController.loginForm')
-    Route.post('login', 'AuthController.login')
-
-    Route.get('register', 'AuthController.registerForm')
-    Route.post('register', 'AuthController.register')
-  }).prefix('auth')
+    Route.get('login', 'AuthLoginController.create').as('login.create')
+    Route.post('login', 'AuthLoginController.store').as('login')
+    Route.get('register', 'AuthRegisterController.create').as('register.create')
+    Route.post('register', 'AuthRegisterController.store').as('register')
+  })
+    .prefix('auth')
+    .as('auth')
 
   Route.group(() => {
     Route.get('verify-email/:email', 'UsersController.verifyEmail').mustBeSigned().as('users.verifyEmail')
 
-    Route.get('recover-password', 'UsersController.recoverPasswordView')
-    Route.post('recover-password', 'UsersController.recoverPassword')
+    Route.get('recover-password', 'UserRecoveriesController.create')
+    Route.post('recover-password', 'UserRecoveriesController.store')
 
-    Route.get('change-password/:email', 'UsersController.changePasswordView').mustBeSigned().as('users.changePassword')
-    Route.post('change-password/:email', 'UsersController.changePassword').mustBeSigned()
+    Route.get('change-password/:email', 'UserRecoveriesController.edit').mustBeSigned().as('users.changePassword')
+    Route.post('change-password/:email', 'UserRecoveriesController.update').mustBeSigned()
   }).prefix('users')
 
   Route.group(() => {
@@ -33,22 +34,13 @@ Route.group(() => {
 
   Route.group(() => {
     Route.resource('/', 'RoomsController').only(['index'])
-    Route.group(() => {
-      Route.get('/', 'RoomControlsController.show').as('show')
-      Route.post('/add-esp', 'RoomControlsController.addEsp').as('addEsp')
-      Route.delete('/remove-esp/:espId', 'RoomControlsController.removeEsp')
-        .where('espId', Route.matchers.number())
-        .as('removeEsp')
-    })
-      .prefix('/control/:id')
-      .where('id', Route.matchers.number())
-      .as('control')
+    Route.resource('/control', 'RoomControlsController').only(['show'])
   })
     .prefix('rooms')
     .as('rooms')
 
   Route.group(() => {
-    Route.delete('logout', 'AuthController.logout').prefix('auth')
+    Route.delete('logout', 'AuthLoginController.destroy').prefix('auth').as('auth.logout')
 
     Route.group(() => {
       Route.get('me', 'UsersController.show').as('users.profile')
@@ -58,7 +50,12 @@ Route.group(() => {
 
     Route.group(() => {
       Route.resource('users', 'UsersController')
-      Route.resource('rooms', 'RoomsController').only(['store', 'update', 'destroy'])
+      Route.group(() => {
+        Route.resource('/', 'RoomsController').only(['store', 'update', 'destroy'])
+        Route.resource(':roomId/esps', 'RoomEspsController').only(['store', 'destroy'])
+      })
+        .prefix('rooms')
+        .as('rooms')
     })
       .namespace('App/Controllers/Http/Web/Admin')
       .prefix('admin')
