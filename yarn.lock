@@ -17,6 +17,14 @@
     slash "^3.0.0"
     term-size "^2.2.1"
 
+"@adonisjs/ally@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@adonisjs/ally/-/ally-4.1.3.tgz#7d7121681c8353640322ead3de45bc56cc636861"
+  integrity sha512-ws8H82vanC/HW0tfqdfapVjCapKxvMBv3xrpPZTc9XMvNQsb9wCe2/IHJa6wnlnBKyaqB9xGB1Ul2LlohHrz7g==
+  dependencies:
+    "@poppinss/oauth-client" "^4.0.2"
+    "@poppinss/utils" "^4.0.3"
+
 "@adonisjs/application@^5.2.4":
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/@adonisjs/application/-/application-5.2.4.tgz#b041a63cdb8333e3bad9c323b440ae05caaa142d"
@@ -1846,6 +1854,15 @@
     http-errors "^2.0.0"
     safe-buffer "5.2.1"
     uid-safe "2.1.5"
+
+"@poppinss/oauth-client@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@poppinss/oauth-client/-/oauth-client-4.0.2.tgz#82918d476c40a74e65f9397b657bb3306c54848b"
+  integrity sha512-xLP0oQCxhFQlOrLa3KOdJGIP8dGJKMJstaMDshB0f0L/w18oZXqQFUT2djFHO7XaxqpMyWyOUZKjEt0RGlw57Q==
+  dependencies:
+    "@types/luxon" "^2.3.1"
+    got "^11.8.2"
+    luxon "^2.3.1"
 
 "@poppinss/prompts@^2.0.2":
   version "2.0.2"
