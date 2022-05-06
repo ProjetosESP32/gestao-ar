@@ -45,7 +45,7 @@ Route.group(() => {
     }).prefix('users')
 
     Route.group(() => {
-      Route.resource('users', 'UsersController')
+      Route.resource('users', 'UsersController').except(['edit'])
       Route.resource('rooms', 'RoomsController').only(['store', 'update', 'destroy'])
       Route.resource('rooms/:roomId/esps', 'RoomEspsController').only(['store', 'destroy'])
     })

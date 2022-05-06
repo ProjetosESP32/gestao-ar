@@ -30,6 +30,7 @@ import Agenda from '../../components/Agenda'
 import { useStyles } from '../../components/Classes/Index.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import { MainTab, MainTabList, SecondaryTab, SecondaryTabPanel, SecondaryTabsList } from '../../components/User/Tabs'
+import { getMonthsByNumber } from '../../utils/getMonthsByNumber'
 
 const Home = () => {
   const classes = useStyles()
@@ -364,21 +365,5 @@ const columns = [
     format: value => (value ? 'Ligada' : 'Desligada'),
   },
 ]
-
-const getMonthsByNumber = num =>
-  [
-    'JANEIRO',
-    'FEVEREIRO',
-    'MARÇO',
-    'ABRIL',
-    'MAIO',
-    'JUNHO',
-    'JULHO',
-    'AGOSTO',
-    'SETEMBRO',
-    'OUTUBRO',
-    'NOVEMBRO',
-    'DEZEMBRO',
-  ][num]
 
 export default Home
