@@ -155,7 +155,7 @@ const StyledIconButton = styled(IconButton)(() => ({
 const RoomControl = () => {
   const classes = useStyles()
   const { props: pageProps, url } = usePage()
-  const { room, esps, canEdit, consumptionNow, dailyConsumption, monthConsumption } = pageProps
+  const { loggedUser, room, esps, canEdit, consumptionNow, dailyConsumption, monthConsumption } = pageProps
   const [temp, setTemp] = useState(20)
   const { data, setData, post, processing } = useForm({ espMac: 'default' })
   const lastStatus = room.esps.some(({ isOn }) => isOn)
@@ -215,19 +215,19 @@ const RoomControl = () => {
               <Grid container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Id</ControlLabel>
-                  <ControlInput value={room.id} readOnly={!canEdit} />
+                  <ControlInput value={room.id} readOnly />
                 </FormGrid>
                 <FormGrid xl={2} item>
                   <ControlLabel variant='label'>Nome</ControlLabel>
-                  <ControlInput value={room.name} readOnly={!canEdit} />
+                  <ControlInput value={room.name} readOnly />
                 </FormGrid>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Bloco</ControlLabel>
-                  <ControlInput value={room.block} readOnly={!canEdit} />
+                  <ControlInput value={room.block} readOnly />
                 </FormGrid>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Piso</ControlLabel>
-                  <ControlInput value={room.floor} readOnly={!canEdit} />
+                  <ControlInput value={room.floor} readOnly />
                 </FormGrid>
               </Grid>
             </Box>
@@ -291,14 +291,16 @@ const RoomControl = () => {
                     <ControlLabel variant='label'>Humidade</ControlLabel>
                     <ControlInput value={consumptions[0].humidity} readOnly />
                   </FormGrid>
-                  <FormGrid item xl={1.5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <IconButton onClick={() => Inertia.delete(`${url}/remove-esp/${id}`)}>
-                      <MdDelete />
-                    </IconButton>
-                  </FormGrid>
+                  {!!loggedUser?.isRoot && (
+                    <FormGrid item xl={1.5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <IconButton onClick={() => Inertia.delete(`${url}/remove-esp/${id}`)}>
+                        <MdDelete />
+                      </IconButton>
+                    </FormGrid>
+                  )}
                 </Grid>
               ))}
-              {canEdit && (
+              {!!loggedUser?.isRoot && (
                 <FormGrid xl={3} item>
                   <ControlLabel variant='label'>Adicionar ESP</ControlLabel>
                   <StyledSelect value={data.espMac} onChange={e => setData({ espMac: e.target.value })}>

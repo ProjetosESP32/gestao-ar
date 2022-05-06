@@ -139,7 +139,7 @@ const RoomsControl = () => {
                             <IconButton>
                               <MdFilterList />
                             </IconButton>
-                            {loggedUser?.isRoot && (
+                            {!!loggedUser?.isRoot && (
                               <IconButton onClick={handleOpen}>
                                 <MdAddBox />
                               </IconButton>
