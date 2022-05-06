@@ -14,6 +14,8 @@ Route.group(() => {
     Route.post('login', 'AuthLoginController.store').as('login')
     Route.get('register', 'AuthRegisterController.create').as('register.create')
     Route.post('register', 'AuthRegisterController.store').as('register')
+    Route.get('google/redirect', 'GoogleAuthController.create').as('google.redirect')
+    Route.get('google/callback', 'GoogleAuthController.store').as('google.callback')
   })
     .prefix('auth')
     .as('auth')
