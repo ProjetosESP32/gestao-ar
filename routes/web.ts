@@ -32,12 +32,8 @@ Route.group(() => {
     Route.inertia('gerir-notificacoes', 'Control/NotificationControl')
   }).prefix('control')
 
-  Route.group(() => {
-    Route.resource('/', 'RoomsController').only(['index'])
-    Route.resource('/control', 'RoomControlsController').only(['show'])
-  })
-    .prefix('rooms')
-    .as('rooms')
+  Route.resource('rooms', 'RoomsController').only(['index'])
+  Route.resource('rooms/control', 'RoomControlsController').only(['show'])
 
   Route.group(() => {
     Route.delete('logout', 'AuthLoginController.destroy').prefix('auth').as('auth.logout')
@@ -50,12 +46,8 @@ Route.group(() => {
 
     Route.group(() => {
       Route.resource('users', 'UsersController')
-      Route.group(() => {
-        Route.resource('/', 'RoomsController').only(['store', 'update', 'destroy'])
-        Route.resource(':roomId/esps', 'RoomEspsController').only(['store', 'destroy'])
-      })
-        .prefix('rooms')
-        .as('rooms')
+      Route.resource('rooms', 'RoomsController').only(['store', 'update', 'destroy'])
+      Route.resource('rooms/:roomId/esps', 'RoomEspsController').only(['store', 'destroy'])
     })
       .namespace('App/Controllers/Http/Web/Admin')
       .prefix('admin')
