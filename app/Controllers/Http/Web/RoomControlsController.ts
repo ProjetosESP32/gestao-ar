@@ -71,7 +71,7 @@ export default class RoomControlsController {
       const isUserRelatedToRoom = await user
         ?.related('rooms')
         .query()
-        .where('id', params.id)
+        .where('rooms.id', params.id)
         .useTransaction(client)
         .getCount()
       const canEdit = !!isUserRelatedToRoom
