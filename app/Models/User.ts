@@ -1,14 +1,6 @@
 import { attachment, AttachmentContract } from '@ioc:Adonis/Addons/AttachmentLite'
 import Hash from '@ioc:Adonis/Core/Hash'
-import {
-  beforeFetch,
-  beforeFind,
-  beforeSave,
-  column,
-  ManyToMany,
-  manyToMany,
-  ModelQueryBuilderContract,
-} from '@ioc:Adonis/Lucid/Orm'
+import { beforeSave, column, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Room from './Room'
 import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
@@ -52,11 +44,5 @@ export default class User extends SoftDeletesBaseModel {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
     }
-  }
-
-  @beforeFind()
-  @beforeFetch()
-  public static loadRooms(query: ModelQueryBuilderContract<typeof User>) {
-    query.preload('rooms')
   }
 }

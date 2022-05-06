@@ -17,7 +17,7 @@ import {
   Title,
   Tooltip,
 } from 'chart.js'
-import faker from 'faker'
+import { DateTime } from 'luxon'
 import React, { useState } from 'react'
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import { MdAdd, MdDelete, MdRemove } from 'react-icons/md'
@@ -25,6 +25,7 @@ import { RiShutDownLine } from 'react-icons/ri'
 import { useStyles } from '../../components/Classes/Index.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import { ControlInput, ControlLabel } from '../../components/User/TextField.jsx'
+import { getMonthsByNumber } from '../../utils/getMonthsByNumber'
 
 ChartJS.register(
   ArcElement,
@@ -154,14 +155,45 @@ const StyledIconButton = styled(IconButton)(() => ({
 const RoomControl = () => {
   const classes = useStyles()
   const { props: pageProps, url } = usePage()
-  const { room, esps, canEdit } = pageProps
+  const { room, esps, canEdit, consumptionNow, dailyConsumption, monthConsumption } = pageProps
   const [temp, setTemp] = useState(20)
   const { data, setData, post, processing } = useForm({ espMac: 'default' })
+  const lastStatus = room.esps.some(({ isOn }) => isOn)
+
+  const doughnutData = {
+    labels: ['Gasto'],
+    datasets: [{ data: [consumptionNow.totalPotency], backgroundColor: 'rgba(53, 162, 235)' }],
+  }
+
+  const labels = dailyConsumption.map(({ createdAt }) => DateTime.fromISO(createdAt).toFormat('dd'))
+
+  const lineData = {
+    labels,
+    datasets: [
+      {
+        label: 'Watts',
+        data: dailyConsumption.map(({ totalPotency }) => totalPotency),
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235)',
+      },
+    ],
+  }
+
+  const barData = {
+    labels: monthConsumption.map(({ month }) => getMonthsByNumber(month - 1)),
+    datasets: [
+      {
+        label: 'Consumo (Watts)',
+        data: monthConsumption.map(({ totalPotency }) => totalPotency),
+        backgroundColor: ['#005b9f', '#0288d1', '#c3fdff', '#36a1ea', '#005b9f'],
+      },
+    ],
+  }
 
   const handleAddEsp = async () => {
     if (data.espMac === 'default') return
 
-    await post(`${url}/add-esp`)
+    await post(`rooms/${room.id}/esps`)
   }
 
   return (
@@ -212,16 +244,16 @@ const RoomControl = () => {
                   <ControlLabel variant='label'>Temperatura</ControlLabel>
                   <ControlButton>
                     <StyledIconButton
-                      disabled={!room.lastStatus || !canEdit}
+                      disabled={!lastStatus || !canEdit}
                       onClick={() => {
                         setTemp(temp - 1)
                       }}
                     >
                       <MdRemove />
                     </StyledIconButton>
-                    {room.lastStatus ? `${temp} °C` : '--'}
+                    {lastStatus ? `${temp} °C` : '--'}
                     <StyledIconButton
-                      disabled={!room.lastStatus || !canEdit}
+                      disabled={!lastStatus || !canEdit}
                       onClick={() => {
                         setTemp(temp + 1)
                       }}
@@ -232,7 +264,7 @@ const RoomControl = () => {
                 </FormGrid>
                 <FormGrid xl={1.5} item>
                   <ControlLabel variant='label'>Power</ControlLabel>
-                  <StyledSelect value={room.lastStatus ? 'on' : 'off'} disabled={!canEdit} onClick={console.log}>
+                  <StyledSelect value={lastStatus ? 'on' : 'off'} disabled={!canEdit} onClick={console.log}>
                     <option value='on'>On</option>
                     <option value='off'>Off</option>
                   </StyledSelect>
@@ -245,7 +277,7 @@ const RoomControl = () => {
           <Item style={{ height: 'max-content', padding: '2rem' }}>
             <BlockTitle variant='h4'>Status</BlockTitle>
             <Box component='form'>
-              {room.esps.map(({ id, name, macAddress, lastConsumption }) => (
+              {room.esps.map(({ id, name, macAddress, consumptions }) => (
                 <Grid key={id} container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                   <FormGrid xl={3} item>
                     <ControlLabel variant='label'>ESP.</ControlLabel>
@@ -253,11 +285,11 @@ const RoomControl = () => {
                   </FormGrid>
                   <FormGrid xl={3} item>
                     <ControlLabel variant='label'>Temp.</ControlLabel>
-                    <ControlInput value={lastConsumption.temperature} readOnly />
+                    <ControlInput value={consumptions[0].temperature} readOnly />
                   </FormGrid>
                   <FormGrid item xl={3}>
                     <ControlLabel variant='label'>Humidade</ControlLabel>
-                    <ControlInput value={lastConsumption.humidity} readOnly />
+                    <ControlInput value={consumptions[0].humidity} readOnly />
                   </FormGrid>
                   <FormGrid item xl={1.5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <IconButton onClick={() => Inertia.delete(`${url}/remove-esp/${id}`)}>
@@ -344,7 +376,7 @@ const RoomControl = () => {
               </StyledLabel>
               <StyledLabel>
                 <span>Status:</span>
-                <p>{room.lastStatus}</p>
+                <p>{lastStatus}</p>
               </StyledLabel>
             </div>
             <MobileControlButton>
@@ -373,19 +405,6 @@ const RoomControl = () => {
   )
 }
 
-const doughnutData = {
-  labels: ['Bloco A', 'Bloco B', 'Bloco C'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3],
-      backgroundColor: ['#36a1ea', '#005b9f', '#0288d1'],
-    },
-  ],
-}
-
-const labels = ['00h', '02h', '04h', '06h', '08h', '10h', '12h', '14h', '16h', '18h', '20h', '22h', '23:59h']
-
 const lineOptions = {
   responsive: true,
   plugins: {
@@ -405,18 +424,6 @@ const lineOptions = {
       },
     },
   },
-}
-
-const lineData = {
-  labels,
-  datasets: [
-    {
-      label: 'Watts',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 50 })),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235)',
-    },
-  ],
 }
 
 const barOptions = {
@@ -441,30 +448,6 @@ const barOptions = {
       },
     },
   },
-}
-
-const barData = {
-  labels: [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-  ],
-  datasets: [
-    {
-      label: 'Consumo em Watt',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: ['#005b9f', '#0288d1', '#c3fdff', '#36a1ea', '#005b9f'],
-    },
-  ],
 }
 
 export default RoomControl

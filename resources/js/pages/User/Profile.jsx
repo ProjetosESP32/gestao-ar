@@ -12,7 +12,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import React, { useState } from 'react'
 import { useStyles } from '../../components/Classes/Index.jsx'
@@ -279,7 +278,7 @@ const UserAvatar = styled(Avatar)({
   margin: 'auto',
 })
 
-const StyledTypography = styled(Typography)({
+/* const StyledTypography = styled(Typography)({
   display: 'block',
   marginTop: '1rem',
   fontSize: '1.1rem',
@@ -287,7 +286,7 @@ const StyledTypography = styled(Typography)({
     width: '1.2rem',
     height: '1.2rem',
   },
-})
+}) */
 
 const columns = [
   { id: 'name', label: 'Sala', minWidth: 170 },
@@ -296,12 +295,6 @@ const columns = [
     id: 'floor',
     label: 'Piso',
     minWidth: 50,
-    align: 'right',
-  },
-  {
-    id: 'lastStatus',
-    label: 'Status Atual',
-    minWidth: 170,
     align: 'right',
   },
 ]

@@ -5,7 +5,10 @@ import { updatePassword } from 'App/Services/Users/updatePassword'
 import { updateUser } from 'App/Services/Users/updateUser'
 
 export default class UsersController {
-  public async show({ inertia }: HttpContextContract) {
+  public async show({ inertia, auth }: HttpContextContract) {
+    const user = auth.use('web').user!
+    await user.load('rooms')
+
     return inertia.render('User/Profile')
   }
 

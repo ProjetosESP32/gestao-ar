@@ -45,13 +45,6 @@ export default class UsersController {
     return inertia.render('User/UserShow', { user })
   }
 
-  public async edit({ params, inertia, bouncer }: HttpContextContract) {
-    await bouncer.authorize('admin')
-    const user = await User.findOrFail(params.id)
-
-    return inertia.render('User/UserEdit', { user })
-  }
-
   public async update({ params, request, response, bouncer }: HttpContextContract) {
     await bouncer.authorize('admin')
     const user = await User.findOrFail(params.id)
