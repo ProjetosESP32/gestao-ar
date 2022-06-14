@@ -1,33 +1,31 @@
-import { usePage } from '@inertiajs/inertia-react'
-import { Grid, Typography, IconButton } from '@mui/material'
+import { Inertia } from '@inertiajs/inertia'
+import { useForm, usePage } from '@inertiajs/inertia-react'
+import { Button, Grid, IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import NativeSelect from '@mui/material/NativeSelect'
 import Paper from '@mui/material/Paper'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import {
-  Chart as ChartJS,
   ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
 } from 'chart.js'
-import faker from 'faker'
+import { DateTime } from 'luxon'
 import React, { useState } from 'react'
-import { Doughnut, Line, Bar } from 'react-chartjs-2'
-import { MdAdd, MdRemove } from 'react-icons/md'
+import { Bar, Doughnut, Line } from 'react-chartjs-2'
+import { MdAdd, MdDelete, MdRemove } from 'react-icons/md'
 import { RiShutDownLine } from 'react-icons/ri'
-
 import { useStyles } from '../../components/Classes/Index.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-
-import { AccountTextField, ControlInput, ControlLabel } from '../../components/User/TextField.jsx'
-
-const ariaLabel = { 'aria-label': 'description' }
+import { ControlInput, ControlLabel } from '../../components/User/TextField.jsx'
+import { getMonthsByNumber } from '../../utils/getMonthsByNumber'
 
 ChartJS.register(
   ArcElement,
@@ -155,21 +153,48 @@ const StyledIconButton = styled(IconButton)(() => ({
 }))
 
 const RoomControl = () => {
-  const { room, canEdit } = usePage().props
   const classes = useStyles()
+  const { props: pageProps, url } = usePage()
+  const { loggedUser, room, esps, canEdit, consumptionNow, dailyConsumption, monthConsumption } = pageProps
   const [temp, setTemp] = useState(20)
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const { data, setData, post, processing } = useForm({ espMac: 'default' })
+  const lastStatus = room.esps.some(({ isOn }) => isOn)
 
-  const handleChangePage = newPage => {
-    setPage(newPage)
+  const doughnutData = {
+    labels: ['Gasto'],
+    datasets: [{ data: [consumptionNow.totalPotency], backgroundColor: 'rgba(53, 162, 235)' }],
   }
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value)
-    setPage(0)
+  const labels = dailyConsumption.map(({ createdAt }) => DateTime.fromISO(createdAt).toFormat('dd'))
+
+  const lineData = {
+    labels,
+    datasets: [
+      {
+        label: 'Watts',
+        data: dailyConsumption.map(({ totalPotency }) => totalPotency),
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235)',
+      },
+    ],
   }
-  const theme = useTheme()
+
+  const barData = {
+    labels: monthConsumption.map(({ month }) => getMonthsByNumber(month - 1)),
+    datasets: [
+      {
+        label: 'Consumo (Watts)',
+        data: monthConsumption.map(({ totalPotency }) => totalPotency),
+        backgroundColor: ['#005b9f', '#0288d1', '#c3fdff', '#36a1ea', '#005b9f'],
+      },
+    ],
+  }
+
+  const handleAddEsp = async () => {
+    if (data.espMac === 'default') return
+
+    await post(`rooms/${room.id}/esps`)
+  }
 
   return (
     <MiniDrawer>
@@ -190,19 +215,19 @@ const RoomControl = () => {
               <Grid container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Id</ControlLabel>
-                  <ControlInput value={room.id} />
+                  <ControlInput value={room.id} readOnly />
                 </FormGrid>
                 <FormGrid xl={2} item>
                   <ControlLabel variant='label'>Nome</ControlLabel>
-                  <ControlInput value={room.name} />
+                  <ControlInput value={room.name} readOnly />
                 </FormGrid>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Bloco</ControlLabel>
-                  <ControlInput value={room.block} />
+                  <ControlInput value={room.block} readOnly />
                 </FormGrid>
                 <FormGrid item xl={2}>
                   <ControlLabel variant='label'>Piso</ControlLabel>
-                  <ControlInput value={room.floor} />
+                  <ControlInput value={room.floor} readOnly />
                 </FormGrid>
               </Grid>
             </Box>
@@ -219,16 +244,16 @@ const RoomControl = () => {
                   <ControlLabel variant='label'>Temperatura</ControlLabel>
                   <ControlButton>
                     <StyledIconButton
-                      disabled={!room.lastStatus}
+                      disabled={!lastStatus || !canEdit}
                       onClick={() => {
                         setTemp(temp - 1)
                       }}
                     >
                       <MdRemove />
                     </StyledIconButton>
-                    {room.lastStatus ? `${temp} °C` : '--'}
+                    {lastStatus ? `${temp} °C` : '--'}
                     <StyledIconButton
-                      disabled={!room.lastStatus}
+                      disabled={!lastStatus || !canEdit}
                       onClick={() => {
                         setTemp(temp + 1)
                       }}
@@ -239,13 +264,7 @@ const RoomControl = () => {
                 </FormGrid>
                 <FormGrid xl={1.5} item>
                   <ControlLabel variant='label'>Power</ControlLabel>
-                  <StyledSelect
-                    value={room.lastStatus ? 'on' : 'off'}
-                    inputProps={{
-                      name: 'age',
-                      id: 'uncontrolled-native',
-                    }}
-                  >
+                  <StyledSelect value={lastStatus ? 'on' : 'off'} disabled={!canEdit} onClick={console.log}>
                     <option value='on'>On</option>
                     <option value='off'>Off</option>
                   </StyledSelect>
@@ -258,22 +277,50 @@ const RoomControl = () => {
           <Item style={{ height: 'max-content', padding: '2rem' }}>
             <BlockTitle variant='h4'>Status</BlockTitle>
             <Box component='form'>
-              {room.esps.map(({ id, name, macAddress, lastConsumption }) => (
+              {room.esps.map(({ id, name, macAddress, consumptions }) => (
                 <Grid key={id} container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                   <FormGrid xl={3} item>
                     <ControlLabel variant='label'>ESP.</ControlLabel>
-                    <ControlInput value={`${name} - ${macAddress}`} />
+                    <ControlInput value={`${name} - ${macAddress}`} readOnly />
                   </FormGrid>
                   <FormGrid xl={3} item>
                     <ControlLabel variant='label'>Temp.</ControlLabel>
-                    <ControlInput value={lastConsumption.temperature} />
+                    <ControlInput value={consumptions[0].temperature} readOnly />
                   </FormGrid>
                   <FormGrid item xl={3}>
                     <ControlLabel variant='label'>Humidade</ControlLabel>
-                    <ControlInput value={lastConsumption.humidity} />
+                    <ControlInput value={consumptions[0].humidity} readOnly />
                   </FormGrid>
+                  {!!loggedUser?.isRoot && (
+                    <FormGrid item xl={1.5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <IconButton onClick={() => Inertia.delete(`${url}/remove-esp/${id}`)}>
+                        <MdDelete />
+                      </IconButton>
+                    </FormGrid>
+                  )}
                 </Grid>
               ))}
+              {!!loggedUser?.isRoot && (
+                <FormGrid xl={3} item>
+                  <ControlLabel variant='label'>Adicionar ESP</ControlLabel>
+                  <StyledSelect value={data.espMac} onChange={e => setData({ espMac: e.target.value })}>
+                    <option value='default'>Selecione um MAC</option>
+                    {esps.map(({ id, macAddress }) => (
+                      <option key={id} value={macAddress}>
+                        {macAddress}
+                      </option>
+                    ))}
+                  </StyledSelect>
+                  <Button
+                    variant='contained'
+                    sx={{ margin: 1, padding: 1 }}
+                    onClick={handleAddEsp}
+                    disabled={data.espMac === 'default' || processing}
+                  >
+                    Adicionar
+                  </Button>
+                </FormGrid>
+              )}
             </Box>
           </Item>
         </Grid>
@@ -282,7 +329,7 @@ const RoomControl = () => {
             <Typography style={{ fontWeight: 'bolder', margin: '1rem auto' }} variant='h4'>
               Gasto Atual
             </Typography>
-            <Doughnut data={data} style={{ height: '44vh!important' }} />
+            <Doughnut data={doughnutData} style={{ height: '44vh!important' }} />
           </Item>
         </Grid>
         <Grid item xl={4} md={6}>
@@ -314,20 +361,24 @@ const RoomControl = () => {
             <BlockTitle variant='h4'>Controle Ar</BlockTitle>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               <StyledLabel>
+                <span>ID:</span>
+                <p>{room.id}</p>
+              </StyledLabel>
+              <StyledLabel>
                 <span>Nome:</span>
-                <p>Sala1</p>
+                <p>{room.name}</p>
               </StyledLabel>
               <StyledLabel>
                 <span>Bloco:</span>
-                <p>B1</p>
+                <p>{room.block}</p>
+              </StyledLabel>
+              <StyledLabel>
+                <span>Piso:</span>
+                <p>{room.floor}</p>
               </StyledLabel>
               <StyledLabel>
                 <span>Status:</span>
-                <p>Ativa</p>
-              </StyledLabel>
-              <StyledLabel>
-                <span>Humidade:</span>
-                <p>40%</p>
+                <p>{lastStatus}</p>
               </StyledLabel>
             </div>
             <MobileControlButton>
@@ -356,19 +407,6 @@ const RoomControl = () => {
   )
 }
 
-const data = {
-  labels: ['Bloco A', 'Bloco B', 'Bloco C'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3],
-      backgroundColor: ['#36a1ea', '#005b9f', '#0288d1'],
-    },
-  ],
-}
-
-const labels = ['00h', '02h', '04h', '06h', '08h', '10h', '12h', '14h', '16h', '18h', '20h', '22h', '23:59h']
-
 const lineOptions = {
   responsive: true,
   plugins: {
@@ -388,18 +426,6 @@ const lineOptions = {
       },
     },
   },
-}
-
-const lineData = {
-  labels,
-  datasets: [
-    {
-      label: 'Watts',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 50 })),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235)',
-    },
-  ],
 }
 
 const barOptions = {
@@ -424,30 +450,6 @@ const barOptions = {
       },
     },
   },
-}
-
-const barData = {
-  labels: [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-  ],
-  datasets: [
-    {
-      label: 'Consumo em Watt',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: ['#005b9f', '#0288d1', '#c3fdff', '#36a1ea', '#005b9f'],
-    },
-  ],
 }
 
 export default RoomControl

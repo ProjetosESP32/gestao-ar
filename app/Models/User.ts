@@ -27,6 +27,9 @@ export default class User extends SoftDeletesBaseModel {
   @attachment({ folder: 'users/cover', preComputeUrl: true })
   public cover?: AttachmentContract | null
 
+  @column()
+  public googleId?: string | null
+
   @column.dateTime()
   public emailVerifiedAt?: DateTime | null
 
@@ -36,7 +39,7 @@ export default class User extends SoftDeletesBaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @manyToMany(() => Room)
+  @manyToMany(() => Room, { pivotTable: 'users_rooms' })
   public rooms: ManyToMany<typeof Room>
 
   @beforeSave()

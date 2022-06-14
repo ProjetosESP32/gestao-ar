@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/inertia-react'
+import { useForm, usePage } from '@inertiajs/inertia-react'
 import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
@@ -70,15 +70,23 @@ const HiddenTab = styled(Tab)({
 })
 
 const UserRegister = () => {
+  const classes = useStyles()
+  const { rooms } = usePage().props
   const { data, setData, errors, post } = useForm({
     username: '',
     email: '',
+    roomIds: [],
   })
   const [value, setValue] = useState(0)
 
-  const handleChange = async (_, newValue) => {
-    await post('/admin/users')
-    setValue(newValue)
+  const handleNext = (_, newValue) => setValue(newValue)
+
+  const handleChange = async () => {
+    await post('/admin/users', {
+      onError: () => {
+        setValue(0)
+      },
+    })
   }
 
   const handleUserDataChange = e => {
@@ -86,7 +94,10 @@ const UserRegister = () => {
 
     setData({ ...data, [name]: value })
   }
-  const classes = useStyles()
+
+  const handleRoomChange = roomIds => {
+    setData({ ...data, roomIds })
+  }
 
   return (
     <MiniDrawer>
@@ -146,7 +157,7 @@ const UserRegister = () => {
                       </Grid>
                     </Grid>
 
-                    <StyledTabs value={value} onChange={handleChange}>
+                    <StyledTabs value={value} onChange={handleNext}>
                       <HiddenTab {...a11yProps(0)} />
                       <StyledTab label='Próximo' {...a11yProps(1)} />
                     </StyledTabs>
@@ -160,10 +171,19 @@ const UserRegister = () => {
                   <UserTitle variant='p'>Seleção de Salas</UserTitle>
                 </div>
                 <div style={{ height: 400, width: '100%' }}>
-                  <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />
+                  <DataGrid
+                    rows={rooms}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    checkboxSelection
+                    onSelectionModelChange={handleRoomChange}
+                  />
                 </div>
                 <div style={{ marginTop: '1rem' }}>
-                  <AccountButton>Salvar</AccountButton>
+                  <AccountButton onClick={handleChange} disabled={data.roomIds === 0}>
+                    Salvar
+                  </AccountButton>
                 </div>
               </Item>
             </TabPanel>
@@ -180,34 +200,19 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 }
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  }
-}
+const a11yProps = index => ({
+  id: `simple-tab-${index}`,
+  'aria-controls': `simple-tabpanel-${index}`,
+})
 
 const columns = [
-  // { field: 'id', headerName: 'ID', width: 70 },
   { field: 'room', headerName: 'Sala', minWidth: 130 },
   { field: 'block', headerName: 'Bloco', minWidth: 130 },
   {
-    field: 'status',
-    headerName: 'Status Atual',
-    minWidth: 190,
+    field: 'floor',
+    headerName: 'Piso',
+    minWidth: 130,
   },
-]
-
-const rows = [
-  { id: 1, room: 'Sala 1', block: 'Bloco 1', status: 'Ativa' },
-  { id: 2, room: 'Sala 2', block: 'Bloco 1', status: 'Ativa' },
-  { id: 3, room: 'Sala 3', block: 'Bloco 1', status: 'Ativa' },
-  { id: 4, room: 'Sala 4', block: 'Bloco 1', status: 'Ativa' },
-  { id: 5, room: 'Sala 5', block: 'Bloco 1', status: 'Ativa' },
-  { id: 6, room: 'Sala 6', block: 'Bloco 1', status: 'Ativa' },
-  { id: 7, room: 'Sala 7', block: 'Bloco 1', status: 'Ativa' },
-  { id: 8, room: 'Sala 8', block: 'Bloco 1', status: 'Ativa' },
-  { id: 9, room: 'Sala 9', block: 'Bloco 1', status: 'Ativa' },
 ]
 
 export default UserRegister

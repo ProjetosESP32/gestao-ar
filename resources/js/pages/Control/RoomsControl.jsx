@@ -1,3 +1,4 @@
+import { Inertia } from '@inertiajs/inertia'
 import { usePage } from '@inertiajs/inertia-react'
 import { Grid, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -16,10 +17,11 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import * as PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { MdAddBox, MdDelete, MdFilterList } from 'react-icons/md'
-import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
-import UserTitle from '../../components/User/Title.jsx'
-import { NewRoomModal } from './NewRoomModal'
+import { MdAddBox, MdFilterList, MdRemoveRedEye, MdEdit } from 'react-icons/md'
+import MiniDrawer from '../../components/MiniDrawer/Index'
+import { NewRoomModal } from '../../components/NewRoomModal'
+import { RoomModal } from '../../components/RoomModal'
+import UserTitle from '../../components/User/Title'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -37,14 +39,15 @@ const RoomsControl = () => {
   const [dense, setDense] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'))
+  const [editModalOpen, setEditModalOpen] = useState(false)
   const roomCount = rooms.length
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const handleChange = newValue => {
-    setValue(newValue)
+  const handleEditModalOpen = () => setEditModalOpen(true)
+  const handleEditModalClose = () => {
+    setSelected([])
+    setEditModalOpen(false)
   }
 
   const handleRequestSort = (_, property) => {
@@ -88,10 +91,6 @@ const RoomsControl = () => {
     setPage(0)
   }
 
-  const handleChangeDense = event => {
-    setDense(event.target.checked)
-  }
-
   const isSelected = name => selected.indexOf(name) !== -1
 
   // Evita um salto de layout ao chegar à última página com linhas vazias
@@ -101,6 +100,7 @@ const RoomsControl = () => {
     <MiniDrawer>
       <Grid container spacing={2} columns={{ xl: 11, lg: 11, md: 11 }} justifyContent='center'>
         <NewRoomModal isOpen={open} handleClose={handleClose} />
+        <RoomModal isOpen={editModalOpen} handleClose={handleEditModalClose} roomId={selected[0]} />
         <Grid item xl={8} md={11}>
           <div style={{ margin: '0.5rem 0' }}>
             <UserTitle variant='p'>Controle de Salas</UserTitle>
@@ -125,35 +125,43 @@ const RoomsControl = () => {
                         {selected.length} selected
                       </Typography>
                     ) : (
-                      <Typography
-                        sx={{ flex: '1 1 100%', textAlign: 'left', fontWeight: 'bold' }}
-                        variant='h6'
-                        id='tableTitle'
-                        component='div'
-                      >
-                        Salas
-                      </Typography>
+                      <>
+                        <Typography
+                          sx={{ flex: '1 1 100%', textAlign: 'left', fontWeight: 'bold' }}
+                          variant='h6'
+                          id='tableTitle'
+                          component='div'
+                        >
+                          Salas
+                        </Typography>
+                        <Tooltip title='Filter list'>
+                          <>
+                            <IconButton>
+                              <MdFilterList />
+                            </IconButton>
+                            {!!loggedUser?.isRoot && (
+                              <IconButton onClick={handleOpen}>
+                                <MdAddBox />
+                              </IconButton>
+                            )}
+                          </>
+                        </Tooltip>
+                      </>
                     )}
 
-                    {selected.length > 0 ? (
-                      <Tooltip title='Delete'>
-                        <IconButton>
-                          <MdDelete />
-                        </IconButton>
-                      </Tooltip>
-                    ) : (
-                      <Tooltip title='Filter list'>
-                        <>
-                          <IconButton>
-                            <MdFilterList />
+                    {selected.length === 1 && (
+                      <>
+                        <Tooltip title='See'>
+                          <IconButton onClick={() => Inertia.visit(`/rooms/control/${selected[0]}`)}>
+                            <MdRemoveRedEye />
                           </IconButton>
-                          {loggedUser?.isRoot && (
-                            <IconButton onClick={handleOpen}>
-                              <MdAddBox />
-                            </IconButton>
-                          )}
-                        </>
-                      </Tooltip>
+                        </Tooltip>
+                        <Tooltip title='See'>
+                          <IconButton onClick={handleEditModalOpen}>
+                            <MdEdit />
+                          </IconButton>
+                        </Tooltip>
+                      </>
                     )}
                   </Toolbar>
 
@@ -246,14 +254,13 @@ const EnhancedTableHead = ({ onSelectAllClick, numSelected, rowCount }) => (
           indeterminate={numSelected > 0 && numSelected < rowCount}
           checked={rowCount > 0 && numSelected === rowCount}
           onChange={onSelectAllClick}
-          inputProps={{
-            'aria-label': 'select all desserts',
-          }}
         />
       </TableCell>
 
       {columns.map(headCell => (
-        <TableCell key={headCell.field}>{headCell.headerName}</TableCell>
+        <TableCell key={headCell.field} align={headCell.align}>
+          {headCell.headerName}
+        </TableCell>
       ))}
     </TableRow>
   </TableHead>

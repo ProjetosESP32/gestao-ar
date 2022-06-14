@@ -7,6 +7,7 @@ export default class CreateUserValidator {
   public schema = schema.create({
     username: schema.string({ trim: true }, [rules.unique({ table: 'users', column: 'username' })]),
     email: schema.string({}, [rules.email(), rules.unique({ table: 'users', column: 'email' })]),
+    roomIds: schema.array().members(schema.number()),
   })
 
   public messages = {
@@ -15,5 +16,7 @@ export default class CreateUserValidator {
     'email.required': 'O campo email é obrigatório',
     'email.email': 'O campo email deve ser um email válido',
     'email.unique': 'Este email já está em uso',
+    'roomIds.required': 'O campo sala é obrigatório',
+    'roomIds.array': 'O campo sala deve ser uma lista de números',
   }
 }

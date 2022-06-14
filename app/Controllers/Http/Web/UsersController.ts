@@ -1,13 +1,14 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { DateTime } from 'luxon'
 import User from 'App/Models/User'
-import { recoverPassword } from 'App/Services/Users/recoverPassword'
 import { updatePassword } from 'App/Services/Users/updatePassword'
 import { updateUser } from 'App/Services/Users/updateUser'
-import ResetPasswordValidator from 'App/Validators/ResetPasswordValidator'
 
 export default class UsersController {
-  public async show({ inertia }: HttpContextContract) {
+  public async show({ inertia, auth }: HttpContextContract) {
+    const user = auth.use('web').user!
+    await user.load('rooms')
+
     return inertia.render('User/Profile')
   }
 
@@ -30,32 +31,5 @@ export default class UsersController {
     await user.save()
 
     return inertia.render('User/VerifyEmail')
-  }
-
-  public async recoverPasswordView({ inertia }: HttpContextContract) {
-    return inertia.render('User/RecoverPassword')
-  }
-
-  public async recoverPassword(context: HttpContextContract) {
-    await recoverPassword(context)
-
-    return context.response.redirect('/auth/login')
-  }
-
-  public async changePasswordView({ inertia }: HttpContextContract) {
-    return inertia.render('User/ChangePassword')
-  }
-
-  public async changePassword({ auth, request, params, response }: HttpContextContract) {
-    await auth.use('web').logout(false)
-
-    const { password } = await request.validate(ResetPasswordValidator)
-    const user = await User.findByOrFail('email', params.email)
-
-    user.password = password
-
-    await user.save()
-
-    return response.redirect('/auth/login')
   }
 }

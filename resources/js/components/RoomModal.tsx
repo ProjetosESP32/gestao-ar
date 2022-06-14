@@ -1,33 +1,41 @@
-import { Page, PageProps } from '@inertiajs/inertia'
+import { Inertia, Page, PageProps } from '@inertiajs/inertia'
 import { useForm, usePage } from '@inertiajs/inertia-react'
 import { Box, Grid, Modal } from '@mui/material'
-import React, { FC, useMemo } from 'react'
-import { AccountButton } from '../../components/User/Buttons'
-import { ControlInput, ControlLabel } from '../../components/User/TextField'
-import UserTitle from '../../components/User/Title'
+import React, { FC, useEffect } from 'react'
+import { AccountButton } from './User/Buttons'
+import { ControlInput, ControlLabel } from './User/TextField'
+import UserTitle from './User/Title'
 
-interface NewRoomModalProps {
+interface RoomModalProps {
+  roomId: number
   isOpen: boolean
   handleClose: () => void
 }
 
-interface NewRoomPageProp {
-  rooms: {
-    name: string
-    block: string
-    floor: string
-  }[]
+interface Room {
+  id: number
+  name: string
+  block: string
+  floor: string
 }
 
-type NewRoomPage = Page<PageProps & NewRoomPageProp>
+interface RoomPageProp {
+  rooms: Room[]
+}
 
-export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, handleClose }) => {
-  const { data, errors, post, processing, setData } = useForm({
+type RoomPage = Page<PageProps & RoomPageProp>
+
+export const RoomModal: FC<RoomModalProps> = ({ isOpen, handleClose, roomId }) => {
+  const { rooms } = usePage<RoomPage>().props
+  const { data, put, processing, setData } = useForm({
+    id: roomId,
     name: '',
     block: '',
     floor: '',
   })
-  const { rooms } = usePage<NewRoomPage>().props
+
+  const floors = [...new Set(rooms.map(room => room.floor))]
+  const blocks = [...new Set(rooms.map(room => room.block))]
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -40,20 +48,24 @@ export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, handleClose }) => 
 
     if (processing) return
 
-    await post('/admin/rooms')
+    await put(`/admin/rooms/${roomId}`)
     handleClose()
   }
 
-  const floors = useMemo(() => [...new Set(rooms.map(room => room.floor))], [rooms])
-  const blocks = useMemo(() => [...new Set(rooms.map(room => room.block))], [rooms])
+  const handleDelete = () => {
+    Inertia.delete(`/admin/rooms/${roomId}`, {
+      onFinish: handleClose,
+    })
+  }
+
+  useEffect(() => {
+    const room = rooms.find(({ id }) => id === roomId)
+    setData(oldData => ({ ...oldData, ...room }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId, rooms])
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={handleClose}
-      aria-labelledby='modal-modal-title'
-      aria-describedby='modal-modal-description'
-    >
+    <Modal open={isOpen} onClose={handleClose}>
       <Box
         component='form'
         onSubmit={handleSubmit}
@@ -70,7 +82,7 @@ export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, handleClose }) => 
         }}
       >
         <UserTitle style={{ margin: '1.5rem 0' }} variant='body1'>
-          Nova Sala
+          Edição de Sala
         </UserTitle>
 
         <Grid container justifyContent='space-between' columns={11} alignItems='center'>
@@ -97,8 +109,9 @@ export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, handleClose }) => 
             </datalist>
           </Grid>
           <Grid item xs={11}>
-            <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
-              <AccountButton type='submit'>Criar Sala</AccountButton>
+            <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: 2 }}>
+              <AccountButton type='submit'>Editar Sala</AccountButton>
+              <AccountButton onClick={handleDelete}>Deletar sala</AccountButton>
             </div>
           </Grid>
         </Grid>
@@ -107,4 +120,4 @@ export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, handleClose }) => 
   )
 }
 
-export default NewRoomModal
+export default RoomModal

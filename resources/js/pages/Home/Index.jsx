@@ -30,6 +30,7 @@ import Agenda from '../../components/Agenda'
 import { useStyles } from '../../components/Classes/Index.jsx'
 import MiniDrawer from '../../components/MiniDrawer/Index.jsx'
 import { MainTab, MainTabList, SecondaryTab, SecondaryTabPanel, SecondaryTabsList } from '../../components/User/Tabs'
+import { getMonthsByNumber } from '../../utils/getMonthsByNumber'
 
 const Home = () => {
   const classes = useStyles()
@@ -42,7 +43,7 @@ const Home = () => {
     datasets: [
       {
         label: 'Blocos',
-        data: consumptionNow.map(({ totalPotency }) => Number(totalPotency)),
+        data: consumptionNow.map(({ totalPotency }) => totalPotency),
         backgroundColor: ['#36a1ea', '#005b9f', '#0288d1'],
       },
     ],
@@ -55,7 +56,7 @@ const Home = () => {
     datasets: [
       {
         label: 'Consumo (Watts)',
-        data: dailyConsumption.map(({ totalPotency }) => Number(totalPotency)),
+        data: dailyConsumption.map(({ totalPotency }) => totalPotency),
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235)',
       },
@@ -67,7 +68,7 @@ const Home = () => {
     datasets: [
       {
         label: 'Consumo (Watts)',
-        data: monthConsumption.map(({ totalPotency }) => Number(totalPotency)),
+        data: monthConsumption.map(({ totalPotency }) => totalPotency),
         backgroundColor: ['#005b9f', '#0288d1', '#c3fdff', '#36a1ea', '#005b9f'],
       },
     ],
@@ -366,21 +367,5 @@ const columns = [
     format: value => (value ? 'Ligada' : 'Desligada'),
   },
 ]
-
-const getMonthsByNumber = num =>
-  [
-    'JANEIRO',
-    'FEVEREIRO',
-    'MARÇO',
-    'ABRIL',
-    'MAIO',
-    'JUNHO',
-    'JULHO',
-    'AGOSTO',
-    'SETEMBRO',
-    'OUTUBRO',
-    'NOVEMBRO',
-    'DEZEMBRO',
-  ][num]
 
 export default Home

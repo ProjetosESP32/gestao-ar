@@ -1,5 +1,5 @@
 import { Link, useForm } from '@inertiajs/inertia-react'
-import { Button, Checkbox, FormControlLabel, Grid, TextField, useTheme } from '@mui/material'
+import { Button, Checkbox, FormControlLabel, Grid, useTheme } from '@mui/material'
 import React from 'react'
 import { LoginTextField } from '../../components/Login/Input'
 import './styles.css'
@@ -67,7 +67,7 @@ const Login = () => {
                     <h2 className='loginTitle'>Login</h2>
                   </Grid>
                   <Grid item xs={11} md={11} className='loginIconGroup' order={{ xs: 6, lg: 2 }}>
-                    <Button className='loginIconButton' variant='outlined'>
+                    {/* <Button className='loginIconButton' variant='outlined'>
                       <img
                         style={{
                           width: '80%',
@@ -76,8 +76,8 @@ const Login = () => {
                         }}
                         src='/images/apple-icon.svg'
                       />
-                    </Button>
-                    <Button className='loginIconButton' variant='outlined'>
+                    </Button> */}
+                    <a className='loginIconButton' href='/auth/google/redirect'>
                       <img
                         style={{
                           width: '80%',
@@ -86,7 +86,7 @@ const Login = () => {
                         }}
                         src='/images/google-icon.svg'
                       />
-                    </Button>
+                    </a>
                   </Grid>
 
                   <Grid item className='desktop' xs={11} md={11} order={{ xs: 2, lg: 3 }}>

@@ -5,7 +5,8 @@
     "@adonisjs/core/build/commands/index.js",
     "@adonisjs/repl/build/commands",
     "@adonisjs/lucid/build/commands",
-    "@adonisjs/mail/build/commands"
+    "@adonisjs/mail/build/commands",
+    "@adonisjs/bouncer/build/commands"
   ],
   "exceptionHandlerNamespace": "App/Exceptions/Handler",
   "aliases": {
@@ -30,7 +31,8 @@
         "repl",
         "web"
       ]
-    }
+    },
+    "./start/bouncer"
   ],
   "providers": [
     "./providers/AppProvider",
@@ -42,7 +44,9 @@
     "@adonisjs/lucid",
     "@adonisjs/auth",
     "@adonisjs/attachment-lite",
-    "@adonisjs/mail"
+    "@adonisjs/mail",
+    "@adonisjs/bouncer",
+    "@adonisjs/ally"
   ],
   "metaFiles": [
     {

@@ -1,7 +1,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.get('/', 'HomeController.index')
+  Route.get('/', 'HomeController.index').as('home')
 
   Route.group(() => {
     Route.inertia('403', 'Error/403')
@@ -10,37 +10,35 @@ Route.group(() => {
   }).prefix('errors')
 
   Route.group(() => {
-    Route.get('login', 'AuthController.loginForm')
-    Route.post('login', 'AuthController.login')
-
-    Route.get('register', 'AuthController.registerForm')
-    Route.post('register', 'AuthController.register')
-  }).prefix('auth')
+    Route.get('login', 'AuthLoginController.create').as('login.create')
+    Route.post('login', 'AuthLoginController.store').as('login')
+    Route.get('register', 'AuthRegisterController.create').as('register.create')
+    Route.post('register', 'AuthRegisterController.store').as('register')
+    Route.get('google/redirect', 'GoogleAuthController.create').as('google.redirect')
+    Route.get('google/callback', 'GoogleAuthController.store').as('google.callback')
+  })
+    .prefix('auth')
+    .as('auth')
 
   Route.group(() => {
     Route.get('verify-email/:email', 'UsersController.verifyEmail').mustBeSigned().as('users.verifyEmail')
 
-    Route.get('recover-password', 'UsersController.recoverPasswordView')
-    Route.post('recover-password', 'UsersController.recoverPassword')
+    Route.get('recover-password', 'UserRecoveriesController.create')
+    Route.post('recover-password', 'UserRecoveriesController.store')
 
-    Route.get('change-password/:email', 'UsersController.changePasswordView').mustBeSigned().as('users.changePassword')
-    Route.post('change-password/:email', 'UsersController.changePassword').mustBeSigned()
+    Route.get('change-password/:email', 'UserRecoveriesController.edit').mustBeSigned().as('users.changePassword')
+    Route.post('change-password/:email', 'UserRecoveriesController.update').mustBeSigned()
   }).prefix('users')
 
   Route.group(() => {
-    Route.get('gerir-notificacoes', ({ inertia }) => inertia.render('Control/NotificationControl'))
-    Route.get('controle-bloco', ({ inertia }) => inertia.render('Control/BlockControl'))
+    Route.inertia('gerir-notificacoes', 'Control/NotificationControl')
   }).prefix('control')
 
-  Route.group(() => {
-    Route.resource('/', 'RoomsController').only(['index'])
-    Route.resource('/control', 'RoomControlsController').only(['show']).where('id', Route.matchers.number())
-  })
-    .prefix('rooms')
-    .as('rooms')
+  Route.resource('rooms', 'RoomsController').only(['index'])
+  Route.resource('rooms/control', 'RoomControlsController').only(['show'])
 
   Route.group(() => {
-    Route.delete('logout', 'AuthController.logout').prefix('auth')
+    Route.delete('logout', 'AuthLoginController.destroy').prefix('auth').as('auth.logout')
 
     Route.group(() => {
       Route.get('me', 'UsersController.show').as('users.profile')
@@ -49,8 +47,9 @@ Route.group(() => {
     }).prefix('users')
 
     Route.group(() => {
-      Route.resource('users', 'UsersController')
+      Route.resource('users', 'UsersController').except(['edit'])
       Route.resource('rooms', 'RoomsController').only(['store', 'update', 'destroy'])
+      Route.resource('rooms/:roomId/esps', 'RoomEspsController').only(['store', 'destroy'])
     })
       .namespace('App/Controllers/Http/Web/Admin')
       .prefix('admin')
