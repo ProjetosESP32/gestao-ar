@@ -1,14 +1,18 @@
+import Event from '@ioc:Adonis/Core/Event'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Esp from 'App/Models/Esp'
 import Room from 'App/Models/Room'
+import TemperatureValidator from 'App/Validators/Web/TemperatureValidator'
 
 type ConvertedConsumptionData = Record<string, string | number>
 
 export default class RoomControlsController {
-  public async show({ params, inertia, auth }: HttpContextContract) {
-    const { user } = auth.use('web')
+  private convertPotencyToNumber(consumptionData: Record<string, string>[]): ConvertedConsumptionData[] {
+    return consumptionData.map(({ totalPotency, ...data }) => ({ ...data, totalPotency: Number(totalPotency) }))
+  }
 
+  public async show({ params, inertia, bouncer }: HttpContextContract) {
     const results = await Database.transaction(async client => {
       const room = await Room.query({ client })
         .where('id', params.id)
@@ -64,17 +68,7 @@ export default class RoomControlsController {
         monthConsumption: this.convertPotencyToNumber(monthConsumption),
       }
 
-      if (user?.isRoot) {
-        return { ...data, canEdit: true }
-      }
-
-      const isUserRelatedToRoom = await user
-        ?.related('rooms')
-        .query()
-        .where('rooms.id', params.id)
-        .useTransaction(client)
-        .getCount()
-      const canEdit = !!isUserRelatedToRoom
+      const canEdit = await bouncer.allows('updateRoom', room)
 
       return { ...data, canEdit }
     })
@@ -82,7 +76,23 @@ export default class RoomControlsController {
     return inertia.render('Control/RoomControl', results)
   }
 
-  private convertPotencyToNumber(consumptionData: Record<string, string>[]): ConvertedConsumptionData[] {
-    return consumptionData.map(({ totalPotency, ...data }) => ({ ...data, totalPotency: Number(totalPotency) }))
+  public async changePower({ bouncer, params }: HttpContextContract) {
+    const room = await Room.findOrFail(params.id)
+
+    await bouncer.authorize('updateRoom', room)
+
+    await room.load('esps')
+    const power = room.esps.some(({ isOn }) => isOn) ? 0 : 1
+
+    await Event.emit('air-change:power', { room, power })
+  }
+
+  public async changeTemperature({ request, bouncer, params }: HttpContextContract) {
+    const room = await Room.findOrFail(params.id)
+    await bouncer.authorize('updateRoom', room)
+
+    const { temperature } = await request.validate(TemperatureValidator)
+
+    await Event.emit('air-change:temperature', { room, temperature })
   }
 }

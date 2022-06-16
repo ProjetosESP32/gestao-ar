@@ -27,7 +27,7 @@ export default class User extends SoftDeletesBaseModel {
   @attachment({ folder: 'users/cover', preComputeUrl: true })
   public cover?: AttachmentContract | null
 
-  @column()
+  @column({ serializeAs: null })
   public googleId?: string | null
 
   @column.dateTime()
