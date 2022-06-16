@@ -1,7 +1,8 @@
-import { Inertia, Page, PageProps } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia'
 import { useForm, usePage } from '@inertiajs/inertia-react'
 import { Box, Grid, Modal } from '@mui/material'
 import React, { FC, useEffect } from 'react'
+import { BasePageProps } from '../interfaces/BasePageProps'
 import { AccountButton } from './User/Buttons'
 import { ControlInput, ControlLabel } from './User/TextField'
 import UserTitle from './User/Title'
@@ -23,10 +24,10 @@ interface RoomPageProp {
   rooms: Room[]
 }
 
-type RoomPage = Page<PageProps & RoomPageProp>
+type RoomPage = BasePageProps<RoomPageProp>
 
 export const RoomModal: FC<RoomModalProps> = ({ isOpen, handleClose, roomId }) => {
-  const { rooms } = usePage<RoomPage>().props
+  const { rooms, loggedUser } = usePage<RoomPage>().props
   const { data, put, processing, setData } = useForm({
     id: roomId,
     name: '',
@@ -110,8 +111,12 @@ export const RoomModal: FC<RoomModalProps> = ({ isOpen, handleClose, roomId }) =
           </Grid>
           <Grid item xs={11}>
             <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: 2 }}>
-              <AccountButton type='submit'>Editar Sala</AccountButton>
-              <AccountButton onClick={handleDelete}>Deletar sala</AccountButton>
+              <AccountButton disabled={!loggedUser?.isRoot} type='submit'>
+                Editar Sala
+              </AccountButton>
+              <AccountButton disabled={!loggedUser?.isRoot} onClick={handleDelete}>
+                Deletar sala
+              </AccountButton>
             </div>
           </Grid>
         </Grid>
