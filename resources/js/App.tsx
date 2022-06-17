@@ -25,7 +25,7 @@ const App: FC<AppProps> = ({ App: Page, props }) => (
 )
 
 createInertiaApp({
-  resolve: name => require(`./pages/${name}`),
+  resolve: name => import(`./pages/${name}`) as any,
   setup({ el, ...props }) {
     render(<App {...props} />, el)
   },
