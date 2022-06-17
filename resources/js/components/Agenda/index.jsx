@@ -5,7 +5,9 @@ import Step from '@mui/material/Step'
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import StepLabel from '@mui/material/StepLabel'
 import Stepper from '@mui/material/Stepper'
+import Tooltip from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
+import * as PropTypes from 'prop-types'
 import * as React from 'react'
 import { MdBuild, MdPowerSettingsNew, MdSearch } from 'react-icons/md'
 import { AccountButton, ScheduleButton } from '../../components/User/Buttons'
@@ -248,9 +250,11 @@ function ColorlibStepIcon({ status }) {
 
   return <ColorlibStepIconRoot>{aux}</ColorlibStepIconRoot>
 }
+
 ColorlibStepIcon.propTypes = {
-  status: any,
+  status: PropTypes.string.isRequired,
 }
+
 const StyledStepperGroup = styled('div')(() => ({
   boxShadow: '0 3px 6px #00000049',
   padding: '1rem 0',
@@ -280,8 +284,8 @@ const InvisibleConector = styled(StepConnector)(({ theme }) => ({
     borderRadius: 1,
   },
 }))
-const LightTooltip = styled(Tooltip)(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
+const LightTooltip = styled(Tooltip)(({ theme, classes }) => ({
+  [`& .${classes?.tooltip}`]: {
     backgroundColor: 'white',
     color: 'rgba(0, 0, 0, 0.87)',
     boxShadow: theme.shadows[1],
