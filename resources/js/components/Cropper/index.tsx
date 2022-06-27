@@ -22,7 +22,6 @@ const Cropper: FC<CropperProps> = ({ onChange }) => {
   }
 
   const handleImageSelect: ChangeEventHandler<HTMLInputElement> = e => {
-    console.log('image select')
     const file = e.target.files?.item(0)
 
     if (file) {
