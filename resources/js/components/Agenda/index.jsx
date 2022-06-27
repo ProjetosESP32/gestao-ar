@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material'
+import { Grid, IconButton, Tooltip } from '@mui/material'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Step from '@mui/material/Step'
@@ -6,6 +6,7 @@ import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector
 import StepLabel from '@mui/material/StepLabel'
 import Stepper from '@mui/material/Stepper'
 import { styled } from '@mui/material/styles'
+import { any } from 'prop-types'
 import * as React from 'react'
 import { MdBuild, MdPowerSettingsNew, MdSearch } from 'react-icons/md'
 import { AccountButton, ScheduleButton } from '../../components/User/Buttons'
@@ -281,12 +282,12 @@ const InvisibleConector = styled(StepConnector)(({ theme }) => ({
   },
 }))
 const LightTooltip = styled(Tooltip)(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: 'white',
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-  },
+  // [`& .${tooltipClasses.tooltip}`]: {
+  //   backgroundColor: 'white',
+  //   color: 'rgba(0, 0, 0, 0.87)',
+  //   boxShadow: theme.shadows[1],
+  //   fontSize: 11,
+  // },
 }))
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
