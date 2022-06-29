@@ -183,7 +183,7 @@ const Agenda = () => {
   )
 }
 
-const ColorlibStepIconRoot = styled('div')(({ theme }) => ({
+const ColorlibStepIconRoot = styled('div')(() => ({
   backgroundColor: 'white',
   border: '2px solid #5D99C6',
   zIndex: 1,
@@ -283,14 +283,7 @@ const InvisibleConector = styled(StepConnector)(({ theme }) => ({
     borderRadius: 1,
   },
 }))
-const LightTooltip = styled(Tooltip)(({ theme, classes }) => ({
-  [`& .${classes?.tooltip}`]: {
-    backgroundColor: 'white',
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-  },
-}))
+const LightTooltip = styled(Tooltip)()
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {

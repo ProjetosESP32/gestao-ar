@@ -36,7 +36,6 @@ const RoomsControl = () => {
   const [orderBy, setOrderBy] = useState('calories')
   const [selected, setSelected] = useState([])
   const [page, setPage] = useState(0)
-  const [dense, setDense] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [open, setOpen] = useState(false)
   const [editModalOpen, setEditModalOpen] = useState(false)
@@ -166,7 +165,7 @@ const RoomsControl = () => {
                   </Toolbar>
 
                   <TableContainer>
-                    <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={dense ? 'small' : 'medium'}>
+                    <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size='medium'>
                       <EnhancedTableHead
                         numSelected={selected.length}
                         order={order}

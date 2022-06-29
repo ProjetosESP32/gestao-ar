@@ -2,9 +2,7 @@ import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled'
 import TabPanelUnstyled from '@mui/base/TabPanelUnstyled'
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled'
 import TabsListUnstyled from '@mui/base/TabsListUnstyled'
-
 import { styled } from '@mui/system'
-import React from 'react'
 
 const SecondaryTab = styled(TabUnstyled)`
   font-family: IBM Plex Sans, sans-serif;

@@ -63,7 +63,7 @@ const MiniDrawer = ({ children }) => {
       </div>
       <Navigation />
       <Footer className={classes.desktop}>
-        <p> copyright Copyright, 2021</p> <p>SASC, Todos Os Direitos Reservados</p>
+        <p>Copyright, {new Date().getFullYear()}</p> <p>SASC, Todos Os Direitos Reservados</p>
       </Footer>
     </Box>
   )

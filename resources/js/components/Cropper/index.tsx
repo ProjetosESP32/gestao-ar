@@ -38,12 +38,16 @@ const Cropper: FC<CropperProps> = ({ onChange }) => {
 
   const handleOk = () => {
     if (completedCrop) {
-      canvasRef.current?.toBlob(blob => {
-        if (blob) {
-          onChange(blob)
-          setFilePreview(null)
-        }
-      })
+      canvasRef.current?.toBlob(
+        blob => {
+          if (blob) {
+            onChange(blob)
+            setFilePreview(null)
+          }
+        },
+        'image/jpeg',
+        0.75,
+      )
     }
   }
 

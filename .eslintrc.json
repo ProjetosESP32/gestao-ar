@@ -35,7 +35,10 @@
     "default-case": "warn",
     "default-case-last": "error",
     "arrow-body-style": ["error", "as-needed"],
-    "arrow-spacing": "error"
+    "arrow-spacing": "error",
+
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"]
   },
   "settings": {
     "react": {
