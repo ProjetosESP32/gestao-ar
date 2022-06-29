@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow'
 import Toolbar from '@mui/material/Toolbar'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import * as PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { MdDelete, MdFilterList, MdNotificationAdd } from 'react-icons/md'
@@ -30,23 +30,14 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 const NotificationControl = () => {
-  const theme = useTheme()
-
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'))
-
-  const handleChange = newValue => {
-    setValue(newValue)
-  }
 
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('calories')
   const [selected, setSelected] = useState([])
   const [page, setPage] = useState(0)
-  const [dense, setDense] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(5)
 
   const handleRequestSort = (event, property) => {
@@ -88,10 +79,6 @@ const NotificationControl = () => {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
-  }
-
-  const handleChangeDense = event => {
-    setDense(event.target.checked)
   }
 
   const isSelected = name => selected.indexOf(name) !== -1
@@ -201,7 +188,7 @@ const NotificationControl = () => {
                   </Toolbar>
 
                   <TableContainer>
-                    <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={dense ? 'small' : 'medium'}>
+                    <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size='medium'>
                       <EnhancedTableHead
                         numSelected={selected.length}
                         order={order}
@@ -310,34 +297,27 @@ const rows = [
   { id: 10, title: 'Título da notificação', type: 'genérico', obs: 'texto genérico', date: '13/agosto/2021 as 13:00h' },
 ]
 
-const EnhancedTableHead = props => {
-  const { onSelectAllClick, numSelected, rowCount, onRequestSort } = props
-  const createSortHandler = property => event => {
-    onRequestSort(event, property)
-  }
+const EnhancedTableHead = ({ onSelectAllClick, numSelected, rowCount }) => (
+  <TableHead>
+    <TableRow>
+      <TableCell padding='checkbox'>
+        <Checkbox
+          color='primary'
+          indeterminate={numSelected > 0 && numSelected < rowCount}
+          checked={rowCount > 0 && numSelected === rowCount}
+          onChange={onSelectAllClick}
+          inputProps={{
+            'aria-label': 'select all desserts',
+          }}
+        />
+      </TableCell>
 
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding='checkbox'>
-          <Checkbox
-            color='primary'
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
-
-        {columns.map(headCell => (
-          <TableCell key={headCell.field}>{headCell.headerName}</TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
+      {columns.map(headCell => (
+        <TableCell key={headCell.field}>{headCell.headerName}</TableCell>
+      ))}
+    </TableRow>
+  </TableHead>
+)
 
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,

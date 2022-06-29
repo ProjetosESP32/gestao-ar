@@ -87,6 +87,7 @@ const UserAccount = () => {
                       <UserAvatar variant='square'>
                         <img src={imagePreview ?? loggedUser.cover?.url ?? '/images/user.png'} />
                       </UserAvatar>
+                      <small style={{ color: '#ff0000' }}>{errors.cover}</small>
 
                       <Cropper onChange={processBlob} />
                     </Item>

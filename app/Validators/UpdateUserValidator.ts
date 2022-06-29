@@ -19,7 +19,7 @@ export default class UpdateUserValidator {
     'username.unique': 'Nome de usuário já usado.',
     'email.unique': 'Email já usado.',
     'email.email': 'Email inválido.',
-    'cover.extname': 'Extensão de arquivo inválida.',
-    'cover.size': 'Tamanho de arquivo inválido.',
+    'file.extname': 'Extensão de arquivo inválida.',
+    'file.size': 'O tamanho do arquivo deve ser menor que {{ options.size }}.',
   }
 }

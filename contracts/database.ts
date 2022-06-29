@@ -1,5 +1,5 @@
 declare module '@ioc:Adonis/Lucid/Database' {
-  interface DatabaseQueryBuilderContract<Result> {
+  interface DatabaseQueryBuilderContract {
     getCount: () => Promise<BigInt>
   }
 }

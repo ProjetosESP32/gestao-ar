@@ -11,16 +11,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
 import * as PropTypes from 'prop-types'
 import React, { useContext } from 'react'
-import {
-  MdCalendarToday,
-  MdChevronLeft,
-  MdChevronRight,
-  MdHowToReg,
-  MdListAlt,
-  MdMenu,
-  MdOutlineNotificationAdd,
-  MdRequestQuote,
-} from 'react-icons/md'
+import { MdCalendarToday, MdChevronLeft, MdChevronRight, MdHowToReg, MdListAlt, MdMenu } from 'react-icons/md'
 import { DrawerContext } from '../../providers/drawer.jsx'
 import Icon from '../Icon/Index.jsx'
 

@@ -47,13 +47,11 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }))
-const FormGrid = styled(Grid)(
-  ({ theme }) => `
+const FormGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
-  align-itens:center;
-`,
-)
+  align-itens: center;
+`
 
 const BlockTitle = styled(Typography)(() => ({
   fontSize: '1.5rem',

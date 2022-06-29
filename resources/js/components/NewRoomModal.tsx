@@ -23,7 +23,7 @@ type NewRoomPage = Page<PageProps & NewRoomPageProp>
 
 export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, handleClose }) => {
   const { rooms } = usePage<NewRoomPage>().props
-  const { data, errors, post, processing, setData } = useForm({
+  const { data, post, processing, setData } = useForm({
     name: '',
     block: '',
     floor: '',
