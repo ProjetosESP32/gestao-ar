@@ -26,7 +26,11 @@
       "file": "./start/events",
       "environment": ["console", "repl", "web"]
     },
-    "./start/bouncer"
+    "./start/bouncer",
+    {
+      "file": "./start/schedule",
+      "environment": ["web"]
+    }
   ],
   "providers": [
     "./providers/AppProvider",
@@ -40,7 +44,8 @@
     "@adonisjs/attachment-lite",
     "@adonisjs/mail",
     "@adonisjs/bouncer",
-    "@adonisjs/ally"
+    "@adonisjs/ally",
+    "./providers/BasicSchedulerProvider"
   ],
   "metaFiles": [
     {
