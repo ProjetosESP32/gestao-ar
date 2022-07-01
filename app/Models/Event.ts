@@ -1,5 +1,6 @@
-import { BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
+import EventRecurrence from './EventRecurrence'
 import Room from './Room'
 import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 
@@ -30,4 +31,7 @@ export default class Event extends SoftDeletesBaseModel {
 
   @belongsTo(() => Room)
   public room: BelongsTo<typeof Room>
+
+  @hasMany(() => EventRecurrence)
+  public eventRecurrences: HasMany<typeof EventRecurrence>
 }

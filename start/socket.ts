@@ -1,3 +1,4 @@
+import Event, { EventsList } from '@ioc:Adonis/Core/Event'
 import { Exception } from '@poppinss/utils'
 import Service from 'App/Models/Service'
 import { boot, io } from 'App/Services/WebSocket'
@@ -24,4 +25,8 @@ io.on('connection', socket => {
   const { token } = socket.handshake.auth
 
   socket.join(token)
+
+  socket.on('getMessage', async (data: EventsList['air-change:receive']) => {
+    await Event.emit('air-change:receive', data)
+  })
 })

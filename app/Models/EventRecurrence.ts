@@ -1,5 +1,6 @@
-import { BaseModel, column, computed } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
+import Event from './Event'
 
 export default class EventRecurrence extends BaseModel {
   @column({ isPrimary: true })
@@ -16,6 +17,10 @@ export default class EventRecurrence extends BaseModel {
     return this.daysOfWeek.split(',').map(Number)
   }
 
+  public set daysOfWeekArray(value: number[]) {
+    this.daysOfWeek = value.join(',')
+  }
+
   @column({ serializeAs: null })
   public daysOfMonth: string
 
@@ -24,15 +29,22 @@ export default class EventRecurrence extends BaseModel {
     return this.daysOfMonth.split(',').map(Number)
   }
 
-  @column()
-  public startTime: string
+  public set daysOfMonthArray(value: number[]) {
+    this.daysOfMonth = value.join(',')
+  }
 
-  @column()
-  public endTime: string
+  @column.dateTime()
+  public startTime: DateTime
+
+  @column.dateTime()
+  public endTime: DateTime
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => Event)
+  public events: BelongsTo<typeof Event>
 }

@@ -3,15 +3,10 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Esp from 'App/Models/Esp'
 import Room from 'App/Models/Room'
+import { convertPotencyToNumber } from 'App/Utils/convertPotencyToNumber'
 import TemperatureValidator from 'App/Validators/Web/TemperatureValidator'
 
-type ConvertedConsumptionData = Record<string, string | number>
-
 export default class RoomControlsController {
-  private convertPotencyToNumber(consumptionData: Record<string, string>[]): ConvertedConsumptionData[] {
-    return consumptionData.map(({ totalPotency, ...data }) => ({ ...data, totalPotency: Number(totalPotency) }))
-  }
-
   public async show({ params, inertia, bouncer }: HttpContextContract) {
     const results = await Database.transaction(async client => {
       const room = await Room.query({ client })
@@ -63,9 +58,9 @@ export default class RoomControlsController {
       const data = {
         room,
         esps,
-        consumptionNow: this.convertPotencyToNumber(consumptionNow),
-        dailyConsumption: this.convertPotencyToNumber(dailyConsumption),
-        monthConsumption: this.convertPotencyToNumber(monthConsumption),
+        consumptionNow: convertPotencyToNumber(consumptionNow),
+        dailyConsumption: convertPotencyToNumber(dailyConsumption),
+        monthConsumption: convertPotencyToNumber(monthConsumption),
       }
 
       const canEdit = await bouncer.allows('updateRoom', room)
@@ -78,13 +73,12 @@ export default class RoomControlsController {
 
   public async changePower({ bouncer, params }: HttpContextContract) {
     const room = await Room.findOrFail(params.id)
-
     await bouncer.authorize('updateRoom', room)
 
     await room.load('esps')
     const power = room.esps.some(({ isOn }) => isOn) ? 0 : 1
 
-    await Event.emit('air-change:power', { room, power })
+    await Event.emit('air-change:dispatch', { room, data: power })
   }
 
   public async changeTemperature({ request, bouncer, params }: HttpContextContract) {
@@ -93,6 +87,6 @@ export default class RoomControlsController {
 
     const { temperature } = await request.validate(TemperatureValidator)
 
-    await Event.emit('air-change:temperature', { room, temperature })
+    await Event.emit('air-change:dispatch', { room, data: temperature })
   }
 }

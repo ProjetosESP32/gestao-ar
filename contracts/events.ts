@@ -28,7 +28,15 @@ declare module '@ioc:Adonis/Core/Event' {
   |
   */
   interface EventsList {
-    'air-change:temperature': { room: Room; temperature: number }
-    'air-change:power': { room: Room; power: number }
+    'air-change:dispatch': { room: Room; data: number }
+    'air-change:receive': {
+      destinatario: string
+      mensagem: {
+        temperatura: number
+        humidade: number
+        irms: number
+        kwhTotal: number
+      }
+    }
   }
 }

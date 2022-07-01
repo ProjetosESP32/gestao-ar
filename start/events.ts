@@ -10,3 +10,5 @@ Event.on('db:query', query => {
     Database.prettyPrint(query)
   }
 })
+Event.on('air-change:dispatch', 'AirChange.onDispatch')
+Event.on('air-change:receive', 'AirChange.onReceive')
