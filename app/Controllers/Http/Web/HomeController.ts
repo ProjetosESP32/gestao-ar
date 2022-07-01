@@ -1,8 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Room from 'App/Models/Room'
-
-type ConvertedConsumptionData = Record<string, string | number>
+import { convertPotencyToNumber } from 'App/Utils/convertPotencyToNumber'
 
 export default class HomeController {
   public async index({ inertia }: HttpContextContract) {
@@ -32,16 +31,12 @@ export default class HomeController {
 
       return {
         rooms,
-        consumptionNow: this.convertPotencyToNumber(consumptionNow),
-        dailyConsumption: this.convertPotencyToNumber(dailyConsumption),
-        monthConsumption: this.convertPotencyToNumber(monthConsumption),
+        consumptionNow: convertPotencyToNumber(consumptionNow),
+        dailyConsumption: convertPotencyToNumber(dailyConsumption),
+        monthConsumption: convertPotencyToNumber(monthConsumption),
       }
     })
 
     return inertia.render('Home/Index', results)
-  }
-
-  private convertPotencyToNumber(consumptionData: Record<string, string>[]): ConvertedConsumptionData[] {
-    return consumptionData.map(({ totalPotency, ...data }) => ({ ...data, totalPotency: Number(totalPotency) }))
   }
 }

@@ -1,27 +1,27 @@
 import type { EventsList } from '@ioc:Adonis/Core/Event'
+import Esp from 'App/Models/Esp'
 import Service from 'App/Models/Service'
 import { io } from 'App/Services/WebSocket'
 
 export default class AirChange {
-  public async onTempChange({ room, temperature }: EventsList['air-change:temperature']) {
+  public async onDispatch({ room, data }: EventsList['air-change:dispatch']) {
     await room.load('esps')
     const services = await Service.all()
 
     room.esps.forEach(({ macAddress }) => {
       services.forEach(({ token }) => {
-        io.to(token).emit('change:temperature', { esp: macAddress, temperature })
+        // projName property is used to identify the ESP project and should be always 'arCond' for this app
+        io.to(token).emit('sendMessage', { remetente: macAddress, mensagem: data, projName: 'arCond' })
       })
     })
   }
 
-  public async onPowerChange({ room, power }: EventsList['air-change:power']) {
-    await room.load('esps')
-    const services = await Service.all()
+  public async onReceive({
+    destinatario,
+    mensagem: { humidade, kwhTotal, temperatura },
+  }: EventsList['air-change:receive']) {
+    const esp = await Esp.firstOrCreate({ macAddress: destinatario })
 
-    room.esps.forEach(({ macAddress }) => {
-      services.forEach(({ token }) => {
-        io.to(token).emit('change:power', { esp: macAddress, power })
-      })
-    })
+    await esp.related('consumptions').create({ humidity: humidade, potency: kwhTotal, temperature: temperatura })
   }
 }

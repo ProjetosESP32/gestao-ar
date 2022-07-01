@@ -1,6 +1,7 @@
 import { column, HasMany, hasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Esp from './Esp'
+import Event from './Event'
 import User from './User'
 import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 
@@ -28,4 +29,7 @@ export default class Room extends SoftDeletesBaseModel {
 
   @manyToMany(() => User)
   public users: ManyToMany<typeof User>
+
+  @hasMany(() => Event)
+  public events: HasMany<typeof Event>
 }
