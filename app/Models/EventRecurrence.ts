@@ -3,6 +3,8 @@ import { DateTime } from 'luxon'
 import Event from './Event'
 
 export default class EventRecurrence extends BaseModel {
+  public static table = 'events_recurrences'
+
   @column({ isPrimary: true })
   public id: number
 
