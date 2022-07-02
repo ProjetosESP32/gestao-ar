@@ -191,7 +191,7 @@ const RoomControl = () => {
   const handleAddEsp = async () => {
     if (data.espMac === 'default') return
 
-    await post(`rooms/${room.id}/esps`)
+    await post(`/admin/rooms/${room.id}/esps`)
   }
 
   return (
@@ -279,15 +279,15 @@ const RoomControl = () => {
                 <Grid key={id} container justifyContent='flex-start' spacing={1} columns={{ xl: 12, md: 12 }}>
                   <FormGrid xl={3} item>
                     <ControlLabel variant='label'>ESP.</ControlLabel>
-                    <ControlInput value={`${name} - ${macAddress}`} readOnly />
+                    <ControlInput value={name ? `${name} - ${macAddress}` : macAddress} readOnly />
                   </FormGrid>
                   <FormGrid xl={3} item>
                     <ControlLabel variant='label'>Temp.</ControlLabel>
-                    <ControlInput value={consumptions[0].temperature} readOnly />
+                    <ControlInput value={consumptions[0]?.temperature} readOnly />
                   </FormGrid>
                   <FormGrid item xl={3}>
                     <ControlLabel variant='label'>Humidade</ControlLabel>
-                    <ControlInput value={consumptions[0].humidity} readOnly />
+                    <ControlInput value={consumptions[0]?.humidity} readOnly />
                   </FormGrid>
                   {!!loggedUser?.isRoot && (
                     <FormGrid item xl={1.5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

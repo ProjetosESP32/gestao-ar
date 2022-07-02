@@ -8,7 +8,7 @@ export default class Esps extends BaseSchema {
       table.increments('id')
       table.integer('room_id').unsigned().references('id').inTable('rooms').onDelete('SET NULL').nullable()
 
-      table.string('name', 25)
+      table.string('name', 25).nullable()
       table.string('mac_address', 12).unique()
       table.boolean('is_on').defaultTo(false)
 

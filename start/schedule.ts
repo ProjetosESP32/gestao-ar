@@ -50,5 +50,5 @@ Scheduler.registerTask(
     await Promise.all(promises)
     await client.commit()
   },
-  ms('10s'),
+  ms('30m'),
 )

@@ -12,7 +12,7 @@ export default class RoomEspsController {
 
     await esp.related('room').associate(room)
 
-    return response.redirect().toRoute('rooms.control.show', [params.roomId])
+    return response.redirect().toRoute('rooms_control.show', [params.roomId])
   }
 
   public async destroy({ params, response, bouncer }: HttpContextContract) {
@@ -21,6 +21,6 @@ export default class RoomEspsController {
 
     await esp.related('room').dissociate()
 
-    return response.redirect().toRoute('rooms.control.show', [params.roomId])
+    return response.redirect().toRoute('rooms_control.show', [params.roomId])
   }
 }
