@@ -9,7 +9,7 @@ export default class Esps extends BaseSchema {
       table.integer('room_id').unsigned().references('id').inTable('rooms').onDelete('SET NULL').nullable()
 
       table.string('name', 25)
-      table.string('mac_address', 12)
+      table.string('mac_address', 12).unique()
       table.boolean('is_on').defaultTo(false)
 
       table.timestamp('created_at', { useTz: true })

@@ -23,7 +23,7 @@ export class BasicSchedulerService implements SchedulerContract {
   private makeRunnable(name: string, callback: () => Promise<void>): () => void {
     return () => {
       callback().catch(error => {
-        this.logger.error(`Error while running task ${name}`, error)
+        this.logger.error(error, `Error while running task ${name}`)
       })
     }
   }

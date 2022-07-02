@@ -41,7 +41,6 @@ export default class BasicSchedulerProvider {
   }
 
   public async shutdown() {
-    console.log('Application shutdown')
     const scheduler = this.app.container.use('App/Scheduler')
     scheduler.stopAndClear()
   }
