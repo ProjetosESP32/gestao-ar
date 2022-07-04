@@ -1,4 +1,5 @@
 import Event from '@ioc:Adonis/Core/Event'
+import type { EventsList } from '@ioc:Adonis/Core/Event'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Scheduler from '@ioc:App/Scheduler'
 import { DateTime } from 'luxon'
@@ -12,42 +13,42 @@ Scheduler.registerTask(
 
     const now = DateTime.now()
     const nowSQL = now.toSQL()
+    const nowTime = now.toFormat('HH:mm:ss')
     const rooms = await Room.query({ client })
       .innerJoin('events', 'rooms.id', 'events.room_id')
       .where('events.start_date', '<', nowSQL)
       .where('events.end_date', '>', nowSQL)
-      .preload('events', builder => {
-        builder.where('startDate', '<', nowSQL).where('endDate', '>', nowSQL)
+      .preload('events', eventBuilder => {
+        eventBuilder
+          .where('startDate', '<', nowSQL)
+          .where('endDate', '>', nowSQL)
+          .preload('eventRecurrences', recurrencyBuilder => {
+            recurrencyBuilder
+              .where('daysOfWeek', 'LIKE', `%${now.weekday}%`)
+              .where('daysOfMonth', 'LIKE', `%${now.day}%`)
+              .where('startTime', '<', nowTime)
+              .where('endTime', '>', nowTime)
+          })
       })
       .preload('esps')
 
-    const promises = rooms.map(async room => {
-      const [event] = room.events
-      const isActive = room.esps.some(({ isOn }) => isOn)
-      const nowTime = now.toFormat('HH:mm:ss')
+    const eventToEmit = rooms
+      .map(room => {
+        const [event] = room.events
+        const recurrency = event.eventRecurrences.length
+        const isActive = room.esps.some(({ isOn }) => isOn)
 
-      const recurrency = await event
-        .related('eventRecurrences')
-        .query()
-        .where('daysOfWeek', 'LIKE', `%${now.weekday}%`)
-        .where('daysOfMonth', 'LIKE', `%${now.day}%`)
-        .where('startTime', '<', nowTime)
-        .where('endTime', '>', nowTime)
-        .useTransaction(client)
-        .getCount()
+        if (isActive && recurrency === 0) {
+          return { esps: room.esps, data: 0 }
+        }
 
-      if (isActive && recurrency === 0n) {
-        await Event.emit('air-change:dispatch', { room, data: 0 })
-        return
-      }
+        if (!isActive && recurrency > 0) {
+          return { esps: room.esps, data: 1 }
+        }
+      })
+      .filter(Boolean) as EventsList['air-change:dispatchAll']
 
-      if (!isActive && recurrency > 0n) {
-        await Event.emit('air-change:dispatch', { room, data: 1 })
-        return
-      }
-    })
-
-    await Promise.all(promises)
+    await Event.emit('air-change:dispatchAll', eventToEmit)
     await client.commit()
   },
   ms('30m'),
