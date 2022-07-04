@@ -28,6 +28,10 @@ export const softDeletesMixin = <T extends NormalizeConstructor<LucidModel>>(Sup
         throw new Exception('Cannot soft delete a deleted model', 500, 'E_MODEL_SOFT_DELETE_ERROR')
       }
 
+      if (this.trashed) {
+        return
+      }
+
       this.deletedAt = DateTime.now()
 
       await this.save()

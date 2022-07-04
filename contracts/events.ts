@@ -5,6 +5,7 @@
  * file.
  */
 
+import Esp from 'App/Models/Esp'
 import Room from 'App/Models/Room'
 
 declare module '@ioc:Adonis/Core/Event' {
@@ -38,5 +39,6 @@ declare module '@ioc:Adonis/Core/Event' {
         kwhTotal: number
       }
     }
+    'air-change:dispatchAll': { esps: Esp[]; data: number }[]
   }
 }
