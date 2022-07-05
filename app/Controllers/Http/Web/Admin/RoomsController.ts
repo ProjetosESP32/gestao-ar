@@ -10,7 +10,7 @@ export default class RoomsController {
 
     await Room.create(data)
 
-    return response.redirect('/rooms')
+    return response.redirect().toRoute('rooms.index')
   }
 
   public async update({ params, request, response, bouncer }: HttpContextContract) {
@@ -21,7 +21,7 @@ export default class RoomsController {
     room.merge(data)
     await room.save()
 
-    return response.redirect('/rooms')
+    return response.redirect().toRoute('rooms.index')
   }
 
   public async destroy({ params, response, bouncer }: HttpContextContract) {
@@ -30,6 +30,6 @@ export default class RoomsController {
 
     await room.softDelete()
 
-    return response.redirect('/rooms')
+    return response.redirect().toRoute('rooms.index')
   }
 }

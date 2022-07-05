@@ -5,9 +5,12 @@ import CreateServiceApiKeyValidator from 'App/Validators/Web/CreateServiceApiKey
 import UpdateServiceApiKeyValidator from 'App/Validators/Web/UpdateServiceApiKeyValidator'
 
 export default class ServiceApiKeysController {
-  public async index({ bouncer, inertia }: HttpContextContract) {
+  public async index({ bouncer, inertia, request }: HttpContextContract) {
     await bouncer.authorize('admin')
-    const services = await Service.all()
+    const { page, perPage } = request.qs()
+    const pageNumber = Number(page) || 1
+    const perPageNumber = Number(perPage) || 10
+    const services = await Service.query().paginate(pageNumber, perPageNumber)
 
     return inertia.render('Services/Index', { services })
   }
