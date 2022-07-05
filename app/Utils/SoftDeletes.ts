@@ -99,7 +99,7 @@ export const softDeletesMixin = <T extends NormalizeConstructor<LucidModel>>(Sup
       }
 
       countQuery.whereNull(`${countQuery.model.table}.deleted_at`)
-      query.whereNull(`${query.model.table}.deleted_at`)
+      // query.whereNull(`${query.model.table}.deleted_at`)
     }
   }
 

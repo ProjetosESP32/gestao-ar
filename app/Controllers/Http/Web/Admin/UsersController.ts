@@ -8,9 +8,12 @@ import CreateUserValidator from 'App/Validators/Web/Admin/CreateUserValidator'
 import UpdateUserValidator from 'App/Validators/Web/Admin/UpdateUserValidator'
 
 export default class UsersController {
-  public async index({ inertia, bouncer }: HttpContextContract) {
+  public async index({ inertia, bouncer, request }: HttpContextContract) {
     await bouncer.authorize('admin')
-    const users = await User.all()
+    const { page, perPage } = request.qs()
+    const pageNumber = Number(page) || 1
+    const perPageNumber = Number(perPage) || 10
+    const users = await User.query().paginate(pageNumber, perPageNumber)
 
     return inertia.render('User/UserList', { users })
   }
