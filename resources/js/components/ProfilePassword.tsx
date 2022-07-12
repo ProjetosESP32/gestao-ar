@@ -1,5 +1,10 @@
 import { useForm } from '@inertiajs/inertia-react'
-import { Button, Grid, Paper, Stack, TextField, useTheme } from '@mui/material'
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import { useTheme } from '@mui/material/styles'
 import React, { ChangeEvent, FC, FormEvent } from 'react'
 
 interface ProfilePasswordFormData {

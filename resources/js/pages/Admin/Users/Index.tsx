@@ -1,8 +1,3 @@
-import { withDrawer } from '@/components/Drawer/withDrawer'
-import { BasePageProps } from '@/interfaces/BasePageProps'
-import { Paginate } from '@/interfaces/Paginate'
-import { User } from '@/interfaces/User'
-import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
 import { Inertia } from '@inertiajs/inertia'
 import { usePage } from '@inertiajs/inertia-react'
 import Button from '@mui/material/Button'
@@ -13,6 +8,11 @@ import Typography from '@mui/material/Typography'
 import { DataGrid, GridActionsCellItem, GridColumns, GridRowId, GridToolbarContainer } from '@mui/x-data-grid'
 import React, { FC } from 'react'
 import { MdAdd, MdDelete } from 'react-icons/md'
+import { withDrawer } from '@/components/Drawer/withDrawer'
+import { BasePageProps } from '@/interfaces/BasePageProps'
+import { Paginate } from '@/interfaces/Paginate'
+import { User } from '@/interfaces/User'
+import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
 
 interface RoomsControlProps {
   users: Paginate<User>
