@@ -12,7 +12,6 @@ import { MdBuild, MdPowerSettingsNew, MdSearch } from 'react-icons/md'
 import { AccountButton, ScheduleButton } from '../../components/User/Buttons'
 import { ControlInput, ControlLabel, ControlSelect } from '../../components/User/TextField.jsx'
 import UserTitle from '../../components/User/Title.jsx'
-import Icon from '../Icon/Index'
 const style = {
   position: 'absolute',
   top: '40%',
@@ -133,7 +132,7 @@ const Agenda = () => {
       >
         <div style={{ display: 'flex' }}>
           <StyledDate type='date' />
-          <Icon name={MdSearch} style={{ width: 32, height: 32, marginLeft: '0.5rem', fill: '#3F51B5' }}></Icon>
+          <MdSearch style={{ width: 32, height: 32, marginLeft: '0.5rem', fill: '#3F51B5' }} />
         </div>
         <ScheduleButton onClick={handleOpen}>+ Agendar</ScheduleButton>
       </div>

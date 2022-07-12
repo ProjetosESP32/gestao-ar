@@ -1,52 +1,65 @@
-import { createTheme, responsiveFontSizes } from '@mui/material/styles'
+import { createTheme, responsiveFontSizes, Palette } from '@mui/material/styles'
 
-export let theme = createTheme({
-  palette: {
-    primary: {
-      main: '#002984',
-    },
-  },
-
-  components: {
-    MuiTablePagination: {
-      defaultProps: {
-        labelRowsPerPage: 'Linhas por página:',
-        labelDisplayedRows: ({ from, to, count }) => `${from}-${to} de ${count !== -1 ? count : `mais que ${to}`}`,
+export const createAppTheme = (mode: Palette['mode']) => {
+  const theme = createTheme({
+    palette: {
+      mode,
+      primary: {
+        main: '#6c63ff',
+        light: '#a491ff',
+        dark: '#2838cb',
       },
-    },
-
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 32,
-          width: '100%',
-          paddingTop: 16,
-          paddingBottom: 16,
-        },
+      secondary: {
+        main: '#90caf9',
+        light: '#c3fdff',
+        dark: '#5d99c6',
       },
     },
 
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          borderRadius: 32,
+    typography: {
+      fontFamily: 'Montserrat, sans-serif',
+    },
+
+    components: {
+      MuiTablePagination: {
+        defaultProps: {
+          labelRowsPerPage: 'Itens por página:',
+          labelDisplayedRows: ({ from, to, count }) => `${from}-${to} de ${count !== -1 ? count : `mais que ${to}`}`,
+        },
+      },
+
+      MuiPaper: {
+        defaultProps: {
+          elevation: 2,
+        },
+      },
+
+      MuiButton: {
+        defaultProps: {
+          variant: 'contained',
+        },
+        styleOverrides: {
+          contained: {
+            borderRadius: '9999px',
+          },
+        },
+      },
+
+      MuiTextField: {
+        defaultProps: {
+          variant: 'outlined',
+        },
+      },
+
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            borderRadius: '9999px',
+          },
         },
       },
     },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          marginLeft: 4,
-        },
-      },
-    },
-    MuiFormControl: {
-      styleOverrides: {
-        root: {
-          width: '100%',
-        },
-      },
-    },
-  },
-})
-theme = responsiveFontSizes(theme)
+  })
+
+  return responsiveFontSizes(theme)
+}

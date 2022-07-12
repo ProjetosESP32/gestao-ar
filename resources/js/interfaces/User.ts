@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon'
 import { Attachment } from './Attachment'
+import { Room } from './Room'
 
 export interface User {
   id: number
@@ -7,7 +7,8 @@ export interface User {
   email: string
   isRoot: boolean
   cover?: Attachment | null
-  emailVerifiedAt?: DateTime | null
-  createdAt: DateTime
-  updatedAt: DateTime
+  emailVerifiedAt?: string | null
+  rooms?: Room[]
+  createdAt: string
+  updatedAt: string
 }

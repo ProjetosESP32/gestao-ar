@@ -1,9 +1,8 @@
 import Event from '@ioc:Adonis/Core/Event'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
-import Esp from 'App/Models/Esp'
 import Room from 'App/Models/Room'
-import { convertPotencyToNumber } from 'App/Utils/convertPotencyToNumber'
+import { io } from 'App/Services/WebSocket'
 import TemperatureValidator from 'App/Validators/Web/TemperatureValidator'
 
 export default class RoomControlsController {
@@ -22,17 +21,6 @@ export default class RoomControlsController {
           })
         })
         .firstOrFail()
-      const esps = await Esp.query({ client }).whereNot('roomId', room.id).orWhereNull('roomId')
-      const consumptionNow = await Database.from('consumptions')
-        .innerJoin('esps', 'consumptions.esp_id', 'esps.id')
-        .innerJoin('rooms', 'esps.room_id', 'rooms.id')
-        .max('consumptions.created_at', 'maxDate')
-        .sum('consumptions.potency', 'totalPotency')
-        .whereIn(
-          'esp_id',
-          esps.map(esp => esp.id),
-        )
-        .useTransaction(client)
       const dailyConsumption = await Database.from('consumptions')
         .select(Database.raw('MIN(`created_at`) AS `createdAt`'), Database.raw('HOUR(`created_at`) as `hour`'))
         .where('created_at', '>', Database.raw('NOW() - INTERVAL 1 DAY'))
@@ -55,20 +43,27 @@ export default class RoomControlsController {
         )
         .useTransaction(client)
 
-      const data = {
-        room,
-        esps,
-        consumptionNow: convertPotencyToNumber(consumptionNow),
-        dailyConsumption: convertPotencyToNumber(dailyConsumption),
-        monthConsumption: convertPotencyToNumber(monthConsumption),
-      }
-
       const canEdit = await bouncer.allows('updateRoom', room)
 
-      return { ...data, canEdit }
+      const sockets = await io.allSockets()
+      const hasServices = sockets.size > 0
+
+      return {
+        room,
+        dailyConsumption: dailyConsumption.map(({ hour, totalPotency }) => ({
+          hour: Number(hour),
+          totalPotency: Number(totalPotency),
+        })),
+        monthConsumption: monthConsumption.map(({ month, totalPotency }) => ({
+          month: Number(month),
+          totalPotency: Number(totalPotency),
+        })),
+        canEdit,
+        hasServices,
+      }
     })
 
-    return inertia.render('Control/RoomControl', results)
+    return inertia.render('Rooms/Show', results)
   }
 
   public async changePower({ bouncer, params }: HttpContextContract) {

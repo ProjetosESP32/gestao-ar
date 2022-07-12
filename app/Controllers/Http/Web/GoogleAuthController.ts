@@ -1,20 +1,23 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { DateTime } from 'luxon'
 import Welcome from 'App/Mailers/Welcome'
 import User from 'App/Models/User'
 import { generatePassword } from 'App/Utils/generatePassword'
 
 export default class GoogleAuthController {
   public async create({ ally }: HttpContextContract) {
-    await ally.use('google').redirect()
+    return ally.use('google').redirect()
   }
 
   public async store({ ally, auth, response, session }: HttpContextContract) {
-    if (ally.use('google').hasError()) {
+    const allyInstance = ally.use('google')
+
+    if (allyInstance.hasError() || allyInstance.stateMisMatch()) {
       session.put('ally_error', 'Ocorreu um erro ao fazer login')
       return response.redirect().toRoute('login.create')
     }
 
-    const googleUser = await ally.use('google').user()
+    const googleUser = await allyInstance.user()
 
     const user = await User.firstOrCreate(
       { googleId: googleUser.id },
@@ -23,6 +26,7 @@ export default class GoogleAuthController {
         googleId: googleUser.id,
         password: generatePassword(12),
         username: googleUser.name,
+        emailVerifiedAt: googleUser.emailVerificationState === 'verified' ? DateTime.now() : null,
       },
     )
 

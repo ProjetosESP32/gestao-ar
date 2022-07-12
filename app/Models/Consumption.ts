@@ -2,6 +2,8 @@ import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Esp from './Esp'
 
+const consumptionConsumer = (value: unknown) => Number(value)
+
 export default class Consumption extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -9,13 +11,13 @@ export default class Consumption extends BaseModel {
   @column()
   public espId: number
 
-  @column()
+  @column({ consume: consumptionConsumer })
   public temperature: number
 
-  @column()
+  @column({ consume: consumptionConsumer })
   public humidity: number
 
-  @column()
+  @column({ consume: consumptionConsumer })
   public potency: number
 
   @column.dateTime({ autoCreate: true })

@@ -11,7 +11,7 @@ export default class AirChange {
     room.esps.forEach(({ macAddress }) => {
       services.forEach(({ token }) => {
         // projName property is used to identify the ESP project and should be always 'arCond' for this app
-        io.to(token).emit('sendMessage', { remetente: macAddress, mensagem: data, projName: 'arCond' })
+        io.to(token).volatile.emit('sendMessage', { remetente: macAddress, mensagem: data, projName: 'arCond' })
       })
     })
   }
@@ -23,7 +23,7 @@ export default class AirChange {
       esps.forEach(({ macAddress }) => {
         services.forEach(({ token }) => {
           // projName property is used to identify the ESP project and should be always 'arCond' for this app
-          io.to(token).emit('sendMessage', { remetente: macAddress, mensagem: data, projName: 'arCond' })
+          io.to(token).volatile.emit('sendMessage', { destinatario: macAddress, mensagem: data, projName: 'arCond' })
         })
       })
     })
@@ -31,10 +31,29 @@ export default class AirChange {
 
   public async onReceive({
     destinatario,
-    mensagem: { humidade, kwhTotal, temperatura },
+    mensagem: { irms, humidade, temperatura },
   }: EventsList['air-change:receive']) {
     const esp = await Esp.firstOrCreate({ macAddress: destinatario })
 
-    await esp.related('consumptions').create({ humidity: humidade, potency: kwhTotal, temperature: temperatura })
+    if (irms === 0) {
+      if (esp.isOn) {
+        esp.isOn = false
+        await esp.save()
+      }
+
+      return
+    }
+
+    if (!esp.isOn) {
+      esp.isOn = true
+      await esp.save()
+    }
+
+    const lastConsumption = await esp.related('consumptions').query().orderBy('created_at', 'desc').first()
+    const baseTime = lastConsumption?.createdAt.diffNow('hour').hours ?? 0
+    const time = 1 < baseTime && baseTime < 0 ? -baseTime : 1 / 60
+
+    const potency = (220 * irms * time) / 1000
+    await esp.related('consumptions').create({ humidity: humidade, temperature: temperatura, potency })
   }
 }

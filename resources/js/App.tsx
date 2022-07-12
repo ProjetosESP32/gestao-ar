@@ -1,30 +1,34 @@
-import { PageProps } from '@inertiajs/inertia'
-import { createInertiaApp, SetupOptions } from '@inertiajs/inertia-react'
+import { InertiaApp } from '@inertiajs/inertia-react'
 import { InertiaProgress } from '@inertiajs/progress'
-import { CssBaseline, ThemeProvider } from '@mui/material'
-import React, { FC } from 'react'
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import React, { FC, useMemo } from 'react'
 import { render } from 'react-dom'
-import { DrawerProvider } from './providers/drawer.jsx'
-import { theme } from './theme'
+import { InitialComponent } from './components/InitialComponent'
+import { createAppTheme } from './theme'
 
 import 'react-image-crop/dist/ReactCrop.css'
-import '../css/global.css'
-import '../css/midia.css'
+import '../css/app.css'
 
 InertiaProgress.init()
 
-type AppProps = Omit<SetupOptions<HTMLElement, PageProps>, 'el'>
+const app = document.getElementById('app')!
 
-const App: FC<AppProps> = ({ App: Page, props }) => (
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <Page {...props} />
-  </ThemeProvider>
-)
+const App: FC = () => {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+  const theme = useMemo(() => createAppTheme(prefersDarkMode ? 'dark' : 'light'), [prefersDarkMode])
 
-createInertiaApp({
-  resolve: name => import(`./pages/${name}`) as any,
-  setup({ el, ...props }) {
-    render(<App {...props} />, el)
-  },
-})
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <InertiaApp
+        initialPage={JSON.parse(app.dataset.page!)}
+        resolveComponent={name => import(`./pages/${name}`).then(module => module.default)}
+        initialComponent={InitialComponent}
+      />
+    </ThemeProvider>
+  )
+}
+
+render(<App />, app)

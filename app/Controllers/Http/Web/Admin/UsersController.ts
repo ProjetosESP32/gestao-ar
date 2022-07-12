@@ -15,27 +15,35 @@ export default class UsersController {
     const perPageNumber = Number(perPage) || 10
     const users = await User.query().paginate(pageNumber, perPageNumber)
 
-    return inertia.render('User/UserList', { users })
+    return inertia.render('Admin/Users/Index', { users })
   }
 
-  public async create({ inertia, bouncer }: HttpContextContract) {
+  public async create({ inertia, bouncer, request }: HttpContextContract) {
     await bouncer.authorize('admin')
-    const rooms = await Room.all()
+    const { page, perPage } = request.qs()
+    const pageNumber = Number(page) || 1
+    const perPageNumber = Number(perPage) || 10
+    const rooms = await Room.query().paginate(pageNumber, perPageNumber)
 
-    return inertia.render('User/UserRegister', { rooms })
+    return inertia.render('Admin/Users/Create', { rooms })
   }
 
   public async store({ request, response, bouncer }: HttpContextContract) {
     await bouncer.authorize('admin')
-    const { username, email, roomIds } = await request.validate(CreateUserValidator)
+    const { username, email, rooms, isRoot } = await request.validate(CreateUserValidator)
     const generatedPassword = generatePassword(12)
 
     const user = await User.create({
       username,
       email,
+      isRoot,
       password: generatedPassword,
     })
-    await user.related('rooms').attach(roomIds)
+
+    if (rooms?.length) {
+      await user.related('rooms').attach(rooms)
+    }
+
     await new Invite(user).sendLater()
 
     return response.redirect().toRoute('admin.users.index')
@@ -45,7 +53,7 @@ export default class UsersController {
     await bouncer.authorize('admin')
     const user = await User.findOrFail(params.id)
 
-    return inertia.render('User/UserShow', { user })
+    return inertia.render('Admin/Users/Show', { user })
   }
 
   public async update({ params, request, response, bouncer }: HttpContextContract) {

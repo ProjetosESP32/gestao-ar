@@ -13,5 +13,11 @@ export default class UpdatePasswordValidator {
     ]),
   })
 
-  public messages = {}
+  public messages = {
+    'newPasswordConfirmation.confirmed': 'A confirmação da nova senha não confere',
+    'newPassword.minLength': 'A senha deve ter no mínimo 6 caracteres',
+    'newPassword.maxLength': 'A senha deve ter no máximo 16 caracteres',
+    'newPassword.required': 'A nova senha é obrigatória',
+    'oldPassword.required': 'A senha antiga é obrigatória',
+  }
 }
