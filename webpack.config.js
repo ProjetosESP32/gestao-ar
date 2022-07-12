@@ -1,4 +1,4 @@
-const { join } = require('path')
+const { join, resolve } = require('path')
 const Encore = require('@symfony/webpack-encore')
 
 if (!Encore.isRuntimeEnvironmentConfigured()) {
@@ -7,6 +7,7 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 
 Encore.setOutputPath('./public/assets')
 Encore.setPublicPath('/assets')
+Encore.addAliases({ '@': resolve(__dirname, 'resources', 'js') })
 
 Encore.addEntry('app', './resources/js/App.tsx')
 Encore.enableReactPreset()

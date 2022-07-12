@@ -9,9 +9,6 @@ export default class Service extends BaseModel {
   public name: string
 
   @column()
-  public description: string
-
-  @column()
   public token: string
 
   @column.dateTime({ autoCreate: true })

@@ -8,7 +8,6 @@ export default class Services extends BaseSchema {
       table.increments('id')
 
       table.string('name').unique()
-      table.string('description')
       table.string('token').unique()
 
       table.timestamp('created_at', { useTz: true })

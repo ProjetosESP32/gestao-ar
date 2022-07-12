@@ -9,6 +9,6 @@ export default class RoomsController {
 
     const rooms = await Room.query().paginate(pageNumber, perPageNumber)
 
-    return inertia.render('Control/RoomsControl', { rooms })
+    return inertia.render('Rooms/Index', { rooms })
   }
 }

@@ -1,36 +1,26 @@
-import { Page, PageProps } from '@inertiajs/inertia'
-import { useForm, usePage } from '@inertiajs/inertia-react'
-import { Box, Grid, Modal } from '@mui/material'
+import { useForm } from '@inertiajs/inertia-react'
+import { Button, Modal, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Container } from '@mui/system'
 import React, { FC } from 'react'
-import { AccountButton } from './User/Buttons'
-import { ControlInput, ControlLabel } from './User/TextField'
-import UserTitle from './User/Title'
 
 interface NewRoomModalProps {
   isOpen: boolean
-  handleClose: () => void
+  onClose: () => void
 }
 
-interface NewRoomPageProp {
-  rooms: {
-    name: string
-    block: string
-    floor: string
-  }[]
-}
-
-type NewRoomPage = Page<PageProps & NewRoomPageProp>
-
-export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, handleClose }) => {
-  const { rooms } = usePage<NewRoomPage>().props
-  const { data, post, processing, setData } = useForm({
+export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, onClose }) => {
+  const { data, post, processing, setData, errors, reset } = useForm({
     name: '',
     block: '',
     floor: '',
   })
 
-  const floors = [...new Set(rooms.map(room => room.floor))]
-  const blocks = [...new Set(rooms.map(room => room.block))]
+  const handleClose = () => {
+    if (processing) return
+
+    onClose()
+    reset()
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -43,61 +33,60 @@ export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, handleClose }) => 
 
     if (processing) return
 
-    await post('/admin/rooms')
-    handleClose()
+    await post('/admin/rooms', { onSuccess: () => handleClose() })
   }
 
   return (
-    <Modal open={isOpen} onClose={handleClose}>
-      <Box
-        component='form'
-        onSubmit={handleSubmit}
-        sx={{
-          position: 'absolute',
-          top: '40%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 500,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          p: 4,
-          borderRadius: '0.5rem',
-        }}
-      >
-        <UserTitle style={{ margin: '1.5rem 0' }} variant='body1'>
-          Nova Sala
-        </UserTitle>
-
-        <Grid container justifyContent='space-between' columns={11} alignItems='center'>
-          <Grid item xs={11}>
-            <ControlLabel>Nome</ControlLabel>
-            <ControlInput value={data.name} onChange={handleChange} name='name' />
-          </Grid>
-          <Grid item xs={11}>
-            <ControlLabel>Bloco</ControlLabel>
-            <ControlInput value={data.block} onChange={handleChange} name='block' autoComplete='' list='block' />
-            <datalist id='block'>
-              {blocks.map(block => (
-                <option key={block} value={block} />
-              ))}
-            </datalist>
-          </Grid>
-          <Grid item xs={11}>
-            <ControlLabel>Piso</ControlLabel>
-            <ControlInput value={data.floor} onChange={handleChange} name='floor' autoComplete='' list='floor' />
-            <datalist id='floor'>
-              {floors.map(floor => (
-                <option key={floor} value={floor} />
-              ))}
-            </datalist>
-          </Grid>
-          <Grid item xs={11}>
-            <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
-              <AccountButton type='submit'>Criar Sala</AccountButton>
-            </div>
-          </Grid>
-        </Grid>
-      </Box>
+    <Modal open={isOpen} onClose={handleClose} sx={{ display: 'grid', placeItems: 'center' }}>
+      <Container maxWidth='sm'>
+        <Paper>
+          <Stack component='form' onSubmit={handleSubmit} spacing={2} p={2}>
+            <Typography variant='h6'>Criar sala</Typography>
+            <TextField
+              fullWidth
+              id='name'
+              name='name'
+              label='Sala'
+              variant='outlined'
+              placeholder='Digite o nome da sala'
+              value={data.name}
+              error={!!errors.name}
+              helperText={errors.name}
+              onChange={handleChange}
+              disabled={processing}
+            />
+            <TextField
+              fullWidth
+              id='block'
+              name='block'
+              label='Bloco'
+              variant='outlined'
+              placeholder='Digite o bloco da sala'
+              value={data.block}
+              error={!!errors.block}
+              helperText={errors.block}
+              onChange={handleChange}
+              disabled={processing}
+            />
+            <TextField
+              fullWidth
+              id='floor'
+              name='floor'
+              label='Piso'
+              variant='outlined'
+              placeholder='Digite o piso da sala'
+              value={data.floor}
+              error={!!errors.floor}
+              helperText={errors.floor}
+              onChange={handleChange}
+              disabled={processing}
+            />
+            <Button fullWidth type='submit' variant='contained' disabled={processing}>
+              Criar sala
+            </Button>
+          </Stack>
+        </Paper>
+      </Container>
     </Modal>
   )
 }

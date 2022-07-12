@@ -1,14 +1,19 @@
-import { Button, Modal, Typography, Box, Paper } from '@mui/material'
+import Button from '@mui/material/Button'
+import Modal from '@mui/material/Modal'
+import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import React, { ChangeEventHandler, FC, useRef, useState } from 'react'
 import ReactCrop, { Crop } from 'react-image-crop'
-import { useDebounceEffect } from '../../hooks/useDebounceEffect'
 import { loadCropInCanvas } from './loadCropInCanvas'
+import { useDebounceEffect } from '@/hooks/useDebounceEffect'
 
 interface CropperProps {
   onChange: (imageBlob: Blob) => void
+  disabled?: boolean
 }
 
-const Cropper: FC<CropperProps> = ({ onChange }) => {
+const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children }) => {
   const [crop, setCrop] = useState<Crop>()
   const [completedCrop, setCompletedCrop] = useState<Crop>()
   const [filePreview, setFilePreview] = useState<string | null>(null)
@@ -68,20 +73,19 @@ const Cropper: FC<CropperProps> = ({ onChange }) => {
           type='file'
           name='image-file'
           id='image-file'
+          accept='image/*'
           hidden
-          accept='image/png,image/jpeg'
           onChange={handleImageSelect}
+          disabled={disabled}
         />
-        <Typography variant='h6'>Selecione uma imagem</Typography>
+        {children}
       </label>
-      <Modal
-        open={!!filePreview}
-        onClose={reset}
-        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      >
+      <Modal open={!!filePreview} onClose={reset} sx={{ display: 'grid', placeItems: 'center', padding: 2 }}>
         <Paper>
-          <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' p={2} gap={2}>
-            <Typography variant='h6'>Selecione a área da imagem para salvar</Typography>
+          <Stack alignItems='center' p={2} spacing={2}>
+            <Typography variant='h6' textAlign='center'>
+              Selecione a área da imagem para salvar
+            </Typography>
             <ReactCrop
               crop={crop}
               onChange={(_: unknown, percentCrop: Crop) => setCrop(percentCrop)}
@@ -92,14 +96,14 @@ const Cropper: FC<CropperProps> = ({ onChange }) => {
                 src={filePreview!}
                 alt='Imagem selecionada'
                 ref={imageRef}
-                style={{ maxHeight: '60vh', maxWidth: '60vw' }}
+                style={{ maxHeight: '80vh', maxWidth: '80vw' }}
               />
             </ReactCrop>
             <canvas ref={canvasRef} hidden></canvas>
             <Button disabled={!completedCrop} onClick={handleOk} variant='contained'>
               OK
             </Button>
-          </Box>
+          </Stack>
         </Paper>
       </Modal>
     </>

@@ -1,0 +1,50 @@
+import { BasePageProps } from '@/interfaces/BasePageProps'
+import { Room } from '@/interfaces/Room'
+import { usePage } from '@inertiajs/inertia-react'
+import { Box, Divider, Paper, Stack, Typography } from '@mui/material'
+import React, { FC, Fragment } from 'react'
+
+interface RoomAirPage {
+  room: Room
+}
+
+type RoomAirPageProps = BasePageProps<RoomAirPage>
+
+export const RoomStatus: FC = () => {
+  const { room } = usePage<RoomAirPageProps>().props
+
+  return (
+    <Paper sx={{ padding: 2 }}>
+      <Stack spacing={2}>
+        <Typography variant='h5'>Status por ESP</Typography>
+        {room.esps?.map(({ id, name, isOn, consumptions }, idx, arr) => (
+          <Fragment key={id}>
+            <Stack direction='row' spacing={2} flexWrap='wrap'>
+              <Box>
+                <Typography>Nome</Typography>
+                <Typography>{name}</Typography>
+              </Box>
+              <Box>
+                <Typography>Ligado?</Typography>
+                <Typography>{isOn ? 'Sim' : 'Não'}</Typography>
+              </Box>
+              <Box>
+                <Typography>Humidade</Typography>
+                <Typography>{consumptions?.[0].humidity ?? 0}%</Typography>
+              </Box>
+              <Box>
+                <Typography>Consumo</Typography>
+                <Typography>{consumptions?.[0].potency ?? 0}kWh</Typography>
+              </Box>
+              <Box>
+                <Typography>Temperatura</Typography>
+                <Typography>{consumptions?.[0].temperature ?? 0}°C</Typography>
+              </Box>
+            </Stack>
+            {idx !== arr.length - 1 && <Divider />}
+          </Fragment>
+        ))}
+      </Stack>
+    </Paper>
+  )
+}

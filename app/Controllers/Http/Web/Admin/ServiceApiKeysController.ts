@@ -12,30 +12,16 @@ export default class ServiceApiKeysController {
     const perPageNumber = Number(perPage) || 10
     const services = await Service.query().paginate(pageNumber, perPageNumber)
 
-    return inertia.render('Services/Index', { services })
-  }
-
-  public async create({ bouncer, inertia }: HttpContextContract) {
-    await bouncer.authorize('admin')
-    const token = generateServiceToken()
-
-    return inertia.render('Services/Create', { token })
+    return inertia.render('Admin/API/Index', { services })
   }
 
   public async store({ bouncer, request, response }: HttpContextContract) {
     await bouncer.authorize('admin')
     const data = await request.validate(CreateServiceApiKeyValidator)
 
-    await Service.create(data)
+    await Service.create({ ...data, token: generateServiceToken() })
 
-    return response.redirect().toRoute('admin.services.index')
-  }
-
-  public async show({ bouncer, inertia, params }: HttpContextContract) {
-    await bouncer.authorize('admin')
-    const service = await Service.findOrFail(params.id)
-
-    return inertia.render('Services/Show', { service })
+    return response.redirect().toRoute('admin.apis.index ')
   }
 
   public async update({ bouncer, request, response, params }: HttpContextContract) {
@@ -47,7 +33,7 @@ export default class ServiceApiKeysController {
     service.merge(data)
     await service.save()
 
-    return response.redirect().toRoute('admin.services.index')
+    return response.redirect().toRoute('admin.apis.index ')
   }
 
   public async destroy({ bouncer, response, params }: HttpContextContract) {
@@ -56,6 +42,6 @@ export default class ServiceApiKeysController {
 
     await service.delete()
 
-    return response.redirect().toRoute('admin.services.index')
+    return response.redirect().toRoute('admin.apis.index ')
   }
 }

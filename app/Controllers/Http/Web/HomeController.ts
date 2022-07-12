@@ -1,12 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
-import Room from 'App/Models/Room'
-import { convertPotencyToNumber } from 'App/Utils/convertPotencyToNumber'
 
 export default class HomeController {
   public async index({ inertia }: HttpContextContract) {
     const results = await Database.transaction(async client => {
-      const rooms = await Room.all({ client })
       const consumptionNow = await Database.from('consumptions')
         .select('rooms.block as block')
         .innerJoin('esps', 'consumptions.esp_id', 'esps.id')
@@ -30,10 +27,18 @@ export default class HomeController {
         .useTransaction(client)
 
       return {
-        rooms,
-        consumptionNow: convertPotencyToNumber(consumptionNow),
-        dailyConsumption: convertPotencyToNumber(dailyConsumption),
-        monthConsumption: convertPotencyToNumber(monthConsumption),
+        consumptionNow: consumptionNow.map(({ block, totalPotency }) => ({
+          block,
+          totalPotency: Number(totalPotency),
+        })),
+        dailyConsumption: dailyConsumption.map(({ hour, totalPotency }) => ({
+          hour: Number(hour),
+          totalPotency: Number(totalPotency),
+        })),
+        monthConsumption: monthConsumption.map(({ month, totalPotency }) => ({
+          month: Number(month),
+          totalPotency: Number(totalPotency),
+        })),
       }
     })
 

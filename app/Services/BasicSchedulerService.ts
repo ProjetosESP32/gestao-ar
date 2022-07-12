@@ -44,12 +44,12 @@ export class BasicSchedulerService implements SchedulerContract {
       return
     }
 
-    this.intervalIds.forEach(id => clearInterval(id))
+    this.intervalIds.forEach(clearInterval)
+    this.intervalIds = []
   }
 
   public stopAndClear(): void {
     this.stop()
-    this.intervalIds = []
     this.registeredIntervals.clear()
   }
 }
