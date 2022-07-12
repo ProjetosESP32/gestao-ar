@@ -1,5 +1,7 @@
 import { usePage } from '@inertiajs/inertia-react'
-import { Paper, Stack, Typography } from '@mui/material'
+import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import React, { FC } from 'react'
 import { BasePageProps } from '../interfaces/BasePageProps'

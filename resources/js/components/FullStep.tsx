@@ -1,4 +1,9 @@
-import { Button, Stack, Step, StepLabel, Stepper, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import Step from '@mui/material/Step'
+import StepLabel from '@mui/material/StepLabel'
+import Stepper from '@mui/material/Stepper'
+import Typography from '@mui/material/Typography'
 import React, { Children, forwardRef, ReactNode, useImperativeHandle, useState } from 'react'
 import { TabPanel } from './TabPanel'
 

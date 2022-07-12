@@ -1,8 +1,12 @@
+import { usePage } from '@inertiajs/inertia-react'
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
+import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import React, { FC, Fragment } from 'react'
 import { BasePageProps } from '@/interfaces/BasePageProps'
 import { Room } from '@/interfaces/Room'
-import { usePage } from '@inertiajs/inertia-react'
-import { Box, Divider, Paper, Stack, Typography } from '@mui/material'
-import React, { FC, Fragment } from 'react'
 
 interface RoomAirPage {
   room: Room

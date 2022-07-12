@@ -1,5 +1,10 @@
 import { useForm } from '@inertiajs/inertia-react'
-import { Button, Modal, Paper, Stack, TextField, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
+import Modal from '@mui/material/Modal'
+import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import { Container } from '@mui/system'
 import React, { FC } from 'react'
 

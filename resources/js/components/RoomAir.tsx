@@ -1,15 +1,13 @@
 import { usePage } from '@inertiajs/inertia-react'
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  IconButton,
-  Paper,
-  Stack,
-  Switch,
-  Typography,
-  useTheme,
-} from '@mui/material'
+import Box from '@mui/material/Box'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import IconButton from '@mui/material/IconButton'
+import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
+import Switch from '@mui/material/Switch'
+import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 import axios from 'axios'
 import React, { FC, useState } from 'react'
 import { MdAdd, MdRemove, MdWarning } from 'react-icons/md'
