@@ -1,5 +1,5 @@
 import { Inertia } from '@inertiajs/inertia'
-import { Link, usePage } from '@inertiajs/inertia-react'
+import { usePage } from '@inertiajs/inertia-react'
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
@@ -8,6 +8,7 @@ import Tooltip from '@mui/material/Tooltip'
 import React, { FC, useState } from 'react'
 import { BasePageProps } from '../interfaces/BasePageProps'
 import { getFirstLetters } from '../utils/getFirstLetters'
+import { AppLink } from './AppLink'
 
 export const AvatarMenu: FC = () => {
   const { loggedUser } = usePage<BasePageProps>().props
@@ -41,6 +42,6 @@ export const AvatarMenu: FC = () => {
       </Menu>
     </>
   ) : (
-    <Link href='/auth/login'>Faça Login</Link>
+    <AppLink href='/auth/login'>Faça Login</AppLink>
   )
 }

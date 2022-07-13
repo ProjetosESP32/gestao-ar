@@ -1,4 +1,3 @@
-import { Link } from '@inertiajs/inertia-react'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
@@ -8,6 +7,7 @@ import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 import React from 'react'
 import { VscArrowLeft } from 'react-icons/vsc'
+import { AppLink } from '@/components/AppLink'
 import { RecoverPasswordForm } from '@/components/RecoverPasswordForm'
 
 const RecoverPassword = () => {
@@ -28,14 +28,14 @@ const RecoverPassword = () => {
     >
       <Container maxWidth='md'>
         <Paper sx={{ borderRadius: 3, padding: 2 }}>
-          <Link href='/'>
-            <VscArrowLeft /> Voltar para Home
-          </Link>
+          <AppLink href='/' icon={VscArrowLeft} style={{ marginBottom: '2rem' }}>
+            Voltar para HOME
+          </AppLink>
           <Grid container spacing={2} alignItems='center' justifyContent='center'>
             <Grid item sm={6} sx={{ [theme.breakpoints.down('sm')]: { display: 'none' } }}>
               <img src='/images/recover-pass-img.svg' alt='Imagem de login' style={{ width: '100%' }} />
             </Grid>
-            <Grid item sm={6}>
+            <Grid item xs={12} sm={6}>
               <Stack spacing={2} alignItems='center'>
                 <Typography variant='h4'>Esqueceu sua senha?</Typography>
                 <Typography>

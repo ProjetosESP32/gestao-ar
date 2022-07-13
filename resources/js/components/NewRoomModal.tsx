@@ -1,11 +1,11 @@
 import { useForm } from '@inertiajs/inertia-react'
 import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
 import Modal from '@mui/material/Modal'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { Container } from '@mui/system'
 import React, { FC } from 'react'
 
 interface NewRoomModalProps {
@@ -43,7 +43,7 @@ export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <Modal open={isOpen} onClose={handleClose} sx={{ display: 'grid', placeItems: 'center' }}>
-      <Container maxWidth='sm'>
+      <Container maxWidth='xs'>
         <Paper>
           <Stack component='form' onSubmit={handleSubmit} spacing={2} p={2}>
             <Typography variant='h6'>Criar sala</Typography>

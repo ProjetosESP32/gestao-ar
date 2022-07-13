@@ -1,4 +1,3 @@
-import { Link } from '@inertiajs/inertia-react'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
@@ -9,6 +8,7 @@ import { useTheme } from '@mui/material/styles'
 import React, { FC } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { VscArrowLeft } from 'react-icons/vsc'
+import { AppLink } from '@/components/AppLink'
 import { LineDivider } from '@/components/LineDivider'
 import { LoginForm } from '@/components/LoginForm'
 
@@ -29,14 +29,14 @@ const Login: FC = () => {
     >
       <Container maxWidth='md'>
         <Paper sx={{ borderRadius: 3, padding: 2 }}>
-          <Link href='/'>
-            <VscArrowLeft /> Voltar para Home
-          </Link>
+          <AppLink href='/' icon={VscArrowLeft}>
+            Voltar para HOME
+          </AppLink>
           <Grid container spacing={2} alignItems='center' justifyContent='center'>
-            <Grid item sm={7} sx={{ [theme.breakpoints.down('sm')]: { display: 'none' } }}>
+            <Grid item sm={6} sx={{ [theme.breakpoints.down('sm')]: { display: 'none' } }}>
               <img src='/images/login-img.svg' alt='Imagem de login' style={{ width: '100%' }} />
             </Grid>
-            <Grid item sm={5}>
+            <Grid item xs={12} sm={6}>
               <Stack spacing={2} alignItems='center'>
                 <Typography variant='h2'>Login</Typography>
                 <Stack direction='row'>
@@ -46,8 +46,8 @@ const Login: FC = () => {
                 </Stack>
                 <LineDivider>Ou</LineDivider>
                 <LoginForm />
-                <Link href='/users/recover-password'>Esqueci minha senha</Link>
-                <Link href='/auth/register'>Registrar-se</Link>
+                <AppLink href='/users/recover-password'>Esqueci minha senha</AppLink>
+                <AppLink href='/auth/register'>Registrar-se</AppLink>
               </Stack>
             </Grid>
           </Grid>

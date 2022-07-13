@@ -81,16 +81,16 @@ const Create: FC = () => {
           onReset={handleReset}
           onFinish={handleSubmit}
           EndStepperComponent={
-            <Grid sx={{ placeItems: 'center' }}>
+            <Box display='flex' alignItems='center' justifyContent='center'>
               {processing ? (
-                <Box>
+                <>
                   <CircularProgress />
                   <Typography textAlign='center'>Enviando formulário</Typography>
-                </Box>
+                </>
               ) : (
                 <Typography textAlign='center'>Enviado!</Typography>
               )}
-            </Grid>
+            </Box>
           }
         >
           <Grid container spacing={2} alignItems='center' justifyContent='center'>

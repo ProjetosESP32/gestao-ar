@@ -16,7 +16,6 @@ interface NewServiceApiModalProps {
 export const NewServiceApiModal: FC<NewServiceApiModalProps> = ({ isOpen, onClose }) => {
   const { data, post, processing, setData, errors, reset } = useForm({
     name: '',
-    description: '',
   })
 
   const handleClose = () => {
@@ -42,7 +41,7 @@ export const NewServiceApiModal: FC<NewServiceApiModalProps> = ({ isOpen, onClos
 
   return (
     <Modal open={isOpen} onClose={handleClose} sx={{ display: 'grid', placeItems: 'center' }}>
-      <Container maxWidth='sm'>
+      <Container maxWidth='xs'>
         <Paper>
           <Stack component='form' onSubmit={handleSubmit} spacing={2} p={2}>
             <Typography variant='h6'>Criar chave de API</Typography>
@@ -56,19 +55,6 @@ export const NewServiceApiModal: FC<NewServiceApiModalProps> = ({ isOpen, onClos
               value={data.name}
               error={!!errors.name}
               helperText={errors.name}
-              onChange={handleChange}
-              disabled={processing}
-            />
-            <TextField
-              fullWidth
-              id='description'
-              name='description'
-              label='Descrição'
-              variant='outlined'
-              placeholder='Digite a descrição dessa chave de API'
-              value={data.description}
-              error={!!errors.description}
-              helperText={errors.description}
               onChange={handleChange}
               disabled={processing}
             />

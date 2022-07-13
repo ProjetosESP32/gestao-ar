@@ -32,4 +32,15 @@ export default class UsersController {
 
     return inertia.render('User/VerifyEmail')
   }
+
+  public async deletePhoto({ response, auth }: HttpContextContract) {
+    const user = auth.use('web').user!
+
+    if (user.cover) {
+      await user.cover.delete()
+      await user.save()
+    }
+
+    return response.redirect().toRoute('users.profile')
+  }
 }

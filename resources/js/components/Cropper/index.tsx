@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import React, { ChangeEventHandler, FC, useRef, useState } from 'react'
 import ReactCrop, { Crop } from 'react-image-crop'
-import { loadCropInCanvas } from './loadCropInCanvas'
+import { CANVAS_SIZE, loadCropInCanvas } from './loadCropInCanvas'
 import { useDebounceEffect } from '@/hooks/useDebounceEffect'
 
 interface CropperProps {
@@ -99,13 +99,13 @@ const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children }) => 
                 style={{ maxHeight: '80vh', maxWidth: '80vw' }}
               />
             </ReactCrop>
-            <canvas ref={canvasRef} hidden></canvas>
             <Button disabled={!completedCrop} onClick={handleOk} variant='contained'>
               OK
             </Button>
           </Stack>
         </Paper>
       </Modal>
+      <canvas ref={canvasRef} hidden width={CANVAS_SIZE} height={CANVAS_SIZE}></canvas>
     </>
   )
 }

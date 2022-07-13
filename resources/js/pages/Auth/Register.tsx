@@ -1,4 +1,3 @@
-import { Link } from '@inertiajs/inertia-react'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
@@ -9,6 +8,7 @@ import { useTheme } from '@mui/material/styles'
 import React, { FC } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { VscArrowLeft } from 'react-icons/vsc'
+import { AppLink } from '@/components/AppLink'
 import { LineDivider } from '@/components/LineDivider'
 import { RegisterForm } from '@/components/RegisterForm'
 
@@ -29,14 +29,14 @@ const Register: FC = () => {
     >
       <Container maxWidth='md'>
         <Paper sx={{ borderRadius: 3, padding: 2 }}>
-          <Link href='/'>
-            <VscArrowLeft /> Voltar para Home
-          </Link>
+          <AppLink href='/' icon={VscArrowLeft}>
+            Voltar para HOME
+          </AppLink>
           <Grid container spacing={2} alignItems='center' justifyContent='center'>
             <Grid item sm={6} md={7} sx={{ [theme.breakpoints.down('sm')]: { display: 'none' } }}>
               <img src='/images/user-register-img.svg' alt='Imagem de login' style={{ width: '100%' }} />
             </Grid>
-            <Grid item sm={6} md={5}>
+            <Grid item xs={12} sm={6} md={5}>
               <Stack spacing={2} alignItems='center'>
                 <Typography variant='h2'>Registro</Typography>
                 <Stack direction='row'>
@@ -46,7 +46,7 @@ const Register: FC = () => {
                 </Stack>
                 <LineDivider>Ou</LineDivider>
                 <RegisterForm />
-                <Link href='/auth/login'>Fazer Login</Link>
+                <AppLink href='/auth/login'>Fazer Login</AppLink>
               </Stack>
             </Grid>
           </Grid>

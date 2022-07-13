@@ -41,24 +41,28 @@ const columns: GridColDef[] = [
     align: 'right',
     type: 'number',
     flex: 1,
+    minWidth: 40,
   },
   {
     field: 'name',
     headerName: 'Nome',
-    flex: 2,
+    flex: 3,
     editable: true,
+    minWidth: 200,
   },
   {
     field: 'block',
     headerName: 'Bloco',
-    flex: 2,
+    flex: 1,
     editable: true,
+    minWidth: 100,
   },
   {
     field: 'floor',
     headerName: 'Piso',
-    flex: 2,
+    flex: 1,
     editable: true,
+    minWidth: 50,
   },
   {
     field: 'createdAt',
@@ -67,6 +71,7 @@ const columns: GridColDef[] = [
     align: 'right',
     headerAlign: 'right',
     flex: 4,
+    minWidth: 160,
   },
   {
     field: 'updatedAt',
@@ -75,5 +80,6 @@ const columns: GridColDef[] = [
     align: 'right',
     headerAlign: 'right',
     flex: 4,
+    minWidth: 160,
   },
 ]
