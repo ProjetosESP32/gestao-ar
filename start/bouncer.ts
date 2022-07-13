@@ -8,7 +8,7 @@ export const { actions } = Bouncer.before((user: User | null) => {
   .define('admin', (user: User) => {
     if (user.isRoot) return true
 
-    return Bouncer.deny('Not found', 404)
+    return Bouncer.deny('Unauthorized', 403)
   })
   .define('updateRoom', async (user: User, room: Room) => {
     await user.load('rooms')

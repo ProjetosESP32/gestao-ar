@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { DataGrid, GridActionsCellItem, GridColumns, GridRowId, GridToolbarContainer } from '@mui/x-data-grid'
 import React, { FC } from 'react'
-import { MdAdd, MdDelete } from 'react-icons/md'
+import { MdAdd, MdDelete, MdRemoveRedEye } from 'react-icons/md'
 import { withDrawer } from '@/components/Drawer/withDrawer'
 import { BasePageProps } from '@/interfaces/BasePageProps'
 import { Paginate } from '@/interfaces/Paginate'
@@ -81,6 +81,14 @@ const Index: FC = () => {
       getActions: ({ id }) =>
         loggedUser.id !== id
           ? [
+              <GridActionsCellItem
+                key='see'
+                icon={<MdRemoveRedEye />}
+                label='Ver'
+                className='textPrimary'
+                color='inherit'
+                onClick={() => Inertia.visit(`/admin/users/${id}`)}
+              />,
               <GridActionsCellItem
                 key='delete'
                 icon={<MdDelete />}

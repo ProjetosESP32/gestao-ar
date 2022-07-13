@@ -3,7 +3,7 @@ import Room from 'App/Models/Room'
 
 export default class RoomsController {
   public async index({ inertia, request, response }: HttpContextContract) {
-    const isJson = request.accepts(['json']) === 'json'
+    const isJson = request.accepts(['json', 'html']) === 'json'
 
     if (isJson) {
       const { search } = request.qs()

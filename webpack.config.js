@@ -10,6 +10,7 @@ Encore.setPublicPath('/assets')
 Encore.addAliases({ '@': resolve(__dirname, 'resources', 'js') })
 
 Encore.addEntry('app', './resources/js/App.tsx')
+Encore.addStyleEntry('errors', './resources/css/errors.css')
 Encore.enableReactPreset()
 Encore.configureBabel(config => {
   config.plugins.push('@babel/plugin-transform-runtime')

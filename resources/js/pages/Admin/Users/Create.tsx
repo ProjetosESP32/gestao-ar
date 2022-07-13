@@ -67,8 +67,8 @@ const Create: FC = () => {
 
   const handleReset = () => reset()
 
-  const handleSubmit = async () => {
-    await post('/admin/users', { onError: () => stepperRef.current?.reset() })
+  const handleSubmit = () => {
+    post('/admin/users', { onError: () => stepperRef.current?.reset() })
   }
 
   return (

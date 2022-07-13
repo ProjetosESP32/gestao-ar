@@ -1,0 +1,21 @@
+@layout('layouts/main') 
+
+@section('head') 
+  @entryPointStyles('errors')
+@end 
+
+@section('body')
+<main>
+  <section>
+    <a href="/">Voltar para home</a>
+    <div class="stack">
+      <h1>500</h1>
+      <h2>Erro inesperado!</h2>
+      <p>
+        Ocorreu um erro no servidor para esse recurso, volte a tela de início.
+      </p>
+      <img src='/images/error500-img.svg' alt='Erro 500' />
+    </div>
+  </section>
+</main>
+@end

@@ -36,7 +36,6 @@ export const DrawerContent: FC<DrawerContentProps> = ({ open, onClose }) => {
         <>
           <Divider />
           <List>
-            <DrawerButton icon={MdHowToReg} onClick={() => Inertia.visit('/admin/users')} text='Usuários' open={open} />
             <DrawerButton icon={MdApi} onClick={() => Inertia.visit('/admin/apis')} text="API's" open={open} />
             <DrawerButton
               icon={VscCircuitBoard}
@@ -44,6 +43,7 @@ export const DrawerContent: FC<DrawerContentProps> = ({ open, onClose }) => {
               text="ESP's"
               open={open}
             />
+            <DrawerButton icon={MdHowToReg} onClick={() => Inertia.visit('/admin/users')} text='Usuários' open={open} />
           </List>
         </>
       )}

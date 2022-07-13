@@ -22,10 +22,10 @@ export const ChangePasswordForm: FC = () => {
     setData({ ...data, [name]: value })
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    await post(url)
+    post(url)
   }
 
   return (
@@ -58,7 +58,7 @@ export const ChangePasswordForm: FC = () => {
         onChange={handleChange}
         disabled={processing}
       />
-      <Button variant='contained' type='submit' fullWidth disabled={processing}>
+      <Button type='submit' fullWidth disabled={processing}>
         Enviar
       </Button>
     </Stack>

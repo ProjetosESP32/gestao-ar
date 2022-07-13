@@ -33,10 +33,10 @@ export const LoginForm: FC = () => {
     setData({ ...data, [name]: checked })
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    await post('/auth/login')
+    post('/auth/login')
   }
 
   return (
@@ -78,7 +78,7 @@ export const LoginForm: FC = () => {
         />
         {!!errors.rememberMe && <FormHelperText>{errors.rememberMe}</FormHelperText>}
       </FormControl>
-      <Button variant='contained' type='submit' fullWidth disabled={processing}>
+      <Button type='submit' fullWidth disabled={processing}>
         Entrar
       </Button>
     </Stack>

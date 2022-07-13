@@ -4,9 +4,12 @@ import { useTheme } from '@mui/material/styles'
 import React, { FC, useState } from 'react'
 import { SimpleAppBar } from '../AppBar/SimpleAppBar'
 import { DrawerContent } from './DrawerContent'
+import { MiniDrawerProps } from './MiniDrawer'
 import { DrawerHeader } from './styles'
 
-export const SimpleDrawer: FC = ({ children }) => {
+type SimplesDrawerProps = MiniDrawerProps
+
+export const SimpleDrawer: FC<SimplesDrawerProps> = ({ children }) => {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
 

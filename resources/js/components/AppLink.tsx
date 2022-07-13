@@ -1,13 +1,13 @@
 import { InertiaLinkProps, Link } from '@inertiajs/inertia-react'
 import { useTheme } from '@mui/material/styles'
-import React, { FC, ReactText } from 'react'
+import React, { FC } from 'react'
 import { IconType } from 'react-icons/lib'
 
 import '../../css/app-link.css'
 
 interface AppLinkProps extends InertiaLinkProps {
   icon?: IconType
-  children: ReactText
+  children: string | number
 }
 
 export const AppLink: FC<AppLinkProps> = ({ icon: Icon, children, ...props }) => {

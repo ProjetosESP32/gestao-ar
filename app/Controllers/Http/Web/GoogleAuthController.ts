@@ -14,7 +14,7 @@ export default class GoogleAuthController {
 
     if (allyInstance.hasError() || allyInstance.stateMisMatch()) {
       session.put('ally_error', 'Ocorreu um erro ao fazer login')
-      return response.redirect().toRoute('login.create')
+      return response.redirect().toRoute('auth.login.create')
     }
 
     const googleUser = await allyInstance.user()

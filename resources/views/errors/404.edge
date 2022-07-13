@@ -1,0 +1,21 @@
+@layout('layouts/main') 
+
+@section('head') 
+  @entryPointStyles('errors')
+@end 
+
+@section('body')
+<main>
+  <section>
+    <a href="/">Voltar para home</a>
+    <div class="stack">
+      <h1>404</h1>
+      <h2>Página não encontrada.</h2>
+      <p>
+        Não foi possível encontrar a página que você procura. Você digitou a URL corretamente?
+      </p>
+      <img src='/images/error404-img.svg' alt='Erro 404' />
+    </div>
+  </section>
+</main>
+@end
