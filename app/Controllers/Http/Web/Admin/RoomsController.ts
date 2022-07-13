@@ -28,7 +28,7 @@ export default class RoomsController {
     await bouncer.authorize('admin')
     const room = await Room.findOrFail(params.id)
 
-    await room.softDelete()
+    await room.delete()
 
     return response.redirect().toRoute('rooms.index')
   }
