@@ -1,5 +1,5 @@
 import { InertiaLinkProps, Link } from '@inertiajs/inertia-react'
-import { useTheme } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import React, { FC, ReactText } from 'react'
 import { IconType } from 'react-icons/lib'
 
