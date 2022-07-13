@@ -17,10 +17,10 @@ export const RecoverPasswordForm: FC = () => {
     setData({ ...data, [name]: value })
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    await post('/users/recover-password')
+    post('/users/recover-password')
   }
 
   return (
@@ -39,7 +39,7 @@ export const RecoverPasswordForm: FC = () => {
         onChange={handleChange}
         disabled={processing}
       />
-      <Button variant='contained' type='submit' fullWidth disabled={processing}>
+      <Button type='submit' fullWidth disabled={processing}>
         Enviar
       </Button>
     </Stack>

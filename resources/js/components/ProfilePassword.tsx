@@ -27,10 +27,10 @@ export const ProfilePassword: FC = () => {
     setData({ ...data, [name]: value })
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    await patch('/users/password', {
+    patch('/users/password', {
       onSuccess: () => reset(),
     })
   }
@@ -89,7 +89,7 @@ export const ProfilePassword: FC = () => {
               onChange={handleChange}
               disabled={processing}
             />
-            <Button variant='contained' type='submit' fullWidth disabled={processing}>
+            <Button type='submit' fullWidth disabled={processing}>
               Atualizar senha
             </Button>
           </Stack>

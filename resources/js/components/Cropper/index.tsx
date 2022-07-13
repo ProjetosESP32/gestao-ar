@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import React, { ChangeEventHandler, FC, useRef, useState } from 'react'
+import React, { ChangeEventHandler, FC, ReactNode, useRef, useState } from 'react'
 import ReactCrop, { Crop } from 'react-image-crop'
 import { CANVAS_SIZE, loadCropInCanvas } from './loadCropInCanvas'
 import { useDebounceEffect } from '@/hooks/useDebounceEffect'
@@ -11,9 +11,10 @@ import { useDebounceEffect } from '@/hooks/useDebounceEffect'
 interface CropperProps {
   onChange: (imageBlob: Blob) => void
   disabled?: boolean
+  children: ReactNode
 }
 
-const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children }) => {
+export const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children }) => {
   const [crop, setCrop] = useState<Crop>()
   const [completedCrop, setCompletedCrop] = useState<Crop>()
   const [filePreview, setFilePreview] = useState<string | null>(null)
@@ -99,7 +100,7 @@ const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children }) => 
                 style={{ maxHeight: '80vh', maxWidth: '80vw' }}
               />
             </ReactCrop>
-            <Button disabled={!completedCrop} onClick={handleOk} variant='contained'>
+            <Button disabled={!completedCrop} onClick={handleOk}>
               OK
             </Button>
           </Stack>
@@ -109,5 +110,3 @@ const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children }) => 
     </>
   )
 }
-
-export default Cropper

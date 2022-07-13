@@ -5,7 +5,11 @@ import React, { FC } from 'react'
 
 const InlineDivider = () => <Box component='div' width='100%' bgcolor='black' height='3px' borderRadius='1.5px' />
 
-export const LineDivider: FC = ({ children }) => (
+interface LineDividerProps {
+  children: string | number
+}
+
+export const LineDivider: FC<LineDividerProps> = ({ children }) => (
   <Stack direction='row' alignItems='center' spacing={2} width='75%'>
     <InlineDivider />
     <Typography>{children}</Typography>

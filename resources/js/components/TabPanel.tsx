@@ -1,10 +1,11 @@
 import Box from '@mui/material/Box'
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 
 interface TabPanelProps {
   selectedPanel: number
   panelNumber: number
   preRender?: boolean
+  children: ReactNode
 }
 
 export const TabPanel: FC<TabPanelProps> = ({ selectedPanel, panelNumber, children, preRender }) => {

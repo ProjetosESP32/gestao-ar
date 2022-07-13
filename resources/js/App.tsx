@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import React, { FC, useMemo } from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { InitialComponent } from './components/InitialComponent'
 import { createAppTheme } from './theme'
 
@@ -13,7 +13,7 @@ import '../css/app.css'
 
 InertiaProgress.init()
 
-const app = document.getElementById('app')!
+const appContainer = document.getElementById('app')!
 
 const App: FC = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
@@ -23,12 +23,13 @@ const App: FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <InertiaApp
-        initialPage={JSON.parse(app.dataset.page!)}
+        initialPage={JSON.parse(appContainer.dataset.page!)}
         resolveComponent={name => import(`./pages/${name}`).then(module => module.default)}
-        initialComponent={InitialComponent}
+        initialComponent={InitialComponent as any}
       />
     </ThemeProvider>
   )
 }
 
-render(<App />, app)
+const appRoot = createRoot(appContainer)
+appRoot.render(<App />)

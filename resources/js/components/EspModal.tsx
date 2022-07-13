@@ -28,12 +28,12 @@ export const EspModal: FC<EspModalProps> = ({ espId, espName, isOpen, onClose })
     onClose()
   }
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (processing) return
 
-    await put(`/admin/esps/${espId}`, { onSuccess: () => handleClose() })
+    put(`/admin/esps/${espId}`, { onSuccess: () => handleClose() })
   }
 
   return (
@@ -43,7 +43,7 @@ export const EspModal: FC<EspModalProps> = ({ espId, espName, isOpen, onClose })
           <Stack component='form' onSubmit={handleSubmit} spacing={2} p={2}>
             <Typography variant='h6'>Vincular sala a {espName}</Typography>
             <AutocompleteRoom onChange={handleChange} disabled={processing} />
-            <Button fullWidth type='submit' variant='contained' disabled={processing}>
+            <Button fullWidth type='submit' disabled={processing}>
               Vincular
             </Button>
           </Stack>

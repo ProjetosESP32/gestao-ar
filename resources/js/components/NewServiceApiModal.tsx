@@ -31,12 +31,12 @@ export const NewServiceApiModal: FC<NewServiceApiModalProps> = ({ isOpen, onClos
     setData({ ...data, [name]: value })
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (processing) return
 
-    await post('/admin/apis', { onSuccess: () => handleClose() })
+    post('/admin/apis', { onSuccess: () => handleClose() })
   }
 
   return (
@@ -58,7 +58,7 @@ export const NewServiceApiModal: FC<NewServiceApiModalProps> = ({ isOpen, onClos
               onChange={handleChange}
               disabled={processing}
             />
-            <Button fullWidth type='submit' variant='contained' disabled={processing}>
+            <Button fullWidth type='submit' disabled={processing}>
               Criar Chave
             </Button>
           </Stack>

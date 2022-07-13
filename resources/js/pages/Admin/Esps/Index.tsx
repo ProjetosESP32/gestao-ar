@@ -6,9 +6,18 @@ import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import { DataGrid, GridActionsCellItem, GridColumns, GridRowId, GridToolbarContainer } from '@mui/x-data-grid'
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColumns,
+  GridEventListener,
+  GridRowId,
+  GridRowModes,
+  GridRowModesModel,
+  GridToolbarContainer,
+} from '@mui/x-data-grid'
 import React, { FC, useState } from 'react'
-import { MdAddLink, MdDelete, MdHelpOutline } from 'react-icons/md'
+import { MdAddLink, MdCancel, MdDelete, MdEdit, MdHelpOutline, MdSave } from 'react-icons/md'
 import { withDrawer } from '@/components/Drawer/withDrawer'
 import { EspModal } from '@/components/EspModal'
 import { BasePageProps } from '@/interfaces/BasePageProps'
@@ -27,7 +36,23 @@ const Index: FC = () => {
     esps: { data, meta },
   } = usePage<EspsPageProps>().props
   const [espData, setEspData] = useState<Pick<Esp, 'id' | 'name'>>()
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
   const isOpen = !!espData
+
+  const handleEditClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } })
+  }
+
+  const handleSaveClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } })
+  }
+
+  const handleCancelClick = (id: GridRowId) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    })
+  }
 
   const columns: GridColumns<Esp> = [
     {
@@ -81,23 +106,49 @@ const Index: FC = () => {
       type: 'actions',
       headerName: 'Ações',
       width: 100,
-      getActions: ({ id, row }) => [
-        <GridActionsCellItem
-          key='see'
-          icon={<MdAddLink />}
-          label='Ver'
-          className='textPrimary'
-          color='inherit'
-          onClick={() => setEspData({ id: row.id, name: row.name })}
-        />,
-        <GridActionsCellItem
-          key='delete'
-          icon={<MdDelete />}
-          label='Delete'
-          color='inherit'
-          onClick={handleDeleteClick(id)}
-        />,
-      ],
+      getActions: ({ id, row }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem key='save' icon={<MdSave />} label='Save' onClick={handleSaveClick(id)} />,
+            <GridActionsCellItem
+              key='cancel'
+              icon={<MdCancel />}
+              label='Cancel'
+              className='textPrimary'
+              onClick={handleCancelClick(id)}
+              color='inherit'
+            />,
+          ]
+        }
+
+        return [
+          <GridActionsCellItem
+            key='edit'
+            icon={<MdEdit />}
+            label='Edit'
+            className='textPrimary'
+            color='inherit'
+            onClick={handleEditClick(id)}
+          />,
+          <GridActionsCellItem
+            key='see'
+            icon={<MdAddLink />}
+            label='Ver'
+            className='textPrimary'
+            color='inherit'
+            onClick={() => setEspData({ id: row.id, name: row.name })}
+          />,
+          <GridActionsCellItem
+            key='delete'
+            icon={<MdDelete />}
+            label='Delete'
+            color='inherit'
+            onClick={handleDeleteClick(id)}
+          />,
+        ]
+      },
     },
   ]
 
@@ -107,9 +158,11 @@ const Index: FC = () => {
         <Stack spacing={2}>
           <Typography variant='h3'>Esps</Typography>
           <DataGrid
+            experimentalFeatures={{ newEditingApi: true }}
             autoHeight
             pagination
             paginationMode='server'
+            editMode='row'
             disableSelectionOnClick
             rows={data}
             columns={columns}
@@ -124,8 +177,12 @@ const Index: FC = () => {
               }
             }}
             onPageSizeChange={pageSize => getPaginatedRoom(meta.currentPage, pageSize)}
-            isCellEditable={params => !!params.colDef.editable}
+            processRowUpdate={processRowUpdate}
+            isCellEditable={params => Boolean(params.colDef.editable)}
             components={{ Toolbar: EspGridToolbar }}
+            rowModesModel={rowModesModel}
+            onRowEditStart={handleRowEditStart}
+            onRowEditStop={handleRowEditStop}
           />
         </Stack>
       </Paper>
@@ -149,6 +206,14 @@ const EspGridToolbar: FC = () => (
   </GridToolbarContainer>
 )
 
+const handleRowEditStart: GridEventListener<'rowEditStart'> = (_, event) => {
+  event.defaultMuiPrevented = true
+}
+
+const handleRowEditStop: GridEventListener<'rowEditStop'> = (_, event) => {
+  event.defaultMuiPrevented = true
+}
+
 const handleDeleteClick = (id: GridRowId) => () => {
   Inertia.delete(`/admin/esps/${id}`)
 }
@@ -158,6 +223,11 @@ const getPaginatedRoom = (page: number, perPage: number) => {
     replace: true,
     only: ['esps'],
   })
+}
+
+const processRowUpdate = (row: Esp) => {
+  Inertia.put(`/admin/esps/${row.id}`, row as any, { replace: true, only: ['esps'] })
+  return row
 }
 
 export default withDrawer(Index)

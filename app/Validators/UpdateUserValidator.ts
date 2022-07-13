@@ -6,11 +6,21 @@ export default class UpdateUserValidator {
 
   public schema = schema.create({
     username: schema.string.optional({ trim: true }, [
-      rules.unique({ table: 'users', column: 'username', whereNot: { id: this.ctx.auth.user!.id } }),
+      rules.unique({
+        table: 'users',
+        column: 'username',
+        whereNot: { id: this.ctx.auth.user!.id },
+        where: { deleted_at: null },
+      }),
     ]),
     email: schema.string.optional({ trim: true }, [
       rules.email(),
-      rules.unique({ table: 'users', column: 'email', whereNot: { id: this.ctx.auth.user!.id } }),
+      rules.unique({
+        table: 'users',
+        column: 'email',
+        whereNot: { id: this.ctx.auth.user!.id },
+        where: { deleted_at: null },
+      }),
     ]),
     cover: schema.file.optional({ extnames: ['jpg', 'jpeg', 'png'], size: '2mb' }),
   })

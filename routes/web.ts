@@ -48,6 +48,7 @@ Route.group(() => {
 
     Route.group(() => {
       Route.resource('users', 'UsersController').except(['edit'])
+      Route.delete('users/:id/detach-room/:roomId', 'UsersController.detachRoom').as('users.detachRoom')
       Route.resource('rooms', 'RoomsController').only(['store', 'update', 'destroy'])
       Route.resource('apis', 'ServiceApiKeysController').except(['create', 'show', 'edit'])
       Route.resource('esps', 'EspsController').only(['index', 'update', 'destroy'])

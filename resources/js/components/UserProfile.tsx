@@ -11,7 +11,7 @@ import React, { ChangeEvent, FC, FormEvent, useState } from 'react'
 import { MdEdit } from 'react-icons/md'
 import { BasePageProps } from '../interfaces/BasePageProps'
 import { getFirstLetters } from '../utils/getFirstLetters'
-import Cropper from './Cropper'
+import { Cropper } from './Cropper'
 
 interface UserProfileFormData {
   username: string
@@ -40,10 +40,10 @@ export const UserProfile: FC = () => {
     setImagePreview(objectUrl)
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    await put('/users', {
+    put('/users', {
       onSuccess: () => {
         if (imagePreview) {
           URL.revokeObjectURL(imagePreview)
@@ -113,7 +113,7 @@ export const UserProfile: FC = () => {
                   onChange={handleChange}
                   disabled={processing}
                 />
-                <Button variant='contained' fullWidth type='submit' disabled={processing}>
+                <Button fullWidth type='submit' disabled={processing}>
                   Atualizar
                 </Button>
               </Stack>

@@ -1,9 +1,10 @@
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 
 interface ChartContainerProps {
   title: string
+  children: ReactNode
 }
 
 export const ChartContainer: FC<ChartContainerProps> = ({ title, children }) => (

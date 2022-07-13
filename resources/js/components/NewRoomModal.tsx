@@ -33,12 +33,12 @@ export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, onClose }) => {
     setData({ ...data, [name]: value })
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (processing) return
 
-    await post('/admin/rooms', { onSuccess: () => handleClose() })
+    post('/admin/rooms', { onSuccess: () => handleClose() })
   }
 
   return (
@@ -86,7 +86,7 @@ export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, onClose }) => {
               onChange={handleChange}
               disabled={processing}
             />
-            <Button fullWidth type='submit' variant='contained' disabled={processing}>
+            <Button fullWidth type='submit' disabled={processing}>
               Criar sala
             </Button>
           </Stack>
