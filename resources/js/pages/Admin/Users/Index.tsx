@@ -23,7 +23,75 @@ type RoomsControlPageProps = BasePageProps<RoomsControlProps>
 const Index: FC = () => {
   const {
     users: { data, meta },
+    loggedUser,
   } = usePage<RoomsControlPageProps>().props
+
+  const columns: GridColumns<User> = [
+    {
+      field: 'id',
+      headerName: 'ID',
+      type: 'number',
+      flex: 1,
+      minWidth: 40,
+    },
+    {
+      field: 'isRoot',
+      headerName: 'Admin',
+      flex: 1,
+      type: 'boolean',
+      minWidth: 60,
+    },
+    {
+      field: 'username',
+      headerName: 'Nome',
+      flex: 3,
+      type: 'string',
+      minWidth: 150,
+    },
+    {
+      field: 'email',
+      headerName: 'E-mail',
+      flex: 4,
+      type: 'string',
+      minWidth: 350,
+    },
+    {
+      field: 'createdAt',
+      headerName: 'Criado em',
+      valueFormatter: dateTimeGridValueFormatter,
+      flex: 3,
+      align: 'right',
+      headerAlign: 'right',
+      minWidth: 160,
+    },
+    {
+      field: 'updatedAt',
+      headerName: 'Atualizado em',
+      valueFormatter: dateTimeGridValueFormatter,
+      flex: 3,
+      align: 'right',
+      headerAlign: 'right',
+      minWidth: 160,
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Ações',
+      width: 100,
+      getActions: ({ id }) =>
+        loggedUser.id !== id
+          ? [
+              <GridActionsCellItem
+                key='delete'
+                icon={<MdDelete />}
+                label='Delete'
+                color='inherit'
+                onClick={handleDeleteClick(id)}
+              />,
+            ]
+          : [],
+    },
+  ]
 
   return (
     <Container maxWidth='lg'>
@@ -66,62 +134,6 @@ const Index: FC = () => {
   )
 }
 
-const columns: GridColumns<User> = [
-  {
-    field: 'id',
-    headerName: 'ID',
-    type: 'number',
-    flex: 1,
-  },
-  {
-    field: 'isRoot',
-    headerName: 'Admin',
-    flex: 1,
-    type: 'boolean',
-  },
-  {
-    field: 'username',
-    headerName: 'Nome',
-    flex: 3,
-    type: 'string',
-  },
-  {
-    field: 'email',
-    headerName: 'E-mail',
-    flex: 4,
-    type: 'string',
-  },
-  {
-    field: 'createdAt',
-    headerName: 'Criado em',
-    valueFormatter: dateTimeGridValueFormatter,
-    flex: 3,
-    type: 'date',
-  },
-  {
-    field: 'updatedAt',
-    headerName: 'Atualizado em',
-    valueFormatter: dateTimeGridValueFormatter,
-    flex: 3,
-    type: 'date',
-  },
-  {
-    field: 'actions',
-    type: 'actions',
-    headerName: 'Ações',
-    width: 100,
-    getActions: ({ id }) => [
-      <GridActionsCellItem
-        key='delete'
-        icon={<MdDelete />}
-        label='Delete'
-        color='inherit'
-        onClick={handleDeleteClick(id)}
-      />,
-    ],
-  },
-]
-
 interface UsersGridToolbarProps {
   onAdd: () => void
 }
@@ -129,7 +141,7 @@ interface UsersGridToolbarProps {
 const UsersGridToolbar: FC<UsersGridToolbarProps> = ({ onAdd }) => (
   <GridToolbarContainer sx={{ justifyContent: 'flex-end' }}>
     <Button startIcon={<MdAdd />} onClick={onAdd}>
-      Adicionar Sala
+      Adicionar Usuário
     </Button>
   </GridToolbarContainer>
 )

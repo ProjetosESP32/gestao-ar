@@ -1,0 +1,11 @@
+.app-link-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  gap: 0.5rem;
+}
+
+.app-link-component span {
+  line-height: 24px;
+}

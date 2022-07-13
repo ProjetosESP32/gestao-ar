@@ -49,8 +49,8 @@ Route.group(() => {
     Route.group(() => {
       Route.resource('users', 'UsersController').except(['edit'])
       Route.resource('rooms', 'RoomsController').only(['store', 'update', 'destroy'])
-      Route.resource('rooms/:roomId/esps', 'RoomEspsController').only(['store', 'destroy'])
       Route.resource('apis', 'ServiceApiKeysController').except(['create', 'show', 'edit'])
+      Route.resource('esps', 'EspsController').only(['index', 'update', 'destroy'])
     })
       .namespace('App/Controllers/Http/Web/Admin')
       .prefix('admin')
@@ -63,4 +63,6 @@ Route.group(() => {
 Route.group(() => {
   Route.post('rooms/control/:id/temperature', 'RoomControlsController.changeTemperature')
   Route.post('rooms/control/:id/power', 'RoomControlsController.changePower')
-}).namespace('App/Controllers/Http/Web')
+})
+  .namespace('App/Controllers/Http/Web')
+  .middleware(['auth:web'])

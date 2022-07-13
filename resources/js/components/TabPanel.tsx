@@ -10,14 +10,14 @@ interface TabPanelProps {
 export const TabPanel: FC<TabPanelProps> = ({ selectedPanel, panelNumber, children, preRender }) => {
   if (preRender) {
     return (
-      <Box hidden={panelNumber !== selectedPanel} p={2}>
+      <Box hidden={panelNumber !== selectedPanel} p={1}>
         {children}
       </Box>
     )
   }
 
   if (panelNumber === selectedPanel) {
-    return <Box p={2}>{children}</Box>
+    return <Box p={1}>{children}</Box>
   }
 
   return null

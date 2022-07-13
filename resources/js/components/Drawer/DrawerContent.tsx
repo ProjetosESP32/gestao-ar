@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 import React, { FC } from 'react'
 import { MdApi, MdChevronLeft, MdChevronRight, MdHome, MdHowToReg, MdListAlt } from 'react-icons/md'
+import { VscCircuitBoard } from 'react-icons/vsc'
 import { DrawerButton } from './DrawerButton'
 import { DrawerHeader } from './styles'
 import { BasePageProps } from '@/interfaces/BasePageProps'
@@ -37,6 +38,12 @@ export const DrawerContent: FC<DrawerContentProps> = ({ open, onClose }) => {
           <List>
             <DrawerButton icon={MdHowToReg} onClick={() => Inertia.visit('/admin/users')} text='Usuários' open={open} />
             <DrawerButton icon={MdApi} onClick={() => Inertia.visit('/admin/apis')} text="API's" open={open} />
+            <DrawerButton
+              icon={VscCircuitBoard}
+              onClick={() => Inertia.visit('/admin/esps')}
+              text="ESP's"
+              open={open}
+            />
           </List>
         </>
       )}

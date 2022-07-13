@@ -21,8 +21,8 @@ interface RoomAirPage {
 
 type RoomAirPageProps = BasePageProps<RoomAirPage>
 
-const TEMP_MAX = 28
-const TEMP_MIN = 18
+const TEMP_MAX = 27
+const TEMP_MIN = 17
 
 export const RoomAir: FC = () => {
   const { room, hasServices } = usePage<RoomAirPageProps>().props
@@ -85,7 +85,7 @@ export const RoomAir: FC = () => {
               <IconButton onClick={makeTemperatureChangeHandler(temperature - 1)} disabled={processing}>
                 <MdRemove />
               </IconButton>
-              <Typography>{temperature} °C</Typography>
+              <Typography>{hasServices ? temperature : 0} °C</Typography>
               <IconButton onClick={makeTemperatureChangeHandler(temperature + 1)} disabled={processing}>
                 <MdAdd />
               </IconButton>

@@ -7,7 +7,7 @@ interface ChartContainerProps {
 }
 
 export const ChartContainer: FC<ChartContainerProps> = ({ title, children }) => (
-  <Paper sx={{ padding: 2 }}>
+  <Paper sx={{ padding: 2, width: '100%' }}>
     <Typography variant='h4'>{title}</Typography>
     {children}
   </Paper>

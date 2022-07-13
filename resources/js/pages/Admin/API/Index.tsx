@@ -87,7 +87,7 @@ const Index: FC = () => {
       align: 'right',
       headerAlign: 'right',
       flex: 3,
-      minWidth: 140,
+      minWidth: 160,
     },
     {
       field: 'updatedAt',
@@ -96,7 +96,7 @@ const Index: FC = () => {
       align: 'right',
       headerAlign: 'right',
       flex: 3,
-      minWidth: 140,
+      minWidth: 160,
     },
     {
       field: 'actions',

@@ -8,7 +8,7 @@ import { MonthConsumption } from '@/components/MonthConsumption'
 
 const Home = () => (
   <Container maxWidth='lg'>
-    <Grid container spacing={2}>
+    <Grid container spacing={2} flex={1} justifyContent='center'>
       <Grid item md={6} sm={12}>
         <ConsumptionNow />
       </Grid>
