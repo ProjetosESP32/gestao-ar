@@ -21,7 +21,7 @@ export default class ServiceApiKeysController {
 
     await Service.create({ ...data, token: generateServiceToken() })
 
-    return response.redirect().toRoute('admin.apis.index ')
+    return response.redirect().toRoute('admin.apis.index')
   }
 
   public async update({ bouncer, request, response, params }: HttpContextContract) {
@@ -33,7 +33,7 @@ export default class ServiceApiKeysController {
     service.merge(data)
     await service.save()
 
-    return response.redirect().toRoute('admin.apis.index ')
+    return response.redirect().toRoute('admin.apis.index')
   }
 
   public async destroy({ bouncer, response, params }: HttpContextContract) {
@@ -42,6 +42,6 @@ export default class ServiceApiKeysController {
 
     await service.delete()
 
-    return response.redirect().toRoute('admin.apis.index ')
+    return response.redirect().toRoute('admin.apis.index')
   }
 }
