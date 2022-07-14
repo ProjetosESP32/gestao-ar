@@ -33,7 +33,7 @@ export const AutocompleteRoom: FC<AutocompleteRoomProps> = ({ onChange, disabled
         // do nothing
       }
     },
-    750,
+    500,
     [inputValue],
   )
 

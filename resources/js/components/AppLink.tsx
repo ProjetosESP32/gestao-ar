@@ -11,14 +11,16 @@ interface AppLinkProps extends InertiaLinkProps {
 }
 
 export const AppLink: FC<AppLinkProps> = ({ icon: Icon, children, ...props }) => {
-  const theme = useTheme()
+  const {
+    palette: { mode, primary, secondary },
+  } = useTheme()
 
   return (
     <Link
       {...props}
       style={{
         ...props.style,
-        color: theme.palette.primary.main,
+        color: mode === 'dark' ? primary.main : secondary.main,
       }}
       className='app-link-component'
     >

@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/inertia-react'
+import { useTheme } from '@mui/material/styles'
 import { ArcElement, Chart, ChartData, Legend, Tooltip } from 'chart.js'
 import React, { FC } from 'react'
 import { Doughnut } from 'react-chartjs-2'
@@ -12,6 +13,9 @@ interface ConsumptionNowProps {
 type ConsumptionNowPageProps = BasePageProps<ConsumptionNowProps>
 
 export const ConsumptionNow: FC = () => {
+  const {
+    palette: { primary, secondary },
+  } = useTheme()
   const { consumptionNow } = usePage<ConsumptionNowPageProps>().props
 
   const data: ChartData<'doughnut', number[], string> = {
@@ -20,7 +24,8 @@ export const ConsumptionNow: FC = () => {
       {
         label: 'Blocos',
         data: consumptionNow.map(({ totalPotency }) => totalPotency),
-        backgroundColor: ['#36a1ea', '#005b9f', '#0288d1'],
+        backgroundColor: [primary.dark, secondary.dark, primary.light, secondary.light],
+        borderWidth: 0,
       },
     ],
   }

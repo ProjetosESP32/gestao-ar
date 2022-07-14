@@ -79,7 +79,7 @@ const Index: FC = () => {
       headerName: 'Ações',
       width: 100,
       getActions: ({ id }) =>
-        loggedUser.id !== id
+        loggedUser.id !== id && id !== 1
           ? [
               <GridActionsCellItem
                 key='see'
@@ -134,7 +134,6 @@ const Index: FC = () => {
             components={{ Toolbar: UsersGridToolbar }}
             componentsProps={{ toolbar: { onAdd: () => Inertia.visit('/admin/users/create') } }}
             disableSelectionOnClick
-            checkboxSelection
           />
         </Stack>
       </Paper>
