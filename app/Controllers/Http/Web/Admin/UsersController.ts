@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { Exception } from '@poppinss/utils'
 import Invite from 'App/Mailers/Invite'
 import Room from 'App/Models/Room'
 import User from 'App/Models/User'
@@ -82,6 +83,11 @@ export default class UsersController {
 
   public async destroy({ params, response, bouncer }: HttpContextContract) {
     await bouncer.authorize('admin')
+
+    if (Number(params.id) === 1) {
+      throw new Exception('You cannot delete the root user', 403, 'ROOT_USER_DELETE_ERROR')
+    }
+
     const user = await User.findOrFail(params.id)
 
     await user.softDelete()

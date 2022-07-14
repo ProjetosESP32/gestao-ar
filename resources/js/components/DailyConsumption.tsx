@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/inertia-react'
+import { useTheme } from '@mui/material/styles'
 import {
   CategoryScale,
   Chart,
@@ -22,6 +23,9 @@ interface DailyConsumptionProps {
 type DailyConsumptionPageProps = BasePageProps<DailyConsumptionProps>
 
 export const DailyConsumption: FC = () => {
+  const {
+    palette: { primary },
+  } = useTheme()
   const { dailyConsumption } = usePage<DailyConsumptionPageProps>().props
 
   const data: ChartData<'line', number[], string> = {
@@ -30,8 +34,7 @@ export const DailyConsumption: FC = () => {
       {
         label: 'Consumo',
         data: dailyConsumption.map(({ totalPotency }) => totalPotency),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235)',
+        backgroundColor: primary.main,
       },
     ],
   }
@@ -53,12 +56,12 @@ const lineOptions = {
   scales: {
     x: {
       grid: {
-        color: 'rgba(0,0,0,0)',
+        color: '#00000000',
       },
     },
     y: {
       grid: {
-        color: 'rgba(0,0,0,0)',
+        color: '#00000000',
       },
     },
   },
