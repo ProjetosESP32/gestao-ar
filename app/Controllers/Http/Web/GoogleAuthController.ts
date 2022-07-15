@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import Welcome from 'App/Mailers/Welcome'
 import User from 'App/Models/User'
 import { generatePassword } from 'App/Utils/generatePassword'
+import { getAttachment } from 'App/Utils/getAttachment'
 
 export default class GoogleAuthController {
   public async create({ ally }: HttpContextContract) {
@@ -18,8 +19,14 @@ export default class GoogleAuthController {
     }
 
     const googleUser = await allyInstance.user()
+    const userByEmail = await User.query().where('email', googleUser.email!).whereNull('google_id').first()
 
-    const user = await User.firstOrCreate(
+    if (userByEmail) {
+      session.put('ally_error', 'Usuário já cadastrado e o login não pode proceder sem vincular o perfil do Google')
+      return response.redirect().toRoute('auth.login.create')
+    }
+
+    const user = await User.firstOrNew(
       { googleId: googleUser.id },
       {
         email: googleUser.email!,
@@ -29,6 +36,12 @@ export default class GoogleAuthController {
         emailVerifiedAt: googleUser.emailVerificationState === 'verified' ? DateTime.now() : null,
       },
     )
+
+    if (!user.cover && googleUser.avatarUrl) {
+      user.cover = await getAttachment(googleUser.avatarUrl)
+    }
+
+    await user.save()
 
     if (!user.emailVerifiedAt) {
       await new Welcome(user).sendLater()

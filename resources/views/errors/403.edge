@@ -1,22 +1,7 @@
-@layout('layouts/main') 
-
-@section('head') 
-  @entryPointStyles('errors')
-@end 
-
-@section('body')
-<main>
-  <section>
-    <a href="/">Voltar para home</a>
-    <div class="stack">
-      <h1>403</h1>
-      <h2>Acesso negado.</h2>
-      <p>
-        Você não possui permissão para acessar o link solicitado. Verifique seus dados de autenticação ou se você possui
-        autorização ao recurso.
-      </p>
-      <img src='/images/error403-img.svg' alt='Erro 403' />
-    </div>
-  </section>
-</main>
-@end
+@!error({
+  code: 403,
+  title: 'Acesso negado',
+  description: 'Você não possui permissão para acessar o link solicitado. Verifique seus dados de autenticação ou se você possui
+  autorização ao recurso.',
+  image: '/images/error403-img.svg'
+})

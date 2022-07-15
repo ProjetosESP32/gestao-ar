@@ -4,12 +4,6 @@ Route.group(() => {
   Route.get('/', 'HomeController.index').as('home')
 
   Route.group(() => {
-    Route.inertia('403', 'Error/403')
-    Route.inertia('404', 'Error/404')
-    Route.inertia('500', 'Error/500')
-  }).prefix('errors')
-
-  Route.group(() => {
     Route.get('login', 'AuthLoginController.create').as('login.create')
     Route.post('login', 'AuthLoginController.store').as('login')
     Route.get('register', 'AuthRegisterController.create').as('register.create')
@@ -19,6 +13,7 @@ Route.group(() => {
   })
     .prefix('auth')
     .as('auth')
+    .middleware('redirectIfAuthenticated')
 
   Route.group(() => {
     Route.get('verify-email/:email', 'UsersController.verifyEmail').mustBeSigned().as('users.verifyEmail')

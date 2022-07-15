@@ -1,0 +1,19 @@
+@layout('layouts/main') 
+
+@section('head') 
+  @entryPointStyles('errors')
+@end 
+
+@section('body')
+<main>
+  <section>
+    <a href="/">Voltar para home</a>
+    <div class="stack">
+      <h1>{{ code }}</h1>
+      <h2>{{ title }}</h2>
+      <p>{{ description }}</p>
+      <img src='{{ image }}' alt='Erro {{ code }}' />
+    </div>
+  </section>
+</main>
+@end
