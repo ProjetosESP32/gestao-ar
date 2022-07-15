@@ -50,6 +50,7 @@ export const csp: ShieldConfig['csp'] = {
     fontSrc: ["'self'", 'fonts.googleapis.com', 'fonts.gstatic.com'],
     styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com', 'fonts.gstatic.com'],
     imgSrc: ["'self'", 'data:', 'blob:'],
+    frameAncestors: ["'none'"],
   },
 
   /*
@@ -239,5 +240,5 @@ export const hsts: ShieldConfig['hsts'] = {
 |
 */
 export const contentTypeSniffing: ShieldConfig['contentTypeSniffing'] = {
-  enabled: true,
+  enabled: false,
 }
