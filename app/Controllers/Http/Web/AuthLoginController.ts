@@ -1,11 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { redirectBackIfLogged } from 'App/Utils/redirectBackIfLogged'
 import LoginValidator from 'App/Validators/Web/LoginValidator'
 
 export default class AuthLoginController {
-  public async create({ auth, response, inertia }: HttpContextContract) {
-    if (redirectBackIfLogged(auth, response)) return
-
+  public async create({ inertia }: HttpContextContract) {
     return inertia.render('Auth/Login')
   }
 

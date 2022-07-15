@@ -44,5 +44,6 @@ Server.middleware.register([
 */
 Server.middleware.registerNamed({
   auth: () => import('App/Middleware/Auth'),
+  redirectIfAuthenticated: () => import('App/Middleware/RedirectIfAuthenticated'),
   inertia: () => import('@ioc:EidelLev/Inertia/Middleware'),
 })

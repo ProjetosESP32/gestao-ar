@@ -5,6 +5,8 @@ import { DateTime } from 'luxon'
 import Room from './Room'
 import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
 
+export const USER_COVER_FOLDER = 'users/cover'
+
 export default class User extends SoftDeletesBaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -24,7 +26,7 @@ export default class User extends SoftDeletesBaseModel {
   @column()
   public isRoot: boolean
 
-  @attachment({ folder: 'users/cover', preComputeUrl: true })
+  @attachment({ folder: USER_COVER_FOLDER, preComputeUrl: true })
   public cover?: AttachmentContract | null
 
   @column({ serializeAs: null })
