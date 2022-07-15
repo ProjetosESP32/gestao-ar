@@ -81,9 +81,13 @@ export const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children
         />
         {children}
       </label>
-      <Modal open={!!filePreview} onClose={reset} sx={{ display: 'grid', placeItems: 'center', padding: 2 }}>
+      <Modal
+        open={!!filePreview}
+        onClose={reset}
+        sx={{ width: '100vw', height: '100vh', maxHeight: '100vh', display: 'grid', placeItems: 'center', padding: 2 }}
+      >
         <Paper>
-          <Stack alignItems='center' p={2} spacing={2}>
+          <Stack alignItems='center' p={2} spacing={2} maxWidth='90vw' maxHeight='80vh'>
             <Typography variant='h6' textAlign='center'>
               Selecione a área da imagem para salvar
             </Typography>
@@ -97,7 +101,7 @@ export const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children
                 src={filePreview!}
                 alt='Imagem selecionada'
                 ref={imageRef}
-                style={{ maxHeight: '80vh', maxWidth: '80vw' }}
+                style={{ maxHeight: '60vh', maxWidth: '100%' }}
               />
             </ReactCrop>
             <Button disabled={!completedCrop} onClick={handleOk}>

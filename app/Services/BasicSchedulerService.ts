@@ -22,9 +22,14 @@ export class BasicSchedulerService implements SchedulerContract {
 
   private makeRunnable(name: string, callback: () => Promise<void>): () => void {
     return () => {
-      callback().catch(error => {
-        this.logger.error(error, `Error while running task ${name}`)
-      })
+      this.logger.info(`Running task ${name}`)
+      callback()
+        .then(() => {
+          this.logger.info(`Task ${name} finished`)
+        })
+        .catch(error => {
+          this.logger.error(error, `Error while running task ${name}`)
+        })
     }
   }
 
@@ -46,6 +51,7 @@ export class BasicSchedulerService implements SchedulerContract {
 
     this.intervalIds.forEach(clearInterval)
     this.intervalIds = []
+    this.hasBeenStarted = false
   }
 
   public stopAndClear(): void {

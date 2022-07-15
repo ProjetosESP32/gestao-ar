@@ -5,6 +5,7 @@
  * file.
  */
 
+import Application from '@ioc:Adonis/Core/Application'
 import Env from '@ioc:Adonis/Core/Env'
 import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
 
@@ -46,7 +47,7 @@ const databaseConfig: DatabaseConfig = {
         naturalSort: true,
       },
       healthCheck: false,
-      debug: false,
+      debug: Application.inDev,
     },
   },
 }

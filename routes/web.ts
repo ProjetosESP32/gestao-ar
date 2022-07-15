@@ -13,7 +13,7 @@ Route.group(() => {
   })
     .prefix('auth')
     .as('auth')
-    .middleware('redirectIfAuthenticated')
+    .middleware('guest')
 
   Route.group(() => {
     Route.get('verify-email/:email', 'UsersController.verifyEmail').mustBeSigned().as('users.verifyEmail')

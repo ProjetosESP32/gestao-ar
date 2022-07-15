@@ -9,6 +9,7 @@ import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
@@ -55,12 +56,17 @@ const Show: FC = () => {
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, checked: boolean) => {
     const { name } = event.target
 
-    setData({ ...data, [name]: checked })
+    setData({ ...data, [name]: checked, roomIds: checked ? [] : data.roomIds })
+    setRoomsToLink(checked ? [] : roomsToLink)
   }
 
   const handleLink = (room: Room) => {
     setRoomsToLink([...roomsToLink, room])
     setData({ ...data, roomIds: [...data.roomIds, room.id] })
+  }
+
+  const handleRemoveRoom = (roomId: number) => () => {
+    setData({ ...data, roomIds: data.roomIds.filter(id => id !== roomId) })
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -229,6 +235,9 @@ const Show: FC = () => {
                     </Typography>
                     <Typography color='warning.main'>{name}</Typography>
                   </Box>
+                  <IconButton onClick={handleRemoveRoom(id)} color='warning'>
+                    <MdDelete />
+                  </IconButton>
                 </Stack>
               ))}
             </Grid>

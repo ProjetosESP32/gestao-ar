@@ -17,7 +17,7 @@ export const loadCropInCanvas = (canvas: HTMLCanvasElement, image: HTMLImageElem
   const sWidth = crop.width * scaleX
   const sHeight = crop.height * scaleY
 
-  ctx.imageSmoothingQuality = 'high'
   ctx.imageSmoothingEnabled = true
+  ctx.imageSmoothingQuality = 'high'
   ctx.drawImage(image, cropX, cropY, sWidth, sHeight, 0, 0, CANVAS_SIZE, CANVAS_SIZE)
 }
