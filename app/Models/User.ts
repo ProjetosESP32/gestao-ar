@@ -1,6 +1,6 @@
 import { attachment, AttachmentContract } from '@ioc:Adonis/Addons/AttachmentLite'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { beforeSave, column, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { beforeSave, column, computed, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Room from './Room'
 import { SoftDeletesBaseModel } from 'App/Utils/SoftDeletes'
@@ -31,6 +31,11 @@ export default class User extends SoftDeletesBaseModel {
 
   @column({ serializeAs: null })
   public googleId?: string | null
+
+  @computed()
+  public get isGoogleLinked() {
+    return !!this.googleId
+  }
 
   @column.dateTime()
   public emailVerifiedAt?: DateTime | null

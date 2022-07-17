@@ -9,6 +9,7 @@ export interface User {
   cover?: Attachment | null
   emailVerifiedAt?: string | null
   rooms?: Room[]
+  isGoogleLinked: boolean
   createdAt: string
   updatedAt: string
 }

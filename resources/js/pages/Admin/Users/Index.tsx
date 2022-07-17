@@ -119,18 +119,10 @@ const Index: FC = () => {
             onPageChange={page => {
               const newPage = page + 1
               if (newPage !== meta.currentPage) {
-                Inertia.get(`/admin/users?page=${newPage}&perPage=${meta.perPage}`, undefined, {
-                  replace: true,
-                  only: ['users'],
-                })
+                getRoomsPage(newPage, meta.perPage)
               }
             }}
-            onPageSizeChange={pageSize =>
-              Inertia.get(`/admin/users?page=${meta.currentPage}&perPage=${pageSize}`, undefined, {
-                replace: true,
-                only: ['users'],
-              })
-            }
+            onPageSizeChange={pageSize => getRoomsPage(pageSize, meta.currentPage)}
             components={{ Toolbar: UsersGridToolbar }}
             componentsProps={{ toolbar: { onAdd: () => Inertia.visit('/admin/users/create') } }}
             disableSelectionOnClick
@@ -155,6 +147,12 @@ const UsersGridToolbar: FC<UsersGridToolbarProps> = ({ onAdd }) => (
 
 const handleDeleteClick = (id: GridRowId) => () => {
   Inertia.delete(`/admin/users/${id}`)
+}
+
+const getRoomsPage = (page: number, perPage: number) => {
+  Inertia.get(`/admin/users?page=${page}&perPage=${perPage}`, undefined, {
+    replace: true,
+  })
 }
 
 export default withDrawer(Index)

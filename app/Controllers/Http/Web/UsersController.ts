@@ -37,10 +37,16 @@ export default class UsersController {
     const user = auth.use('web').user!
 
     if (user.cover) {
-      await user.cover.delete()
+      user.cover = null
       await user.save()
     }
 
     return response.redirect().toRoute('users.profile')
+  }
+
+  public async linkGoogleAccount({ ally, response }: HttpContextContract) {
+    response.cookie('link_user', true, { sameSite: false, maxAge: '5m' })
+
+    return ally.use('google').redirect()
   }
 }

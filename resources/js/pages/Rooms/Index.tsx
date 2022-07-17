@@ -241,12 +241,11 @@ const handleDeleteClick = (id: GridRowId) => () => {
 const getPaginatedRoom = (page: number, perPage: number) => {
   Inertia.get(`/rooms?page=${page}&perPage=${perPage}`, undefined, {
     replace: true,
-    only: ['rooms'],
   })
 }
 
 const processRowUpdate = (row: Room) => {
-  Inertia.put(`/admin/rooms/${row.id}`, row as any, { replace: true, only: ['rooms'] })
+  Inertia.put(`/admin/rooms/${row.id}`, row as any, { replace: true })
   return row
 }
 

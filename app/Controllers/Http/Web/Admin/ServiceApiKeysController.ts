@@ -15,16 +15,21 @@ export default class ServiceApiKeysController {
     return inertia.render('Admin/API/Index', { services })
   }
 
-  public async store({ bouncer, request, response }: HttpContextContract) {
+  public async store({ bouncer, request, response, session }: HttpContextContract) {
     await bouncer.authorize('admin')
     const data = await request.validate(CreateServiceApiKeyValidator)
 
     await Service.create({ ...data, token: generateServiceToken() })
 
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Chave de API criada com sucesso',
+    })
+
     return response.redirect().toRoute('admin.apis.index')
   }
 
-  public async update({ bouncer, request, response, params }: HttpContextContract) {
+  public async update({ bouncer, request, response, params, session }: HttpContextContract) {
     await bouncer.authorize('admin')
     const service = await Service.findOrFail(params.id)
 
@@ -33,14 +38,24 @@ export default class ServiceApiKeysController {
     service.merge(data)
     await service.save()
 
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Chave de API atualizada com sucesso',
+    })
+
     return response.redirect().toRoute('admin.apis.index')
   }
 
-  public async destroy({ bouncer, response, params }: HttpContextContract) {
+  public async destroy({ bouncer, response, params, session }: HttpContextContract) {
     await bouncer.authorize('admin')
     const service = await Service.findOrFail(params.id)
 
     await service.delete()
+
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Chave de API deletada com sucesso',
+    })
 
     return response.redirect().toRoute('admin.apis.index')
   }

@@ -14,7 +14,7 @@ export default class EspsController {
     return inertia.render('Admin/Esps/Index', { esps })
   }
 
-  public async update({ params, request, response, bouncer }: HttpContextContract) {
+  public async update({ params, request, response, bouncer, session }: HttpContextContract) {
     await bouncer.authorize('admin')
     const esp = await Esp.findOrFail(params.id)
     const data = await request.validate(UpdateEspValidator)
@@ -22,14 +22,24 @@ export default class EspsController {
     esp.merge(data)
     await esp.save()
 
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Esp atualizado com sucesso',
+    })
+
     return response.redirect().toRoute('admin.esps.index')
   }
 
-  public async destroy({ params, response, bouncer }: HttpContextContract) {
+  public async destroy({ params, response, bouncer, session }: HttpContextContract) {
     await bouncer.authorize('admin')
     const esp = await Esp.findOrFail(params.id)
 
     await esp.delete()
+
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Esp deletado com sucesso',
+    })
 
     return response.redirect().toRoute('admin.esps.index')
   }

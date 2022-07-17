@@ -9,11 +9,12 @@ Route.group(() => {
     Route.get('register', 'AuthRegisterController.create').as('register.create')
     Route.post('register', 'AuthRegisterController.store').as('register')
     Route.get('google/redirect', 'GoogleAuthController.create').as('google.redirect')
-    Route.get('google/callback', 'GoogleAuthController.store').as('google.callback')
   })
     .prefix('auth')
     .as('auth')
     .middleware('guest')
+
+  Route.get('auth/google/callback', 'GoogleAuthController.store').as('google.callback')
 
   Route.group(() => {
     Route.get('verify-email/:email', 'UsersController.verifyEmail').mustBeSigned().as('users.verifyEmail')
@@ -39,6 +40,8 @@ Route.group(() => {
       Route.get('me', 'UsersController.show').as('users.profile')
       Route.put('/', 'UsersController.update')
       Route.patch('password', 'UsersController.updatePassword')
+      Route.delete('/photo', 'UsersController.deletePhoto')
+      Route.get('link-google', 'UsersController.linkGoogleAccount')
     }).prefix('users')
 
     Route.group(() => {
