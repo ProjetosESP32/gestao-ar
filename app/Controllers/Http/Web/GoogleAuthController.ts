@@ -10,19 +10,37 @@ export default class GoogleAuthController {
     return ally.use('google').redirect()
   }
 
-  public async store({ ally, auth, response, session }: HttpContextContract) {
+  public async store({ ally, auth, response, session, request }: HttpContextContract) {
     const allyInstance = ally.use('google')
 
     if (allyInstance.hasError() || allyInstance.stateMisMatch()) {
-      session.put('ally_error', 'Ocorreu um erro ao fazer login')
+      session.flash('alert', {
+        severity: 'error',
+        message: 'Ocorreu um erro ao fazer o login com o Google, reinicie a página e tente novamente',
+      })
       return response.redirect().toRoute('auth.login.create')
     }
 
     const googleUser = await allyInstance.user()
+    const linkUser = request.cookie('link_user')
+
+    if (linkUser) {
+      const user = auth.use('web').user!
+
+      user.googleId = googleUser.id
+      await user.save()
+
+      response.clearCookie('link_user')
+      return response.redirect().toRoute('users.profile')
+    }
+
     const userByEmail = await User.query().where('email', googleUser.email!).whereNull('google_id').first()
 
     if (userByEmail) {
-      session.put('ally_error', 'Usuário já cadastrado e o login não pode proceder sem vincular o perfil do Google')
+      session.flash('alert', {
+        severity: 'error',
+        message: 'Para continuar, vincule sua conta do google',
+      })
       return response.redirect().toRoute('auth.login.create')
     }
 

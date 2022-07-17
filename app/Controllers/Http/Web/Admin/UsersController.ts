@@ -28,7 +28,7 @@ export default class UsersController {
     return inertia.render('Admin/Users/Create', { rooms })
   }
 
-  public async store({ request, response, bouncer }: HttpContextContract) {
+  public async store({ request, response, bouncer, session }: HttpContextContract) {
     await bouncer.authorize('admin')
     const { username, email, rooms, isRoot } = await request.validate(CreateUserValidator)
     const generatedPassword = generatePassword(12)
@@ -46,6 +46,11 @@ export default class UsersController {
 
     await new Invite(user).sendLater()
 
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Usuário criado com sucesso',
+    })
+
     return response.redirect().toRoute('admin.users.index')
   }
 
@@ -57,7 +62,7 @@ export default class UsersController {
     return inertia.render('Admin/Users/Show', { user })
   }
 
-  public async update({ params, request, response, bouncer }: HttpContextContract) {
+  public async update({ params, request, response, bouncer, session }: HttpContextContract) {
     await bouncer.authorize('admin')
     const user = await User.findOrFail(params.id)
     const { roomIds, ...data } = await request.validate(UpdateUserValidator)
@@ -69,19 +74,29 @@ export default class UsersController {
       await user.related('rooms').attach(roomIds)
     }
 
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Usuário atualizado com sucesso',
+    })
+
     return response.redirect().toRoute('admin.users.index')
   }
 
-  public async detachRoom({ params, response, bouncer }: HttpContextContract) {
+  public async detachRoom({ params, response, bouncer, session }: HttpContextContract) {
     await bouncer.authorize('admin')
     const user = await User.findOrFail(params.id)
 
     await user.related('rooms').detach([params.roomId])
 
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Sala removida com sucesso',
+    })
+
     return response.redirect().toRoute('admin.users.show', { id: user.id })
   }
 
-  public async destroy({ params, response, bouncer }: HttpContextContract) {
+  public async destroy({ params, response, bouncer, session }: HttpContextContract) {
     await bouncer.authorize('admin')
 
     if (Number(params.id) === 1) {
@@ -91,6 +106,11 @@ export default class UsersController {
     const user = await User.findOrFail(params.id)
 
     await user.softDelete()
+
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Usuário removido com sucesso',
+    })
 
     return response.redirect().toRoute('admin.users.index')
   }

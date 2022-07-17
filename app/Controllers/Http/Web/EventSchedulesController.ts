@@ -16,7 +16,7 @@ export default class EventSchedulesController {
     return inertia.render('EventSchedules/Index', { events })
   }
 
-  public async update({ auth, params, request, response }: HttpContextContract) {
+  public async update({ auth, params, request, response, session }: HttpContextContract) {
     const user = auth.use('web').user!
     const { amountOfTime } = await request.validate(ExtendEventValidator)
 
@@ -36,6 +36,11 @@ export default class EventSchedulesController {
       daysOfWeek: nowInstance.weekday.toString(),
       startTime: nowInstance,
       endTime: futureTime,
+    })
+
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Tempo de funcionamento extendido',
     })
 
     return response.redirect().toRoute('room.eventSchedules.index', { roomId: params.roomId })

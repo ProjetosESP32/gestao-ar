@@ -11,14 +11,14 @@ export default class UserRecoveriesController {
   public async store(context: HttpContextContract) {
     await recoverPassword(context)
 
-    return context.response.redirect('/auth/login')
+    return context.response.redirect().toRoute('home')
   }
 
   public async edit({ inertia }: HttpContextContract) {
     return inertia.render('User/ChangePassword')
   }
 
-  public async update({ auth, request, params, response }: HttpContextContract) {
+  public async update({ auth, request, params, response, session }: HttpContextContract) {
     await auth.use('web').logout(false)
 
     const { password } = await request.validate(ResetPasswordValidator)
@@ -28,6 +28,11 @@ export default class UserRecoveriesController {
 
     await user.save()
 
-    return response.redirect('/auth/login')
+    session.flash('alert', {
+      severity: 'success',
+      message: 'Senha alterada com sucesso',
+    })
+
+    return response.redirect().toRoute('auth.login.create')
   }
 }

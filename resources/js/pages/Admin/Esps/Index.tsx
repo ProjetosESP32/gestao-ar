@@ -221,12 +221,11 @@ const handleDeleteClick = (id: GridRowId) => () => {
 const getPaginatedRoom = (page: number, perPage: number) => {
   Inertia.get(`/admin/esps?page=${page}&perPage=${perPage}`, undefined, {
     replace: true,
-    only: ['esps'],
   })
 }
 
 const processRowUpdate = (row: Esp) => {
-  Inertia.put(`/admin/esps/${row.id}`, row as any, { replace: true, only: ['esps'] })
+  Inertia.put(`/admin/esps/${row.id}`, row as any, { replace: true })
   return row
 }
 

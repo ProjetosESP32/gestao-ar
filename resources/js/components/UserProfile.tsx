@@ -1,5 +1,7 @@
+import { Inertia } from '@inertiajs/inertia'
 import { useForm, usePage } from '@inertiajs/inertia-react'
 import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
@@ -8,6 +10,7 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import React, { ChangeEvent, FC, FormEvent, useState } from 'react'
+import { FcGoogle } from 'react-icons/fc'
 import { MdEdit } from 'react-icons/md'
 import { BasePageProps } from '../interfaces/BasePageProps'
 import { getFirstLetters } from '../utils/getFirstLetters'
@@ -73,6 +76,11 @@ export const UserProfile: FC = () => {
                 <MdEdit /> Trocar foto
               </Typography>
             </Cropper>
+            {loggedUser.cover && (
+              <Button color='error' onClick={() => Inertia.delete('/users/photo')}>
+                Deletar foto
+              </Button>
+            )}
           </Stack>
         </Paper>
       </Grid>
@@ -119,6 +127,30 @@ export const UserProfile: FC = () => {
               </Stack>
             </Grid>
           </Grid>
+        </Paper>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Paper>
+          <Stack p={2} spacing={2} alignItems='center'>
+            <Typography variant='h4'>Contas Vinculadas</Typography>
+            <Stack direction='row'>
+              {loggedUser.isGoogleLinked ? (
+                <Box display='flex' flexDirection='column' alignItems='center'>
+                  <FcGoogle size={32} />
+                  <Typography variant='body1' textAlign='center'>
+                    Vinculada
+                  </Typography>
+                </Box>
+              ) : (
+                <a href='/users/link-google' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <FcGoogle size={32} />
+                  <Typography variant='body1' textAlign='center' color='primary'>
+                    Vincular
+                  </Typography>
+                </a>
+              )}
+            </Stack>
+          </Stack>
         </Paper>
       </Grid>
     </Grid>

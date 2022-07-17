@@ -5,6 +5,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import React, { FC, useMemo } from 'react'
 import { createRoot } from 'react-dom/client'
+import { AlertHandler } from './components/AlertHandler'
 import { InitialComponent } from './components/InitialComponent'
 import { createAppTheme } from './theme'
 
@@ -26,7 +27,13 @@ const App: FC = () => {
         initialPage={JSON.parse(appContainer.dataset.page!)}
         resolveComponent={name => import(`./pages/${name}`).then(module => module.default)}
         initialComponent={InitialComponent as any}
-      />
+      >
+        {({ Component }) => (
+          <AlertHandler>
+            <Component />
+          </AlertHandler>
+        )}
+      </InertiaApp>
     </ThemeProvider>
   )
 }

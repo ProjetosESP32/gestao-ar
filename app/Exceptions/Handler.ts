@@ -1,3 +1,4 @@
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler'
 import Logger from '@ioc:Adonis/Core/Logger'
 
@@ -10,5 +11,14 @@ export default class ExceptionHandler extends HttpExceptionHandler {
 
   constructor() {
     super(Logger)
+  }
+
+  public async handle(error: unknown, context: HttpContextContract) {
+    context.session.flash('alert', {
+      severity: 'error',
+      message: 'Ocorreu um erro',
+    })
+
+    return super.handle(error, context)
   }
 }

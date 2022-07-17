@@ -214,7 +214,6 @@ const columns: GridColDef[] = [
 
 const getRoomsPage = (page: number, perPage: number) => {
   Inertia.get(`/admin/users/create?page=${page}&perPage=${perPage}`, undefined, {
-    only: ['rooms'],
     preserveState: true,
     replace: true,
   })

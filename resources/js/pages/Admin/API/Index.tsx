@@ -207,18 +207,17 @@ const handleRowEditStop: GridEventListener<'rowEditStop'> = (_, event) => {
 }
 
 const handleDeleteClick = (id: GridRowId) => () => {
-  Inertia.delete(`/admin/apis/${id}`, { only: ['services'] })
+  Inertia.delete(`/admin/apis/${id}`)
 }
 
 const getPaginatedServices = (page: number, perPage: number) => {
   Inertia.get(`/admin/apis?page=${page}&perPage=${perPage}`, undefined, {
     replace: true,
-    only: ['services'],
   })
 }
 
 const processRowUpdate = (row: ServiceApiKey) => {
-  Inertia.put(`/admin/apis/${row.id}`, row as any, { replace: true, only: ['services'] })
+  Inertia.put(`/admin/apis/${row.id}`, row as any, { replace: true })
   return row
 }
 
