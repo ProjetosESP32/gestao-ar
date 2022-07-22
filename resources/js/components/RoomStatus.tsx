@@ -34,15 +34,15 @@ export const RoomStatus: FC = () => {
               </Box>
               <Box>
                 <Typography>Humidade</Typography>
-                <Typography>{consumptions?.[0].humidity ?? 0}%</Typography>
+                <Typography>{consumptions?.[0]?.humidity ?? 0}%</Typography>
               </Box>
               <Box>
                 <Typography>Consumo</Typography>
-                <Typography>{consumptions?.[0].potency ?? 0}kWh</Typography>
+                <Typography>{consumptions?.[0]?.potency ?? 0}kWh</Typography>
               </Box>
               <Box>
                 <Typography>Temperatura</Typography>
-                <Typography>{consumptions?.[0].temperature ?? 0}°C</Typography>
+                <Typography>{consumptions?.[0]?.temperature ?? 0}°C</Typography>
               </Box>
             </Stack>
             {idx !== arr.length - 1 && <Divider />}
