@@ -33,7 +33,7 @@ export default class AirChange {
     destinatario,
     mensagem: { irms, humidade, temperatura },
   }: EventsList['air-change:receive']) {
-    const esp = await Esp.firstOrCreate({ macAddress: destinatario })
+    const esp = await Esp.firstOrCreate({ macAddress: destinatario.replace(/[^0-9A-Fa-f]/g, '') })
 
     if (irms === 0) {
       if (esp.isOn) {
