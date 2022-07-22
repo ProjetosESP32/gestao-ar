@@ -1,4 +1,5 @@
 import Event, { EventsList } from '@ioc:Adonis/Core/Event'
+import Logger from '@ioc:Adonis/Core/Logger'
 import { Exception } from '@poppinss/utils'
 import Service from 'App/Models/Service'
 import { boot, io } from 'App/Services/WebSocket'
@@ -27,6 +28,10 @@ io.on('connection', socket => {
   socket.join(token)
 
   socket.on('getMessage', async (data: EventsList['air-change:receive']) => {
-    await Event.emit('air-change:receive', data)
+    try {
+      await Event.emit('air-change:receive', data)
+    } catch (err) {
+      Logger.error(err, 'getMessage error')
+    }
   })
 })
