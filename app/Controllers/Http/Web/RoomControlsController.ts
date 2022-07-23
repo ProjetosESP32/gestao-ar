@@ -10,21 +10,16 @@ export default class RoomControlsController {
     const results = await Database.transaction(async client => {
       const room = await Room.query({ client })
         .where('id', params.id)
-        .preload('esps', query => {
-          query.preload('consumptions', builder => {
-            builder.whereNotExists(
-              Database.from('consumptions as c')
-                .select('*')
-                .where('c.esp_id', '=', Database.raw('`consumptions`.`esp_id`'))
-                .where('c.created_at', '>', Database.raw('`consumptions`.`created_at`')),
-            )
+        .preload('esps', espBuilder => {
+          espBuilder.preload('consumptions', consumptionBuilder => {
+            consumptionBuilder.orderBy('created_at', 'desc').limit(1)
           })
         })
         .firstOrFail()
       const dailyConsumption = await Database.from('consumptions')
-        .select(Database.raw('MIN(`created_at`) AS `createdAt`'), Database.raw('HOUR(`created_at`) as `hour`'))
+        .select(Database.raw('HOUR(`created_at`) as `hour`'))
         .where('created_at', '>', Database.raw('NOW() - INTERVAL 1 DAY'))
-        .sum('potency as totalPotency')
+        .sum('potency', 'totalPotency')
         .groupBy('hour')
         .orderBy('hour', 'asc')
         .whereIn(
@@ -34,7 +29,7 @@ export default class RoomControlsController {
         .useTransaction(client)
       const monthConsumption = await Database.from('consumptions')
         .select(Database.raw('MONTH(`created_at`) as `month`'))
-        .sum('potency as totalPotency')
+        .sum('potency', 'totalPotency')
         .groupBy('month')
         .orderBy('month', 'asc')
         .whereIn(
@@ -44,9 +39,6 @@ export default class RoomControlsController {
         .useTransaction(client)
 
       const canEdit = await bouncer.allows('updateRoom', room)
-
-      const sockets = await io.allSockets()
-      const hasServices = sockets.size > 0
 
       return {
         room,
@@ -59,11 +51,13 @@ export default class RoomControlsController {
           totalPotency: Number(totalPotency),
         })),
         canEdit,
-        hasServices,
       }
     })
 
-    return inertia.render('Rooms/Show', results)
+    const sockets = await io.allSockets()
+    const hasServices = sockets.size > 0
+
+    return inertia.render('Rooms/Show', { ...results, hasServices })
   }
 
   public async changePower({ bouncer, params }: HttpContextContract) {
