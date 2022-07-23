@@ -7,7 +7,7 @@ import { BasePageProps } from '../interfaces/BasePageProps'
 import { ChartContainer } from './ChartContainer'
 
 interface ConsumptionNowProps {
-  consumptionNow: { block: string; totalPotency: number }[]
+  consumptionNow: { block: string; potency: number }[]
 }
 
 type ConsumptionNowPageProps = BasePageProps<ConsumptionNowProps>
@@ -23,7 +23,7 @@ export const ConsumptionNow: FC = () => {
     datasets: [
       {
         label: 'Blocos',
-        data: consumptionNow.map(({ totalPotency }) => totalPotency),
+        data: consumptionNow.map(({ potency }) => potency),
         backgroundColor: [primary.dark, secondary.dark, primary.light, secondary.light],
         borderWidth: 0,
       },
