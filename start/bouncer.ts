@@ -11,9 +11,9 @@ export const { actions } = Bouncer.before((user: User | null) => {
     return Bouncer.deny('Unauthorized', 403)
   })
   .define('updateRoom', async (user: User, room: Room) => {
-    await user.load('rooms')
+    const foundRoom = await user.related('rooms').query().where('id', room.id).first()
 
-    return user.rooms.some(({ id }) => id === room.id)
+    return !!foundRoom
   })
 
 export const { policies } = Bouncer.registerPolicies({})
