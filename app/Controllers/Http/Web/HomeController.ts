@@ -5,11 +5,10 @@ export default class HomeController {
   public async index({ inertia }: HttpContextContract) {
     const results = await Database.transaction(async client => {
       const consumptionNow = await Database.from('consumptions')
-        .select('rooms.block as block')
+        .select('rooms.block as block', 'consumptions.potency as potency')
         .innerJoin('esps', 'consumptions.esp_id', 'esps.id')
         .innerJoin('rooms', 'esps.room_id', 'rooms.id')
-        .max('consumptions.created_at', 'maxDate')
-        .sum('consumptions.potency', 'totalPotency')
+        .max('consumptions.created_at')
         .groupBy('block')
         .useTransaction(client)
       const dailyConsumption = await Database.from('consumptions')
@@ -27,9 +26,9 @@ export default class HomeController {
         .useTransaction(client)
 
       return {
-        consumptionNow: consumptionNow.map(({ block, totalPotency }) => ({
+        consumptionNow: consumptionNow.map(({ block, potency }) => ({
           block,
-          totalPotency: Number(totalPotency),
+          potency: Number(potency),
         })),
         dailyConsumption: dailyConsumption.map(({ hour, totalPotency }) => ({
           hour: Number(hour),
