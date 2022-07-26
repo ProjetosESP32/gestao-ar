@@ -26,6 +26,8 @@ export const AutocompleteRoom: FC<AutocompleteRoomProps> = ({ onChange, disabled
 
   useDebounceEffect(
     async () => {
+      if (!inputValue) return
+
       try {
         const { data } = await axios.get<Room[]>('/rooms', { params: { search: inputValue } })
         setOptions(data)

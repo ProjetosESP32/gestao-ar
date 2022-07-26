@@ -12,7 +12,7 @@ export default class RoomControlsController {
         .where('id', params.id)
         .preload('esps', espBuilder => {
           espBuilder.preload('consumptions', consumptionBuilder => {
-            consumptionBuilder.orderBy('created_at', 'desc').limit(1)
+            consumptionBuilder.select('*').max('created_at')
           })
         })
         .firstOrFail()

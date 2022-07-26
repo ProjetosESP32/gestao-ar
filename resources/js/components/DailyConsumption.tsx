@@ -34,7 +34,7 @@ export const DailyConsumption: FC = () => {
       {
         label: 'Consumo',
         data: dailyConsumption.map(({ totalPotency }) => totalPotency),
-        backgroundColor: primary.main,
+        backgroundColor: primary.dark,
       },
     ],
   }
