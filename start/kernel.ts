@@ -46,4 +46,5 @@ Server.middleware.registerNamed({
   auth: () => import('App/Middleware/Auth'),
   guest: () => import('App/Middleware/Guest'),
   inertia: () => import('@ioc:EidelLev/Inertia/Middleware'),
+  throttle: () => import('@adonisjs/limiter/build/throttle'),
 })
