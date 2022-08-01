@@ -100,7 +100,7 @@ export default class UsersController {
     await bouncer.authorize('admin')
 
     if (Number(params.id) === 1) {
-      throw new Exception('You cannot delete the root user', 403, 'ROOT_USER_DELETE_ERROR')
+      throw new Exception('Você não pode deletar o usuário administrador', 403, 'ROOT_USER_DELETE_ERROR')
     }
 
     const user = await User.findOrFail(params.id)

@@ -23,14 +23,30 @@ export default class GoogleAuthController {
 
     const googleUser = await allyInstance.user()
     const linkUser = request.cookie('link_user')
+    const authUser = auth.use('web').user
 
-    if (linkUser) {
-      const user = auth.use('web').user!
+    if (linkUser && !authUser) {
+      session.flash('alert', {
+        severity: 'error',
+        message: 'Não é possível vincular conta Google a uma conta que não está logada',
+      })
+      return response.redirect().toRoute('auth.login.create')
+    }
 
-      user.googleId = googleUser.id
-      await user.save()
+    if (!linkUser && authUser) {
+      session.flash('alert', {
+        severity: 'error',
+        message: 'Não foi possível vincular conta Google',
+      })
+      return response.redirect().toRoute('users.profile')
+    }
+
+    if (linkUser && authUser) {
+      authUser.googleId = googleUser.id
+      await authUser.save()
 
       response.clearCookie('link_user')
+      session.flash('alert', { severity: 'success', message: 'Conta Google vinculada com sucesso' })
       return response.redirect().toRoute('users.profile')
     }
 
@@ -39,7 +55,7 @@ export default class GoogleAuthController {
     if (userByEmail) {
       session.flash('alert', {
         severity: 'error',
-        message: 'Para continuar, vincule sua conta do google',
+        message: 'Não é possível fazer login com o Google',
       })
       return response.redirect().toRoute('auth.login.create')
     }
