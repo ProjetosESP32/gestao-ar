@@ -27,7 +27,8 @@
       "@adonisjs/mail",
       "@adonisjs/bouncer",
       "@adonisjs/ally",
-      "@adonisjs/redis"
+      "@adonisjs/redis",
+      "@adonisjs/limiter"
     ]
   }
 }
