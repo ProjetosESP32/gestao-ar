@@ -46,7 +46,7 @@ export const csp: ShieldConfig['csp'] = {
   |
   */
   directives: {
-    defaultSrc: ["'self'", '@nonce'],
+    defaultSrc: ["'self'"],
     fontSrc: ["'self'", 'fonts.googleapis.com', 'fonts.gstatic.com'],
     styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com', 'fonts.gstatic.com'],
     imgSrc: ["'self'", 'data:', 'blob:'],
