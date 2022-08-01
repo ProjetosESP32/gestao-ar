@@ -9,7 +9,7 @@ export default class AuthController {
     const userData = await request.validate(CreateUserValidator)
 
     const user = await User.create(userData)
-    const token = await auth.use('api').login(user)
+    const token = await auth.use('api').login(user, { expiresIn: '1 week' })
 
     await new Welcome(user).sendLater()
 
@@ -19,8 +19,8 @@ export default class AuthController {
   public async login({ auth, request }: HttpContextContract) {
     const { email, password } = await request.validate(LoginValidator)
 
-    const token = await auth.use('api').attempt(email, password)
-    const user = await User.findBy('email', email)
+    const token = await auth.use('api').attempt(email, password, { expiresIn: '1 week' })
+    const user = auth.use('api').user!
 
     return { user, token }
   }

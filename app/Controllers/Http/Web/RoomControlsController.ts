@@ -3,7 +3,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Room from 'App/Models/Room'
 import { io } from 'App/Services/WebSocket'
-import TemperatureValidator from 'App/Validators/Web/TemperatureValidator'
+import TemperatureValidator from 'App/Validators/TemperatureValidator'
 
 export default class RoomControlsController {
   public async show({ params, inertia, bouncer }: HttpContextContract) {
