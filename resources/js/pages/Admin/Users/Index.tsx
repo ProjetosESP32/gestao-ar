@@ -32,7 +32,7 @@ const Index: FC = () => {
       headerName: 'ID',
       type: 'number',
       flex: 1,
-      minWidth: 40,
+      minWidth: 60,
     },
     {
       field: 'isRoot',
