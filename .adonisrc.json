@@ -20,16 +20,24 @@
     "./start/kernel",
     {
       "file": "./start/inertia",
-      "environment": ["web"]
+      "environment": [
+        "web"
+      ]
     },
     {
       "file": "./start/events",
-      "environment": ["console", "repl", "web"]
+      "environment": [
+        "console",
+        "repl",
+        "web"
+      ]
     },
     "./start/bouncer",
     {
       "file": "./start/schedule",
-      "environment": ["web"]
+      "environment": [
+        "web"
+      ]
     }
   ],
   "providers": [
@@ -45,7 +53,7 @@
     "@adonisjs/mail",
     "@adonisjs/bouncer",
     "@adonisjs/ally",
-    "./providers/BasicSchedulerProvider"
+    "@adonisjs/redis"
   ],
   "metaFiles": [
     {
@@ -57,5 +65,7 @@
       "reloadServer": false
     }
   ],
-  "aceProviders": ["@adonisjs/repl"]
+  "aceProviders": [
+    "@adonisjs/repl"
+  ]
 }

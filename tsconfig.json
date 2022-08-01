@@ -1,14 +1,7 @@
 {
   "extends": "./node_modules/adonis-preset-ts/tsconfig",
-  "include": [
-    "**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "resources",
-    "public"
-  ],
+  "include": ["**/*"],
+  "exclude": ["node_modules", "build", "resources", "public"],
   "compilerOptions": {
     "esModuleInterop": true,
     "outDir": "build",
@@ -16,18 +9,10 @@
     "sourceMap": true,
     "importHelpers": true,
     "paths": {
-      "App/*": [
-        "./app/*"
-      ],
-      "Config/*": [
-        "./config/*"
-      ],
-      "Contracts/*": [
-        "./contracts/*"
-      ],
-      "Database/*": [
-        "./database/*"
-      ]
+      "App/*": ["./app/*"],
+      "Config/*": ["./config/*"],
+      "Contracts/*": ["./contracts/*"],
+      "Database/*": ["./database/*"]
     },
     "types": [
       "@adonisjs/core",
@@ -41,7 +26,8 @@
       "@adonisjs/attachment-lite",
       "@adonisjs/mail",
       "@adonisjs/bouncer",
-      "@adonisjs/ally"
+      "@adonisjs/ally",
+      "@adonisjs/redis"
     ]
   }
 }
