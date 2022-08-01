@@ -65,7 +65,7 @@ const Index: FC = () => {
       align: 'right',
       type: 'number',
       flex: 1,
-      minWidth: 40,
+      minWidth: 60,
     },
     {
       field: 'name',
