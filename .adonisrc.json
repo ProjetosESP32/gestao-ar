@@ -20,17 +20,11 @@
     "./start/kernel",
     {
       "file": "./start/inertia",
-      "environment": [
-        "web"
-      ]
+      "environment": ["web"]
     },
     {
       "file": "./start/events",
-      "environment": [
-        "console",
-        "repl",
-        "web"
-      ]
+      "environment": ["console", "repl", "web"]
     },
     "./start/bouncer",
     {
@@ -65,7 +59,5 @@
       "reloadServer": false
     }
   ],
-  "aceProviders": [
-    "@adonisjs/repl"
-  ]
+  "aceProviders": ["@adonisjs/repl"]
 }
