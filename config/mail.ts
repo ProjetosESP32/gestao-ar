@@ -5,10 +5,10 @@
  * file.
  */
 
-import { MailConfig } from '@ioc:Adonis/Addons/Mail'
+import { mailConfig } from '@adonisjs/mail/build/config'
 import Env from '@ioc:Adonis/Core/Env'
 
-const mailConfig: MailConfig = {
+export default mailConfig({
   /*
   |--------------------------------------------------------------------------
   | Default mailer
@@ -18,7 +18,7 @@ const mailConfig: MailConfig = {
   | a mailer
   |
   */
-  mailer: 'smtp',
+  mailer: Env.get('MAIL_DRIVER', 'smtp'),
 
   /*
   |--------------------------------------------------------------------------
@@ -44,15 +44,30 @@ const mailConfig: MailConfig = {
     */
     smtp: {
       driver: 'smtp',
-      host: Env.get('SMTP_HOST'),
+      host: Env.get('SMTP_HOST', ''),
       port: Env.get('SMTP_PORT'),
       auth: {
-        user: Env.get('SMTP_USERNAME'),
-        pass: Env.get('SMTP_PASSWORD'),
+        user: Env.get('SMTP_USERNAME', ''),
+        pass: Env.get('SMTP_PASSWORD', ''),
         type: 'login',
       },
     },
+    /*
+    |--------------------------------------------------------------------------
+    | Mailgun
+    |--------------------------------------------------------------------------
+    |
+		| Uses Mailgun service for sending emails.
+    |
+    | If you are using an EU domain. Ensure to change the baseUrl to hit the
+    | europe endpoint (https://api.eu.mailgun.net/v3).
+    |
+    */
+    mailgun: {
+      driver: 'mailgun',
+      baseUrl: 'https://api.mailgun.net/v3',
+      key: Env.get('MAILGUN_API_KEY', ''),
+      domain: Env.get('MAILGUN_DOMAIN', ''),
+    },
   },
-}
-
-export default mailConfig
+})
