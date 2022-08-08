@@ -74,6 +74,7 @@
     "@inertiajs/inertia": "^0.11.0",
     "@inertiajs/inertia-react": "^0.8.0",
     "@poppinss/utils": "^5.0.0",
+    "aws-sdk": "^2.1190.0",
     "axios": "^0.27.2",
     "bullmq": "^1.86.10",
     "luxon": "^3.0.1",
