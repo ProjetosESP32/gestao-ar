@@ -10,8 +10,8 @@
     "format": "prettier --write ."
   },
   "engines": {
-    "node": ">=16.16.0",
-    "yarn": ">=1.22.19",
+    "node": ">=16.0.0",
+    "yarn": ">=1.22.0",
     "npm": ">=8.14.0"
   },
   "devDependencies": {
