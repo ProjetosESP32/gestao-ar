@@ -25,7 +25,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: '-rltgoDzvO'
-          SOURCE: '/build'
+          SOURCE: '/'
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
@@ -40,6 +40,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd $TARGET
-            cp ../.env .env
+            cp .env build/.env
+            cd build
             yarn install --production --frozen-lockfile
             pm2 restart all
