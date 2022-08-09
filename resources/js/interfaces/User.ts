@@ -6,10 +6,10 @@ export interface User {
   username: string
   email: string
   isRoot: boolean
+  isGoogleLinked: boolean
   cover?: Attachment | null
   emailVerifiedAt?: string | null
   rooms?: Room[]
-  isGoogleLinked: boolean
   createdAt: string
   updatedAt: string
 }

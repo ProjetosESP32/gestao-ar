@@ -4,6 +4,7 @@ import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import React, { FC } from 'react'
+import { AppLink } from './AppLink'
 import { BasePageProps } from '@/interfaces/BasePageProps'
 import { Room } from '@/interfaces/Room'
 
@@ -36,6 +37,10 @@ export const RoomInfo: FC = () => {
           <Box>
             <Typography variant='h6'>Piso</Typography>
             <Typography>{room.floor}</Typography>
+          </Box>
+          <Box>
+            <Typography variant='h6'>Agenda</Typography>
+            <AppLink href={`/rooms/${room.id}/schedules`}>Ver agenda</AppLink>
           </Box>
         </Stack>
       </Stack>

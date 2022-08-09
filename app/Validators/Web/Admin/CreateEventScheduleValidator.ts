@@ -5,8 +5,8 @@ export default class CreateEventScheduleValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    name: schema.string({ trim: true }, [rules.minLength(10), rules.maxLength(55), rules.alpha({ allow: ['space'] })]),
-    description: schema.string({ trim: true }, [rules.minLength(10), rules.maxLength(255)]),
+    name: schema.string({ trim: true }, [rules.maxLength(25), rules.alpha({ allow: ['space'] })]),
+    description: schema.string({ trim: true }, [rules.maxLength(100)]),
     startDate: schema.date(),
     endDate: schema.date({}, [rules.afterField('startDate'), rules.after('today')]),
     recurrences: schema.array().members(
@@ -21,11 +21,9 @@ export default class CreateEventScheduleValidator {
 
   public messages = {
     'name.required': 'O nome é obrigatório',
-    'name.minLength': 'O nome deve ter no mínimo 10 caracteres',
-    'name.maxLength': 'O nome deve ter no máximo 55 caracteres',
+    'name.maxLength': 'O nome deve ter no máximo 25 caracteres',
     'name.alpha': 'O nome deve conter apenas letras',
-    'description.minLength': 'A descrição deve ter no mínimo 10 caracteres',
-    'description.maxLength': 'A descrição deve ter no máximo 255 caracteres',
+    'description.maxLength': 'A descrição deve ter no máximo 100 caracteres',
     'startDate.required': 'A data de início é obrigatória',
     'endDate.required': 'A data de fim é obrigatória',
     'endDate.after': 'A data de fim deve ser posterior a data de hoje',

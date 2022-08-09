@@ -117,16 +117,18 @@ export const RoomAir: FC = () => {
 const getTemperature = (room: Room) => {
   if (!room.esps?.length) return 0
 
-  const [esp] = room.esps.sort((e1, e2) => {
-    const t1 = e1.consumptions?.[0]?.temperature ?? -1
-    const t2 = e2.consumptions?.[0]?.temperature ?? -1
+  const [esp] = room.esps
+    .filter(({ consumptions }) => !!consumptions?.[0]?.temperature)
+    .sort((e1, e2) => {
+      const t1 = e1.consumptions![0].temperature
+      const t2 = e2.consumptions![0].temperature
 
-    return t1 - t2
-  })
+      return t1 - t2
+    })
 
   if (!esp.consumptions?.length) return 0
 
   const [{ temperature }] = esp.consumptions
 
-  return temperature
+  return Math.max(temperature, TEMP_MIN)
 }

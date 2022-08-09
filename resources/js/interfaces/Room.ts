@@ -1,4 +1,5 @@
 import { Esp } from './Esp'
+import { Event } from './Event'
 
 export interface Room {
   id: number
@@ -8,4 +9,5 @@ export interface Room {
   createdAt: string
   updatedAt: string
   esps?: Esp[]
+  events?: Event[]
 }

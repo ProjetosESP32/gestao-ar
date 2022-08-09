@@ -5,12 +5,8 @@ export default class UpdateEventScheduleValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    name: schema.string.optional({ trim: true }, [
-      rules.minLength(10),
-      rules.maxLength(55),
-      rules.alpha({ allow: ['space'] }),
-    ]),
-    description: schema.string.optional({ trim: true }, [rules.minLength(10), rules.maxLength(255)]),
+    name: schema.string.optional({ trim: true }, [rules.maxLength(25), rules.alpha({ allow: ['space'] })]),
+    description: schema.string.optional({ trim: true }, [rules.maxLength(100)]),
     startDate: schema.date.optional(),
     endDate: schema.date.optional({}, [rules.afterField('startDate'), rules.after('today')]),
     recurrences: schema.array.optional().members(
@@ -24,11 +20,9 @@ export default class UpdateEventScheduleValidator {
   })
 
   public messages = {
-    'name.minLength': 'O nome deve ter no mínimo 10 caracteres',
-    'name.maxLength': 'O nome deve ter no máximo 55 caracteres',
+    'name.maxLength': 'O nome deve ter no máximo 25 caracteres',
     'name.alpha': 'O nome deve conter apenas letras',
-    'description.minLength': 'A descrição deve ter no mínimo 10 caracteres',
-    'description.maxLength': 'A descrição deve ter no máximo 255 caracteres',
+    'description.maxLength': 'A descrição deve ter no máximo 100 caracteres',
     'endDate.after': 'A data de fim deve ser posterior a data de hoje',
     'endDate.afterField': 'A data de fim deve ser posterior a data de início',
     'recurrences.array': 'As recorrências devem ser um array',

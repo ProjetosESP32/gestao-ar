@@ -5,11 +5,11 @@ export default class ExtendEventValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    amountOfTime: schema.number([rules.range(0, 60)]),
+    amountOfTime: schema.number([rules.range(5, 60)]),
   })
 
   public messages = {
-    'amountOfTime.range': 'O tempo deve ser entre 0 e 60 minutos',
+    'amountOfTime.range': 'O tempo deve ser entre 5 e 60 minutos',
     'amountOfTime.required': 'O tempo é obrigatório',
     'amountOfTime.number': 'O tempo deve ser um número',
   }

@@ -24,9 +24,9 @@ export const ProfileRooms: FC = () => {
         <DataGrid
           autoHeight
           pagination
-          rows={loggedUser.rooms ?? []}
+          rows={loggedUser!.rooms ?? []}
           columns={columns}
-          rowCount={loggedUser.rooms?.length ?? 0}
+          rowCount={loggedUser!.rooms?.length ?? 0}
           disableSelectionOnClick
         />
       </Stack>

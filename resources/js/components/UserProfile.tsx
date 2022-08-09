@@ -25,8 +25,8 @@ interface UserProfileFormData {
 export const UserProfile: FC = () => {
   const { loggedUser } = usePage<BasePageProps>().props
   const { data, setData, errors, processing, put } = useForm<UserProfileFormData>({
-    username: loggedUser.username,
-    email: loggedUser.email,
+    username: loggedUser!.username,
+    email: loggedUser!.email,
     cover: null,
   })
   const [imagePreview, setImagePreview] = useState<string | null>(null)
@@ -63,11 +63,11 @@ export const UserProfile: FC = () => {
           <Stack p={2} spacing={2} alignItems='center'>
             <Typography variant='h4'>Avatar</Typography>
             <Avatar
-              alt={loggedUser.username}
-              src={imagePreview ?? loggedUser.cover?.url}
+              alt={loggedUser!.username}
+              src={imagePreview ?? loggedUser!.cover?.url}
               sx={{ width: '7.5rem', height: '7.5rem' }}
             >
-              {getFirstLetters(loggedUser.username)}
+              {getFirstLetters(loggedUser!.username)}
             </Avatar>
             {!!errors.cover && <FormHelperText color='error'>{errors.cover}</FormHelperText>}
 
@@ -76,7 +76,7 @@ export const UserProfile: FC = () => {
                 <MdEdit /> Trocar foto
               </Typography>
             </Cropper>
-            {loggedUser.cover && (
+            {loggedUser!.cover && (
               <Button color='error' onClick={() => Inertia.delete('/users/photo')}>
                 Deletar foto
               </Button>
@@ -134,7 +134,7 @@ export const UserProfile: FC = () => {
           <Stack p={2} spacing={2} alignItems='center'>
             <Typography variant='h4'>Contas Vinculadas</Typography>
             <Stack direction='row'>
-              {loggedUser.isGoogleLinked ? (
+              {loggedUser!.isGoogleLinked ? (
                 <Box display='flex' flexDirection='column' alignItems='center'>
                   <FcGoogle size={32} />
                   <Typography variant='body1' textAlign='center'>

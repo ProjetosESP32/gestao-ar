@@ -4,8 +4,9 @@ Route.group(() => {
   Route.get('/', 'HomeController.index').as('home')
   Route.get('auth/google/callback', 'GoogleAuthController.store').as('google.callback')
   Route.get('users/verify-email/:email', 'UsersController.verifyEmail').mustBeSigned().as('users.verifyEmail')
-  Route.get('rooms', 'RoomsController.index')
+  Route.get('rooms', 'RoomsController.index').as('rooms.index')
   Route.get('rooms/control/:id', 'RoomControlsController.show')
+  Route.get('rooms/:roomId/schedules', 'SchedulesController.index').as('rooms.schedules')
 })
   .namespace('App/Controllers/Http/Web')
   .middleware(['inertia', 'throttle:global'])
@@ -33,6 +34,7 @@ Route.group(() => {
   .middleware(['inertia', 'guest', 'throttle:global'])
 
 Route.group(() => {
+  Route.post('rooms/:roomId/schedules', 'SchedulesController.store').as('rooms.schedules.store')
   Route.delete('logout', 'AuthLoginController.destroy').prefix('auth').as('auth.logout')
 
   Route.group(() => {
@@ -59,6 +61,7 @@ Route.group(() => {
   Route.resource('rooms', 'RoomsController').only(['store', 'update', 'destroy'])
   Route.resource('apis', 'ServiceApiKeysController').except(['create', 'show', 'edit'])
   Route.resource('esps', 'EspsController').only(['index', 'update', 'destroy'])
+  Route.resource('rooms/:roomId/schedules', 'SchedulesController').only(['create', 'store', 'destroy'])
 })
   .namespace('App/Controllers/Http/Web/Admin')
   .middleware(['inertia', 'auth:web', 'throttle:global'])

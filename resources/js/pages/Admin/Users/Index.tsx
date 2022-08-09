@@ -79,7 +79,7 @@ const Index: FC = () => {
       headerName: 'Ações',
       width: 100,
       getActions: ({ id }) =>
-        loggedUser.id !== id && id !== 1
+        loggedUser!.id !== id && id !== 1
           ? [
               <GridActionsCellItem
                 key='see'
