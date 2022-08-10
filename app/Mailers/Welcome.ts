@@ -1,4 +1,5 @@
 import { BaseMailer, MessageContract } from '@ioc:Adonis/Addons/Mail'
+import Application from '@ioc:Adonis/Core/Application'
 import Env from '@ioc:Adonis/Core/Env'
 import Route from '@ioc:Adonis/Core/Route'
 import View from '@ioc:Adonis/Core/View'
@@ -20,6 +21,10 @@ export default class Welcome extends BaseMailer {
     const rendered = await View.render('emails/welcome', { username: this.user.username, link })
     const { html } = mjml(rendered)
 
-    message.subject('Bem vindo ao Gestão Ar').from('no-reply@gestaoar.com.br').to(this.user.email).html(html)
+    message.embed(Application.publicPath('images/mail/welcome.png'), 'welcome-mail-image')
+    message.html(html)
+    message.subject('Bem vindo ao Gestão Ar')
+    message.from('no-reply@controle.dev.br')
+    message.to(this.user.email)
   }
 }

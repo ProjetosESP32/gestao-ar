@@ -1,25 +1,27 @@
 <mjml>
   <mj-head>
-  <mj-attributes>
-    <mj-text font-size="16px" />
-  </mj-attributes>
+    <mj-attributes>
+      <mj-font name="Montserrat" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" />
+      <mj-text font-size="18px" font-family="Montserrat" />
+    </mj-attributes>
     <mj-title>Bem vindo</mj-title>
   </mj-head>
-  <mj-body background-color="#fff">
+  <mj-body background-color="#fff" width="600px">
     <mj-section>
-      <mj-column width="400px">
-        <mj-text font-size="24px">
-          Olá, {{ username }}
+      <mj-column>
+        <mj-text font-size="28px" color="#6c63ff" font-weight="700">
+          Bem vindo, {{ username }}
         </mj-text>
         <mj-text>
-          Bem vindo ao aplicativo de gestão de ar-condicionado.
+          Seu cadastro foi feito com sucesso
         </mj-text>
         <mj-text>
           Sua conta foi criada pelo administrador do sistema, então será necessário que você crie sua senha para acessar sua conta.
         </mj-text>
-        <mj-button href="{{ link }}" background-color="#ff0000">
+        <mj-button href="{{ link }}" background-color="#6c63ff">
           Criar Senha
         </mj-button>
+        <mj-image src="cid:new-password-mail-image" alt="Nova senha" width="250px" />
       </mj-column>
     </mj-section>
   </mj-body>

@@ -38,7 +38,7 @@ export const ExtendTimeDialog: FC<ExtendTimeDialogProps> = ({ onClose, open, roo
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Extender tempo de funcionamento</DialogTitle>
+      <DialogTitle>Estender tempo de funcionamento</DialogTitle>
       <DialogContent>
         <ButtonGroup>
           <Button onClick={handleSubtract}>-</Button>
@@ -48,7 +48,7 @@ export const ExtendTimeDialog: FC<ExtendTimeDialogProps> = ({ onClose, open, roo
       </DialogContent>
       <DialogActions>
         <Button onClick={handleExtend} autoFocus disabled={processing}>
-          Extender
+          Estender
         </Button>
       </DialogActions>
     </Dialog>

@@ -1,4 +1,5 @@
 import { BaseMailer, MessageContract } from '@ioc:Adonis/Addons/Mail'
+import Application from '@ioc:Adonis/Core/Application'
 import Env from '@ioc:Adonis/Core/Env'
 import Route from '@ioc:Adonis/Core/Route'
 import View from '@ioc:Adonis/Core/View'
@@ -23,6 +24,10 @@ export default class Invite extends BaseMailer {
     })
     const { html } = mjml(rendered)
 
-    message.subject('Criação de Conta').from('no-reply@gestaoar.com.br').to(this.user.email).html(html)
+    message.embed(Application.publicPath('images/mail/new-password.png'), 'new-password-mail-image')
+    message.html(html)
+    message.subject('Criação de conta')
+    message.from('no-reply@controle.dev.br')
+    message.to(this.user.email)
   }
 }

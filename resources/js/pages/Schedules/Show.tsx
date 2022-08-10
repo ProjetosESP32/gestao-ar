@@ -65,7 +65,7 @@ const Show: FC = () => {
             <Box>
               {canEdit && (
                 <Button startIcon={<MdLockClock />} onClick={() => setIsExtendTimeDialogOpen(true)}>
-                  Extender funcionamento
+                  Estender funcionamento
                 </Button>
               )}
               {!!loggedUser?.isRoot && (

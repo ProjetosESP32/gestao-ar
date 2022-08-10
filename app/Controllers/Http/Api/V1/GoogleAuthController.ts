@@ -1,6 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { Exception } from '@poppinss/utils'
-import { DateTime } from 'luxon'
 import Welcome from 'App/Mailers/Welcome'
 import User from 'App/Models/User'
 import { generatePassword } from 'App/Utils/generatePassword'
@@ -47,7 +46,6 @@ export default class GoogleAuthController {
         googleId: googleUser.id,
         password: generatePassword(12),
         username: googleUser.name,
-        emailVerifiedAt: googleUser.emailVerificationState === 'verified' ? DateTime.now() : null,
       },
     )
 
