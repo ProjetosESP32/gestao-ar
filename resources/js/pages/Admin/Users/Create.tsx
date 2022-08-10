@@ -16,13 +16,13 @@ import { useTheme } from '@mui/material/styles'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import React, { ChangeEvent, FC, useRef } from 'react'
 import { withDrawer } from '@/components/Drawer/withDrawer'
-import { FullSteper, FullStepRef, Step } from '@/components/FullStep'
+import { FullSteper, FullStepRef, StepData } from '@/components/FullStep'
 import { BasePageProps } from '@/interfaces/BasePageProps'
 import { Paginate } from '@/interfaces/Paginate'
 import { Room } from '@/interfaces/Room'
 import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
 
-const steps: Step[] = [
+const steps: StepData[] = [
   { label: 'Dados do usuário', isOptional: false },
   { label: 'Vincular salas', isOptional: true },
 ]
