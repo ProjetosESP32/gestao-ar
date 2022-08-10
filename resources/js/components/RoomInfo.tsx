@@ -21,7 +21,7 @@ export const RoomInfo: FC = () => {
     <Paper sx={{ padding: 2 }}>
       <Stack spacing={2}>
         <Typography variant='h5'>Sala</Typography>
-        <Stack direction='row' spacing={4}>
+        <Stack direction='row' spacing={4} flexWrap='wrap'>
           <Box>
             <Typography variant='h6'>ID</Typography>
             <Typography textAlign='right'>{room.id}</Typography>
