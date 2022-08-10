@@ -39,8 +39,6 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd $TARGET
-            cp .env build/.env
-            cd build
-            yarn install --production --frozen-lockfile
+            cp $TARGET/.env $TARGET/build/.env
+            cd $TARGET/build && yarn install --production --frozen-lockfile
             pm2 restart all
