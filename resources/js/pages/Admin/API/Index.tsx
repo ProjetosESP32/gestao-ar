@@ -145,7 +145,7 @@ const Index: FC = () => {
     <Container maxWidth='lg'>
       <Paper sx={{ padding: 2 }}>
         <Stack spacing={2}>
-          <Typography variant='h3'>API's</Typography>
+          <Typography variant='h3'>API&apos;s</Typography>
           <DataGrid
             experimentalFeatures={{ newEditingApi: true }}
             autoHeight

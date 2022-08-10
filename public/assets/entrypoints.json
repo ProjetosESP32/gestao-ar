@@ -2,7 +2,7 @@
   "entrypoints": {
     "app": {
       "js": [
-        "http://localhost:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-577b85.js",
+        "http://localhost:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-71b23c.js",
         "http://localhost:8080/assets/vendors-node_modules_inertiajs_inertia-react_dist_index_js-node_modules_inertiajs_progress_di-2e4244.js",
         "http://localhost:8080/assets/app.js"
       ],
@@ -12,7 +12,7 @@
     },
     "errors": {
       "js": [
-        "http://localhost:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-577b85.js"
+        "http://localhost:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-71b23c.js"
       ],
       "css": [
         "http://localhost:8080/assets/errors.css"

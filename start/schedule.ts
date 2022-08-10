@@ -10,6 +10,8 @@ const QUEUE_NAME = 'air-cond-queue'
 const connectionConfig = { connection: redis.connections.local, sharedConnection: true }
 
 const queue = new Queue(QUEUE_NAME, connectionConfig)
+
+// eslint-disable-next-line no-new
 new QueueScheduler(QUEUE_NAME, connectionConfig)
 
 const worker = new Worker(
@@ -57,6 +59,8 @@ const worker = new Worker(
         if (!isActive && recurrency > 0) {
           return { esps: room.esps, data: 1 }
         }
+
+        return null
       })
       .filter(Boolean) as EventsList['air-change:dispatchAll']
 

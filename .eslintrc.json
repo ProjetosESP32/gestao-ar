@@ -1,33 +1,21 @@
 {
-  "extends": [
-    "plugin:adonis/typescriptApp",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
-    "plugin:react/recommended",
-    "prettier"
-  ],
-  "plugins": ["react", "react-hooks", "prettier"],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": ["plugin:adonis/typescriptApp", "plugin:react/recommended", "standard", "prettier"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "prettier"],
   "rules": {
     "prettier/prettier": ["error"],
-
-    "import/order": ["error", { "alphabetize": { "order": "asc" } }],
-    "import/extensions": "off",
-    "import/no-unresolved": "off",
-
-    "react/react-in-jsx-scope": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".jsx"] }],
-    "react/jsx-closing-bracket-location": "error",
-    "react/no-unescaped-entities": "off",
-    "react/prop-types": "warn",
-    "react/jsx-props-no-spreading": "off",
-    "react/display-name": "off",
 
     "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
     "prefer-arrow-callback": "error",
@@ -37,8 +25,16 @@
     "arrow-body-style": ["error", "as-needed"],
     "arrow-spacing": "error",
 
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".jsx"] }],
+    "react/prop-types": "warn",
+    "react/jsx-closing-bracket-location": "error",
+
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-undef": "off",
+    "no-useless-constructor": "off"
   },
   "settings": {
     "react": {
@@ -50,19 +46,5 @@
     "import/resolver": {
       "typescript": {}
     }
-  },
-  "overrides": [
-    {
-      "files": ["*.ts"],
-      "parserOptions": {
-        "project": ["./tsconfig.json"]
-      }
-    },
-    {
-      "files": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.js", "resources/js/**/*.jsx"],
-      "parserOptions": {
-        "project": ["resources/js/tsconfig.json"]
-      }
-    }
-  ]
+  }
 }

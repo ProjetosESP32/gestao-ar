@@ -27,29 +27,13 @@ Encore.enableVersioning(Encore.isProduction())
 
 Encore.enableEslintPlugin()
 
-/*
-|--------------------------------------------------------------------------
-| Configure dev server
-|--------------------------------------------------------------------------
-|
-| Here we configure the dev server to enable live reloading for edge templates.
-| Remember edge templates are not processed by Webpack and hence we need
-| to watch them explicitly and livereload the browser.
-|
-*/
 Encore.configureDevServerOptions(options => {
-  /**
-   * Normalize "options.static" property to an array
-   */
   if (!options.static) {
     options.static = []
   } else if (!Array.isArray(options.static)) {
     options.static = [options.static]
   }
 
-  /**
-   * Enable live reload and add views directory
-   */
   options.liveReload = true
   options.static.push({
     directory: join(__dirname, './resources'),
@@ -63,12 +47,4 @@ config.infrastructureLogging = {
 }
 config.stats = 'errors-warnings'
 
-/*
-|--------------------------------------------------------------------------
-| Export config
-|--------------------------------------------------------------------------
-|
-| Export config for webpack to do its job
-|
-*/
 module.exports = config
