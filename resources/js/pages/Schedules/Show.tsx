@@ -1,7 +1,7 @@
-/* eslint-disable import/order */
-import FullCalendar, { EventSourceInput } from '@fullcalendar/react'
+import FullCalendar from '@fullcalendar/react'
 import interactionPlugin from '@fullcalendar/interaction'
 import luxonPlugin from '@fullcalendar/luxon2'
+import rrulePlugin from '@fullcalendar/rrule'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Inertia } from '@inertiajs/inertia'
 import { usePage } from '@inertiajs/inertia-react'
@@ -12,12 +12,13 @@ import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-import { DateTime } from 'luxon'
-import React, { FC, useState } from 'react'
+import { DateTime, Interval } from 'luxon'
+import React, { FC, useMemo, useState } from 'react'
 import { MdAdd, MdLockClock } from 'react-icons/md'
 import { DeleteEventDialog } from '@/components/DeleteEventDialog'
 import { withDrawer } from '@/components/Drawer/withDrawer'
 import { ExtendTimeDialog } from '@/components/ExtendTimeDialog'
+import { ScheduleRepeat } from '@/enums/ScheduleRepeat'
 import { BasePageProps } from '@/interfaces/BasePageProps'
 import { Room } from '@/interfaces/Room'
 
@@ -33,28 +34,79 @@ const Show: FC = () => {
     palette: { primary },
   } = useTheme()
   const { room, loggedUser, canEdit } = usePage<ShowPageProps>().props
-  const [selectedEventId, setSelectedEventId] = useState(0)
+  const [selectedScheduleId, setSelectedScheduleId] = useState(0)
   const [isExtendTimeDialogOpen, setIsExtendTimeDialogOpen] = useState(false)
 
-  const selectedEvent = room.events?.find(event => event.id === selectedEventId)
+  const selectedSchedule = room.schedules?.find(schedule => schedule.id === selectedScheduleId)
 
-  const events: EventSourceInput =
-    room.events?.flatMap(
-      ({ id, name, eventRecurrences, startDate, endDate }) =>
-        eventRecurrences?.map(({ daysOfMonthArray, daysOfWeekArray, startTime, endTime }) => ({
-          id: String(id),
-          groupId: name,
-          title: name,
-          daysOfMonth: daysOfMonthArray.map(day => day - 1),
-          daysOfWeek: daysOfWeekArray.map(day => day - 1),
-          startTime: DateTime.fromISO(startTime).toFormat('HH:mm'),
-          endTime: DateTime.fromISO(endTime).toFormat('HH:mm'),
-          startRecur: startDate,
-          endRecur: endDate,
-        })) ?? [],
-    ) ?? []
+  const events = useMemo(
+    () =>
+      room.schedules?.map(
+        ({
+          id,
+          name,
+          activeUntil,
+          scheduleDate,
+          isAllDay,
+          startTime,
+          endTime,
+          daysOfMonth,
+          daysOfWeek,
+          repeat,
+          repeatInterval,
+          exceptions,
+          timezone,
+        }) => {
+          const base = {
+            id: String(id),
+            groupId: `${name}-${id}`,
+            title: name,
+            allDay: !!isAllDay,
+            backgroundColor: primary.main,
+          }
 
-  const handleClose = () => setSelectedEventId(0)
+          if (repeat === ScheduleRepeat.ONCE) {
+            return {
+              ...base,
+              start: DateTime.fromFormat(
+                `${scheduleDate} ${startTime} ${timezone}`,
+                'yyyy-MM-dd HH:mm:ss z',
+              ).toJSDate(),
+              end: DateTime.fromFormat(`${scheduleDate} ${endTime} ${timezone}`, 'yyyy-MM-dd HH:mm:ss z').toJSDate(),
+            }
+          }
+
+          const duration = !isAllDay
+            ? Interval.fromDateTimes(
+                DateTime.fromFormat(startTime!, 'HH:mm:ss'),
+                DateTime.fromFormat(endTime!, 'HH:mm:ss'),
+              )
+                .toDuration()
+                .toFormat('hh:mm')
+            : null
+          const dtstart = !isAllDay
+            ? DateTime.fromFormat(`${scheduleDate} ${startTime} ${timezone}`, 'yyyy-MM-dd HH:mm:ss z').toJSDate()
+            : DateTime.fromFormat(`${scheduleDate} 00:00:00 ${timezone}`, 'yyyy-MM-dd HH:mm:ss z').toJSDate()
+
+          return {
+            ...base,
+            rrule: {
+              freq: repeat,
+              dtstart,
+              interval: repeatInterval,
+              until: DateTime.fromISO(activeUntil).toJSDate(),
+              bymonthday: daysOfMonth,
+              byweekday: daysOfWeek?.map(day => day - 1),
+            },
+            exdate: exceptions?.map(({ exceptionDate }) => exceptionDate),
+            duration,
+          }
+        },
+      ) ?? [],
+    [primary.main, room.schedules],
+  )
+
+  const handleClose = () => setSelectedScheduleId(0)
 
   return (
     <Container maxWidth='lg'>
@@ -80,7 +132,7 @@ const Show: FC = () => {
             </Box>
           </Box>
           <FullCalendar
-            plugins={[timeGridPlugin, interactionPlugin, luxonPlugin]}
+            plugins={[timeGridPlugin, interactionPlugin, luxonPlugin, rrulePlugin]}
             allDayText='Dia todo'
             weekText='Semana'
             locale='pt-br'
@@ -88,13 +140,13 @@ const Show: FC = () => {
             businessHours={{ startTime: '7:00', endTime: '22:00' }}
             events={events}
             eventColor={primary.main}
-            eventClick={e => !!loggedUser?.isRoot && setSelectedEventId(Number(e.event.id))}
+            eventClick={e => !!loggedUser?.isRoot && setSelectedScheduleId(Number(e.event.id))}
           />
           <DeleteEventDialog
-            open={!!selectedEvent}
+            open={!!selectedSchedule}
             onClose={handleClose}
-            eventId={selectedEventId}
-            eventName={selectedEvent?.name ?? ''}
+            eventId={selectedScheduleId}
+            eventName={selectedSchedule?.name ?? ''}
             roomId={room.id}
           />
           <ExtendTimeDialog

@@ -9,22 +9,22 @@ export const USER_COVER_FOLDER = 'users/cover'
 
 export default class User extends SoftDeletesBaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id!: number
 
   @column()
-  public username: string
+  public username!: string
 
   @column()
-  public email: string
+  public email!: string
 
   @column({ serializeAs: null })
-  public password: string
+  public password!: string
 
   @column()
   public rememberMeToken?: string
 
   @column()
-  public isRoot: boolean
+  public isRoot!: boolean
 
   @attachment({ folder: USER_COVER_FOLDER, preComputeUrl: true })
   public cover?: AttachmentContract | null
@@ -41,13 +41,13 @@ export default class User extends SoftDeletesBaseModel {
   public emailVerifiedAt?: DateTime | null
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt!: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt!: DateTime
 
   @manyToMany(() => Room, { pivotTable: 'users_rooms' })
-  public rooms: ManyToMany<typeof Room>
+  public rooms!: ManyToMany<typeof Room>
 
   @beforeSave()
   public static async hashPassword(user: User) {

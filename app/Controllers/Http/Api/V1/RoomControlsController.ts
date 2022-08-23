@@ -9,8 +9,8 @@ export default class RoomControlsController {
     const room = await Room.query()
       .where('id', params.id)
       .preload('esps', espBuilder => {
-        espBuilder.preload('consumptions', consumptionBuilder => {
-          consumptionBuilder.select('*').max('created_at')
+        espBuilder.preload('status', statusBuilder => {
+          statusBuilder.select('*').max('created_at')
         })
       })
       .firstOrFail()

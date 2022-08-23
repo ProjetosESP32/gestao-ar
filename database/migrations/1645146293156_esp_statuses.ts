@@ -1,19 +1,19 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Taxes extends BaseSchema {
-  protected tableName = 'taxes'
+export default class EspStatuses extends BaseSchema {
+  protected tableName = 'esp_statuses'
 
   public async up() {
     this.schema.createTable(this.tableName, table => {
       table.increments('id')
+      table.integer('esp_id').unsigned().references('id').inTable('esps').onDelete('CASCADE')
 
-      table.decimal('tax', 11, 2)
-      table.timestamp('start_of_term', { useTz: true })
-      table.timestamp('end_of_term', { useTz: true })
+      table.decimal('temperature', 3, 3)
+      table.decimal('humidity', 3, 3)
+      table.decimal('potency', 6, 6)
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
-      table.timestamp('deleted_at', { useTz: true }).nullable()
     })
   }
 

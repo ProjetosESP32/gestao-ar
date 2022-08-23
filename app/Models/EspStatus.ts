@@ -4,28 +4,28 @@ import Esp from './Esp'
 
 const consumptionConsumer = (value: unknown) => Number(value)
 
-export default class Consumption extends BaseModel {
+export default class EspStatus extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id!: number
 
   @column()
-  public espId: number
+  public espId!: number
 
   @column({ consume: consumptionConsumer })
-  public temperature: number
+  public temperature!: number
 
   @column({ consume: consumptionConsumer })
-  public humidity: number
+  public humidity!: number
 
   @column({ consume: consumptionConsumer })
-  public potency: number
+  public potency!: number
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt!: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt!: DateTime
 
   @belongsTo(() => Esp)
-  public esp: BelongsTo<typeof Esp>
+  public esp!: BelongsTo<typeof Esp>
 }

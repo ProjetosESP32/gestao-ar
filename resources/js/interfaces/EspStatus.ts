@@ -1,6 +1,6 @@
 import { Esp } from './Esp'
 
-export interface Consumption {
+export interface EspStatus {
   id: number
   espId?: number
   temperature: number

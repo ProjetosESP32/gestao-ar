@@ -21,18 +21,32 @@
     "./start/kernel",
     {
       "file": "./start/inertia",
-      "environment": ["web"]
+      "environment": [
+        "web"
+      ]
     },
     {
       "file": "./start/events",
-      "environment": ["console", "repl", "web"]
+      "environment": [
+        "console",
+        "repl",
+        "web"
+      ]
     },
     "./start/bouncer",
     {
       "file": "./start/schedule",
-      "environment": ["web"]
+      "environment": [
+        "web"
+      ]
     },
-    "./start/limiter"
+    "./start/limiter",
+    {
+      "file": "./start/validator",
+      "environment": [
+        "web"
+      ]
+    }
   ],
   "providers": [
     "./providers/AppProvider",
@@ -60,5 +74,7 @@
       "reloadServer": false
     }
   ],
-  "aceProviders": ["@adonisjs/repl"]
+  "aceProviders": [
+    "@adonisjs/repl"
+  ]
 }

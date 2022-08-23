@@ -19,7 +19,7 @@ const Create: FC = () => {
   const { room } = usePage<CreatePageProps>().props
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth='sm'>
       <Paper>
         <Stack p={2}>
           <Typography variant='h3' mb={2}>

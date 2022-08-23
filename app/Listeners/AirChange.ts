@@ -53,11 +53,11 @@ export default class AirChange {
       await esp.save()
     }
 
-    const lastConsumption = await esp.related('consumptions').query().orderBy('created_at', 'desc').first()
+    const lastConsumption = await esp.related('status').query().orderBy('created_at', 'desc').first()
     const baseTime = lastConsumption?.createdAt.diffNow('hour').hours ?? 0
     const time = -FIVE_MINUTES_IN_HOURS < baseTime && baseTime < 0 ? -baseTime : ONE_MINUTE_IN_HOURS
 
     const potency = (VOLTAGE * irms * time) / 1000 // in kWh
-    await esp.related('consumptions').create({ humidity: humidade, temperature: temperatura, potency })
+    await esp.related('status').create({ humidity: humidade, temperature: temperatura, potency })
   }
 }

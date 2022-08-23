@@ -3,17 +3,17 @@ import { DateTime } from 'luxon'
 
 export default class Service extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id!: number
 
   @column()
-  public name: string
+  public name!: string
 
   @column()
-  public token: string
+  public token!: string
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt!: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt!: DateTime
 }
