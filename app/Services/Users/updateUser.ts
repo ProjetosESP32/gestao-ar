@@ -5,11 +5,11 @@ import VerifyEmail from 'App/Mailers/VerifyEmail'
 import UpdateUserValidator from 'App/Validators/UpdateUserValidator'
 
 export const updateUser = async ({ auth, request }: HttpContextContract, guard: keyof GuardsList) => {
-  const { cover, email, username } = await request.validate(UpdateUserValidator)
+  const { cover, email, ...data } = await request.validate(UpdateUserValidator)
 
   const user = auth.use(guard).user!
 
-  user.merge({ username })
+  user.merge(data)
 
   if (cover) {
     user.cover = Attachment.fromFile(cover)
