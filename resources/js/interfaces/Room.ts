@@ -1,5 +1,5 @@
 import { Esp } from './Esp'
-import { Event } from './Event'
+import { Schedule } from './Schedule'
 
 export interface Room {
   id: number
@@ -9,5 +9,5 @@ export interface Room {
   createdAt: string
   updatedAt: string
   esps?: Esp[]
-  events?: Event[]
+  schedules?: Schedule[]
 }

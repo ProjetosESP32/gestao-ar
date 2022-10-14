@@ -1,16 +1,14 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Consumptions extends BaseSchema {
-  protected tableName = 'consumptions'
+export default class extends BaseSchema {
+  protected tableName = 'schedule_exceptions'
 
   public async up() {
     this.schema.createTable(this.tableName, table => {
       table.increments('id')
-      table.integer('esp_id').unsigned().references('id').inTable('esps').onDelete('CASCADE')
 
-      table.decimal('temperature', 11, 3)
-      table.decimal('humidity', 11, 3)
-      table.decimal('potency', 11, 3)
+      table.integer('schedule_id').unsigned().references('id').inTable('schedules').onDelete('CASCADE')
+      table.date('exception_date')
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

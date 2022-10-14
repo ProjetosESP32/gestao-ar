@@ -11,12 +11,12 @@ export default class RoomControlsController {
       const room = await Room.query({ client })
         .where('id', params.id)
         .preload('esps', espBuilder => {
-          espBuilder.preload('consumptions', consumptionBuilder => {
+          espBuilder.preload('status', consumptionBuilder => {
             consumptionBuilder.select('*').max('created_at')
           })
         })
         .firstOrFail()
-      const dailyConsumption = await Database.from('consumptions')
+      const dailyConsumption = await Database.from('esp_statuses')
         .select(Database.raw('HOUR(`created_at`) as `hour`'))
         .where('created_at', '>', Database.raw('NOW() - INTERVAL 1 DAY'))
         .sum('potency', 'totalPotency')
@@ -27,7 +27,7 @@ export default class RoomControlsController {
           room.esps.map(esp => esp.id),
         )
         .useTransaction(client)
-      const monthConsumption = await Database.from('consumptions')
+      const monthConsumption = await Database.from('esp_statuses')
         .select(Database.raw('MONTH(`created_at`) as `month`'))
         .sum('potency', 'totalPotency')
         .groupBy('month')

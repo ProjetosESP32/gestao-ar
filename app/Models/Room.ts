@@ -1,34 +1,34 @@
 import { BaseModel, column, HasMany, hasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Esp from './Esp'
-import Event from './Event'
+import Schedule from './Schedule'
 import User from './User'
 
 export default class Room extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id!: number
 
   @column()
-  public name: string
+  public name!: string
 
   @column()
-  public block: string
+  public block!: string
 
   @column()
-  public floor: string
+  public floor!: string
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt!: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt!: DateTime
 
   @hasMany(() => Esp)
-  public esps: HasMany<typeof Esp>
+  public esps!: HasMany<typeof Esp>
 
   @manyToMany(() => User)
-  public users: ManyToMany<typeof User>
+  public users!: ManyToMany<typeof User>
 
-  @hasMany(() => Event)
-  public events: HasMany<typeof Event>
+  @hasMany(() => Schedule)
+  public schedules!: HasMany<typeof Schedule>
 }

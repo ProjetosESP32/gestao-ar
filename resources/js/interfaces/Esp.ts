@@ -1,4 +1,4 @@
-import { Consumption } from './Consumption'
+import { EspStatus } from './EspStatus'
 import { Room } from './Room'
 
 export interface Esp {
@@ -7,7 +7,7 @@ export interface Esp {
   name: string
   macAddress: string
   isOn: boolean
-  consumptions?: Consumption[]
+  status?: EspStatus[]
   room?: Room
   createdAt: string
   updatedAt: string

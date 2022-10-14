@@ -1,9 +1,10 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { EVERY_DAY_OF_MONTH_ARRAY, EVERY_WEEKDAY_ARRAY } from 'App/Constants/time'
-import Event from 'App/Models/Event'
-import EventRecurrence from 'App/Models/EventRecurrence'
+import { ScheduleRepeat } from 'App/Enums/ScheduleRepeat'
 import Room from 'App/Models/Room'
-import CreateEventScheduleValidator from 'App/Validators/Web/Admin/CreateEventScheduleValidator'
+import Schedule from 'App/Models/Schedule'
+import CreateBaseScheduleValidator from 'App/Validators/Web/Admin/CreateBaseScheduleValidator'
+import CreateMonthlyScheduleValidator from 'App/Validators/Web/Admin/CreateMonthlyScheduleValidator'
+import CreateWeeklyScheduleValidator from 'App/Validators/Web/Admin/CreateWeeklyScheduleValidator'
 
 export default class SchedulesController {
   public async create({ inertia, bouncer, params }: HttpContextContract) {
@@ -15,21 +16,34 @@ export default class SchedulesController {
 
   public async store({ params, request, response, bouncer }: HttpContextContract) {
     await bouncer.authorize('admin')
-    const { recurrences, ...event } = await request.validate(CreateEventScheduleValidator)
-
     const room = await Room.findOrFail(params.roomId)
+    const data = await request.validate(CreateBaseScheduleValidator)
 
-    const newEvent = await room.related('events').create(event)
-    const newRecurrences = recurrences.map(({ daysOfMonth, daysOfWeek, ...recurrence }) => {
-      const newEventRecurrence = new EventRecurrence()
-      newEventRecurrence.merge(recurrence)
-      newEventRecurrence.daysOfMonthArray = daysOfMonth.length > 0 ? daysOfMonth : EVERY_DAY_OF_MONTH_ARRAY
-      newEventRecurrence.daysOfWeekArray = daysOfWeek.length > 0 ? daysOfWeek : EVERY_WEEKDAY_ARRAY
+    if ([ScheduleRepeat.ONCE, ScheduleRepeat.DAILY, ScheduleRepeat.YEARLY].includes(data.repeat)) {
+      await room
+        .related('schedules')
+        .create({ ...data, startTime: data.startTime?.toFormat('HH:mm'), endTime: data.endTime?.toFormat('HH:mm') })
+    }
 
-      return newEventRecurrence
-    })
+    if (data.repeat === ScheduleRepeat.WEEKLY) {
+      const { daysOfWeek } = await request.validate(CreateWeeklyScheduleValidator)
+      await room.related('schedules').create({
+        ...data,
+        startTime: data.startTime?.toFormat('HH:mm'),
+        endTime: data.endTime?.toFormat('HH:mm'),
+        daysOfWeek,
+      })
+    }
 
-    await newEvent.related('eventRecurrences').saveMany(newRecurrences)
+    if (data.repeat === ScheduleRepeat.MONTHLY) {
+      const monthlyData = await request.validate(CreateMonthlyScheduleValidator)
+      await room.related('schedules').create({
+        ...data,
+        startTime: data.startTime?.toFormat('HH:mm'),
+        endTime: data.endTime?.toFormat('HH:mm'),
+        ...monthlyData,
+      })
+    }
 
     return response.redirect().toRoute('rooms.schedules', { roomId: room.id })
   }
@@ -37,7 +51,7 @@ export default class SchedulesController {
   public async destroy({ params, bouncer, response }: HttpContextContract) {
     await bouncer.authorize('admin')
 
-    const event = await Event.findOrFail(params.id)
+    const event = await Schedule.findOrFail(params.id)
     await event.softDelete()
 
     return response.redirect().toRoute('rooms.schedules', { roomId: event.roomId })

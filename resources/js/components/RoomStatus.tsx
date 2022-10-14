@@ -21,7 +21,7 @@ export const RoomStatus: FC = () => {
     <Paper sx={{ padding: 2 }}>
       <Stack spacing={2}>
         <Typography variant='h5'>Status por ESP</Typography>
-        {room.esps?.map(({ id, name, isOn, consumptions }, idx, arr) => (
+        {room.esps?.map(({ id, name, isOn, status }, idx, arr) => (
           <Fragment key={id}>
             <Stack direction='row' spacing={2} flexWrap='wrap'>
               <Box>
@@ -34,15 +34,15 @@ export const RoomStatus: FC = () => {
               </Box>
               <Box>
                 <Typography>Humidade</Typography>
-                <Typography>{consumptions?.[0]?.humidity ?? 0}%</Typography>
+                <Typography>{status?.[0]?.humidity ?? 0}%</Typography>
               </Box>
               <Box>
                 <Typography>Consumo</Typography>
-                <Typography>{consumptions?.[0]?.potency ?? 0}kWh</Typography>
+                <Typography>{status?.[0]?.potency ?? 0}kWh</Typography>
               </Box>
               <Box>
                 <Typography>Temperatura</Typography>
-                <Typography>{consumptions?.[0]?.temperature ?? 0}°C</Typography>
+                <Typography>{status?.[0]?.temperature ?? 0}°C</Typography>
               </Box>
             </Stack>
             {idx !== arr.length - 1 && <Divider />}

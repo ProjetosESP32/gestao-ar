@@ -47,7 +47,7 @@ export const ScheduleMonthSelect: FC<ScheduleMonthSelectProps> = ({ id, label, v
         value={values}
         onChange={handleChange}
         input={<OutlinedInput label={label} sx={{ borderRadius: 2 }} />}
-        renderValue={selected => selected.join(', ')}
+        renderValue={selected => selected.sort((a, b) => a - b).join(', ')}
         MenuProps={MenuProps}
       >
         {data.map(item => (

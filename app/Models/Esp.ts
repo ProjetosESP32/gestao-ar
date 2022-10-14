@@ -1,35 +1,35 @@
 import { BaseModel, beforeSave, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
-import Consumption from './Consumption'
+import EspStatus from './EspStatus'
 import Room from './Room'
 
 export default class Esp extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id!: number
 
   @column()
-  public roomId: number
+  public roomId!: number
 
   @column()
-  public name: string
+  public name!: string
 
   @column()
-  public macAddress: string
+  public macAddress!: string
 
   @column()
-  public isOn: boolean
+  public isOn!: boolean
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt!: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt!: DateTime
 
   @belongsTo(() => Room)
-  public room: BelongsTo<typeof Room>
+  public room!: BelongsTo<typeof Room>
 
-  @hasMany(() => Consumption)
-  public consumptions: HasMany<typeof Consumption>
+  @hasMany(() => EspStatus)
+  public status!: HasMany<typeof EspStatus>
 
   @beforeSave()
   public static clearMacAddress(esp: Esp) {
