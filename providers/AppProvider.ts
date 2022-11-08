@@ -16,7 +16,7 @@ export default class AppProvider {
     const { BaseModel } = this.app.container.use('Adonis/Lucid/Orm')
 
     Route.macro('mustBeSigned', function () {
-      this.middleware(async ({ request }, next) => {
+      this.middleware(({ request }, next) => {
         if (!request.hasValidSignature()) {
           throw new Exception('Assinatura inválida', 400, 'ERR_INVALID_SIGNATURE')
         }
