@@ -5,7 +5,11 @@ import { updateUser } from 'App/Services/Users/updateUser'
 export default class UsersController {
   public async show({ auth }: HttpContextContract) {
     const user = auth.use('api').user!
-    await user.load('rooms')
+    await user.load('rooms', roomBuilder => {
+      roomBuilder.preload('esps').preload('schedules', scheduleBuilder => {
+        scheduleBuilder.preload('exceptions')
+      })
+    })
 
     return user
   }
@@ -21,6 +25,6 @@ export default class UsersController {
   public async destroy({ auth }: HttpContextContract) {
     const user = auth.use('api').user!
 
-    await user.delete()
+    await user.softDelete()
   }
 }
