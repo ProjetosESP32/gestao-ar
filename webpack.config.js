@@ -18,7 +18,7 @@ Encore.configureBabel(config => {
 Encore.enableBabelTypeScriptPreset()
 
 Encore.splitEntryChunks()
-Encore.disableSingleRuntimeChunk()
+Encore.enableSingleRuntimeChunk()
 
 Encore.cleanupOutputBeforeBuild()
 
