@@ -126,7 +126,7 @@ const getTemperature = (room: Room) => {
       return t1 - t2
     })
 
-  if (!esp.status?.length) return 0
+  if (!esp?.status?.length) return 0
 
   const [{ temperature }] = esp.status
 

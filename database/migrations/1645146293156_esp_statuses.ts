@@ -8,8 +8,8 @@ export default class EspStatuses extends BaseSchema {
       table.increments('id')
       table.integer('esp_id').unsigned().references('id').inTable('esps').onDelete('CASCADE')
 
-      table.decimal('temperature', 3, 3)
-      table.decimal('humidity', 3, 3)
+      table.decimal('temperature', 6, 3)
+      table.decimal('humidity', 6, 3)
       table.decimal('potency', 6, 6)
 
       table.timestamp('created_at', { useTz: true })
