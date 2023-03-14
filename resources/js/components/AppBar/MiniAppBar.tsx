@@ -1,9 +1,11 @@
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
+import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import React, { FC } from 'react'
 import { MdMenu } from 'react-icons/md'
 import { AvatarMenu } from '../AvatarMenu'
+import { ThemeButton } from './ThemeButton'
 import { AppBar } from './styles'
 
 interface MiniAppBarProps {
@@ -29,9 +31,10 @@ export const MiniAppBar: FC<MiniAppBarProps> = ({ open, onOpen }) => (
         </IconButton>
         <img src='/images/if-icon.svg' alt='Logo da aplicação' />
       </Box>
-      <Box flexGrow={0}>
+      <Stack direction='row' flexGrow={0}>
+        <ThemeButton />
         <AvatarMenu />
-      </Box>
+      </Stack>
     </Toolbar>
   </AppBar>
 )
