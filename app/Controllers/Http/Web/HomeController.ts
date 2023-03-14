@@ -4,8 +4,8 @@ import Database from '@ioc:Adonis/Lucid/Database'
 export default class HomeController {
   public async index({ inertia }: HttpContextContract) {
     const results = await Database.transaction(async client => {
-      const consumptionNow = await Database.from('esp_statuses')
-        .select('rooms.block as block', 'esp_statuses.potency as potency')
+      const averageConsumption = await Database.from('esp_statuses')
+        .select('rooms.block as block', Database.raw('AVG(`esp_statuses`.`potency`) as `totalPotency`'))
         .innerJoin('esps', 'esp_statuses.esp_id', 'esps.id')
         .innerJoin('rooms', 'esps.room_id', 'rooms.id')
         .max('esp_statuses.created_at')
@@ -26,9 +26,9 @@ export default class HomeController {
         .useTransaction(client)
 
       return {
-        consumptionNow: consumptionNow.map(({ block, potency }) => ({
+        averageConsumption: averageConsumption.map(({ block, totalPotency }) => ({
           block,
-          potency: Number(potency),
+          potency: Number(totalPotency),
         })),
         dailyConsumption: dailyConsumption.map(({ hour, totalPotency }) => ({
           hour: Number(hour),

@@ -12,7 +12,7 @@ export default class RoomControlsController {
         .where('id', params.id)
         .preload('esps', espBuilder => {
           espBuilder.preload('status', consumptionBuilder => {
-            consumptionBuilder.select('*').max('created_at')
+            consumptionBuilder.orderBy('id', 'desc').limit(1)
           })
         })
         .firstOrFail()
@@ -54,8 +54,8 @@ export default class RoomControlsController {
       }
     })
 
-    const sockets = await io.allSockets()
-    const hasServices = sockets.size > 0
+    const sockets = await io.fetchSockets()
+    const hasServices = sockets.length > 0
 
     return inertia.render('Rooms/Show', { ...results, hasServices })
   }

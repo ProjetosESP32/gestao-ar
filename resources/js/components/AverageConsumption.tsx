@@ -6,24 +6,24 @@ import { Doughnut } from 'react-chartjs-2'
 import { BasePageProps } from '../interfaces/BasePageProps'
 import { ChartContainer } from './ChartContainer'
 
-interface ConsumptionNowProps {
-  consumptionNow: { block: string; potency: number }[]
+interface AverageConsumptionProps {
+  averageConsumption: { block: string; potency: number }[]
 }
 
-type ConsumptionNowPageProps = BasePageProps<ConsumptionNowProps>
+type AverageConsumptionPageProps = BasePageProps<AverageConsumptionProps>
 
-export const ConsumptionNow: FC = () => {
+export const AverageConsumption: FC = () => {
   const {
     palette: { primary, secondary },
   } = useTheme()
-  const { consumptionNow } = usePage<ConsumptionNowPageProps>().props
+  const { averageConsumption } = usePage<AverageConsumptionPageProps>().props
 
   const data: ChartData<'doughnut', number[], string> = {
-    labels: consumptionNow.map(({ block }) => `Bloco ${block.toUpperCase()}`),
+    labels: averageConsumption.map(({ block }) => `Bloco ${block.toUpperCase()}`),
     datasets: [
       {
         label: 'Blocos',
-        data: consumptionNow.map(({ potency }) => potency),
+        data: averageConsumption.map(({ potency }) => potency),
         backgroundColor: [primary.dark, secondary.dark, primary.light, secondary.light],
         borderWidth: 0,
       },
@@ -31,7 +31,7 @@ export const ConsumptionNow: FC = () => {
   }
 
   return (
-    <ChartContainer title='Consumo atual (kWh)'>
+    <ChartContainer title='Consumo atual médio (kWh)'>
       <Doughnut data={data} />
     </ChartContainer>
   )

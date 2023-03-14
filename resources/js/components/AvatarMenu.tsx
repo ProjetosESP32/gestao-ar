@@ -37,7 +37,6 @@ export const AvatarMenu: FC = () => {
       </Tooltip>
       <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleClose}>
         <MenuItem onClick={handleProfile}>Perfil</MenuItem>
-        <MenuItem onClick={handleClose}>Notificações</MenuItem>
         <MenuItem onClick={handleLogout}>Sair</MenuItem>
       </Menu>
     </>

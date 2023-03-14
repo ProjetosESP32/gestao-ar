@@ -2,6 +2,7 @@
   "assets/app.css": "http://localhost:8080/assets/app.css",
   "assets/app.js": "http://localhost:8080/assets/app.js",
   "assets/errors.css": "http://localhost:8080/assets/errors.css",
+  "assets/runtime.js": "http://localhost:8080/assets/runtime.js",
   "assets/resources_js_pages_Admin_API_Index_tsx-resources_css_app-link_css.css": "http://localhost:8080/assets/resources_js_pages_Admin_API_Index_tsx-resources_css_app-link_css.css",
   "assets/resources_js_pages_Admin_API_Index_tsx-resources_css_app-link_css.js": "http://localhost:8080/assets/resources_js_pages_Admin_API_Index_tsx-resources_css_app-link_css.js",
   "assets/resources_js_pages_Admin_Esps_Index_tsx-resources_css_app-link_css.css": "http://localhost:8080/assets/resources_js_pages_Admin_Esps_Index_tsx-resources_css_app-link_css.css",

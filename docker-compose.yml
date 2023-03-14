@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - mysql_volume:/var/lib/mysql
+
+  redisdb:
+    image: redis:alpine
+    volumes:
+      - redis_volume:/data
+    ports:
+      - 6379:6379
+
+  backend:
+    restart: always
+    depends_on:
+      - mysqldb
+      - redisdb
+    build:
+      context: .
+      target: dependencies
+    ports:
+      - ${PORT}:${PORT}
+      - 8080:8080
+      - 9229:9229
+    env_file:
+      - .env
+    environment:
+      MYSQL_HOST: mysqldb
+      REDIS_HOST: redisdb
+    volumes:
+      - ./:/home/node/app
+    command: node ace serve --watch --encore-args="--host ${HOST} --port 8080"
+
+volumes:
+  mysql_volume:
+  redis_volume:
