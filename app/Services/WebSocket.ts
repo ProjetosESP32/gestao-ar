@@ -5,9 +5,7 @@ let isBooted = false
 export let io: Server
 
 export const boot = () => {
-  if (isBooted) {
-    return
-  }
+  if (isBooted) return
 
   isBooted = true
   io = new Server(AdonisServer.instance!, { cors: { origin: '*' } })

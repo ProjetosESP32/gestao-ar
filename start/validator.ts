@@ -9,6 +9,6 @@ validator.rule('timezone', (value, _, options) => {
   const date = DateTime.now().setZone(value)
 
   if (!date.isValid) {
-    options.errorReporter.report(options.pointer, 'timezone', 'timezone not valid', options.arrayExpressionPointer)
+    options.errorReporter.report(options.pointer, 'timezone', 'invalid timezone', options.arrayExpressionPointer)
   }
 })
