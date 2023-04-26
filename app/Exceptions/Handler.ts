@@ -13,10 +13,10 @@ export default class ExceptionHandler extends HttpExceptionHandler {
     super(Logger)
   }
 
-  public async handle(error: unknown, context: HttpContextContract) {
+  public async handle(error: Error, context: HttpContextContract) {
     context.session.flash('alert', {
       severity: 'error',
-      message: 'Ocorreu um erro',
+      message: `Ocorreu um erro - ${error.message}`,
     })
 
     return super.handle(error, context)

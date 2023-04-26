@@ -15,7 +15,7 @@ export const MiniDrawer: FC<MiniDrawerProps> = ({ children }) => {
   const handleDrawerClose = () => setOpen(false)
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box display='flex'>
       <MiniAppBar onOpen={handleDrawerOpen} open={open} />
       <DrawerComponent variant='permanent' open={open}>
         <DrawerContent open={open} onClose={handleDrawerClose} />

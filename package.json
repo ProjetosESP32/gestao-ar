@@ -11,7 +11,6 @@
   },
   "engines": {
     "node": ">=16.0.0",
-    "yarn": ">=1.22.0",
     "npm": ">=8.14.0"
   },
   "devDependencies": {
@@ -27,7 +26,7 @@
     "@emotion/styled": "^11.9.3",
     "@fullcalendar/core": "^6.1.4",
     "@fullcalendar/interaction": "^6.1.4",
-    "@fullcalendar/luxon2": "^6.1.4",
+    "@fullcalendar/luxon2": "^6.1.5",
     "@fullcalendar/react": "^6.1.4",
     "@fullcalendar/rrule": "^6.1.4",
     "@fullcalendar/timegrid": "^6.1.4",
@@ -65,7 +64,6 @@
     "react-image-crop": "^10.0.4",
     "rrule": "^2.7.1",
     "typescript": "~4.5",
-    "webpack-node-externals": "^3.0.0",
     "youch": "^3.2.0",
     "youch-terminal": "^2.1.4"
   },
@@ -87,7 +85,6 @@
     "@inertiajs/inertia": "^0.11.0",
     "@inertiajs/inertia-react": "^0.8.0",
     "@poppinss/utils": "^5.0.0",
-    "aws-sdk": "^2.1190.0",
     "axios": "^0.27.2",
     "bullmq": "^1.86.10",
     "luxon": "^3.3.0",
@@ -98,7 +95,6 @@
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^4.5.1",
-    "source-map-support": "^0.5.21",
-    "tslib": "^2.4.0"
+    "source-map-support": "^0.5.21"
   }
 }

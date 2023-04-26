@@ -18,7 +18,16 @@ export default class EspStatus extends BaseModel {
   public humidity!: number
 
   @column({ consume: consumptionConsumer })
-  public potency!: number
+  public voltage!: number
+
+  @column({ consume: consumptionConsumer })
+  public current!: number
+
+  @column({ consume: consumptionConsumer })
+  public potencyFactor!: number
+
+  @column({ consume: consumptionConsumer })
+  public consumption!: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt!: DateTime

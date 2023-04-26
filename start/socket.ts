@@ -27,11 +27,11 @@ io.on('connection', socket => {
 
   socket.join(token)
 
-  socket.on('getMessage', async (data: EventsList['air-change:receive']) => {
+  socket.on('gateway-message', async (data: EventsList['air-change:receive']) => {
     try {
       await Event.emit('air-change:receive', data)
     } catch (err) {
-      Logger.error(err, 'getMessage error')
+      Logger.error(err, 'gateway-message error')
     }
   })
 })

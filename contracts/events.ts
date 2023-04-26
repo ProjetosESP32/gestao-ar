@@ -31,13 +31,13 @@ declare module '@ioc:Adonis/Core/Event' {
   interface EventsList {
     'air-change:dispatch': { room: Room; data: number }
     'air-change:receive': {
-      destinatario: string
-      mensagem: {
-        temperatura: number
-        humidade: number
-        irms: number
-        kwhTotal: number
-      }
+      issuerMAC: string
+      temperature: number
+      humidity: number
+      voltage: number
+      current: number
+      potencyFactor: number
+      consumption: number
     }
     'air-change:dispatchAll': { esps: Esp[]; data: number }[]
   }

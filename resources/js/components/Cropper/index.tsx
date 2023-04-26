@@ -24,6 +24,10 @@ export const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children
   const reset = () => {
     setCrop(undefined)
     setCompletedCrop(undefined)
+
+    if (filePreview) {
+      URL.revokeObjectURL(filePreview)
+    }
     setFilePreview(null)
   }
 
@@ -32,13 +36,8 @@ export const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children
 
     if (file) {
       setCrop(undefined)
-      const reader = new FileReader()
-
-      reader.onload = e => {
-        setFilePreview(e.target?.result?.toString() || null)
-      }
-
-      reader.readAsDataURL(file)
+      const obj = URL.createObjectURL(file)
+      setFilePreview(obj)
     }
   }
 
@@ -48,6 +47,10 @@ export const Cropper: FC<CropperProps> = ({ onChange, disabled = false, children
         blob => {
           if (blob) {
             onChange(blob)
+
+            if (filePreview) {
+              URL.revokeObjectURL(filePreview)
+            }
             setFilePreview(null)
           }
         },

@@ -3,10 +3,6 @@ import Esp from 'App/Models/Esp'
 import Service from 'App/Models/Service'
 import { io } from 'App/Services/WebSocket'
 
-const FIVE_MINUTES_IN_HOURS = 5 / 60
-const ONE_MINUTE_IN_HOURS = 1 / 60
-const VOLTAGE = 220
-
 export default class AirChange {
   public async onDispatch({ room, data }: EventsList['air-change:dispatch']) {
     await room.load('esps')
@@ -14,8 +10,7 @@ export default class AirChange {
 
     room.esps.forEach(({ macAddress }) => {
       services.forEach(({ token }) => {
-        // projName property is used to identify the ESP project and should be always 'arCond' for this app
-        io.to(token).volatile.emit('sendMessage', { remetente: macAddress, mensagem: data, projName: 'arCond' })
+        io.to(token).volatile.emit('server-message', { recipientMAC: macAddress, message: data })
       })
     })
   }
@@ -26,20 +21,24 @@ export default class AirChange {
     eventData.forEach(({ esps, data }) => {
       esps.forEach(({ macAddress }) => {
         services.forEach(({ token }) => {
-          // projName property is used to identify the ESP project and should be always 'arCond' for this app
-          io.to(token).volatile.emit('sendMessage', { destinatario: macAddress, mensagem: data, projName: 'arCond' })
+          io.to(token).volatile.emit('server-message', { recipientMAC: macAddress, message: data })
         })
       })
     })
   }
 
   public async onReceive({
-    destinatario,
-    mensagem: { irms, humidade, temperatura },
+    consumption,
+    humidity,
+    issuerMAC,
+    temperature,
+    current,
+    potencyFactor,
+    voltage,
   }: EventsList['air-change:receive']) {
-    const esp = await Esp.firstOrCreate({ macAddress: destinatario.replace(/[^0-9A-Fa-f]/g, '') })
+    const esp = await Esp.firstOrCreate({ macAddress: issuerMAC.replace(/[^0-9A-Fa-f]/g, '') })
 
-    if (irms === 0) {
+    if (consumption === 0) {
       if (esp.isOn) {
         esp.isOn = false
         await esp.save()
@@ -53,11 +52,6 @@ export default class AirChange {
       await esp.save()
     }
 
-    const lastConsumption = await esp.related('status').query().orderBy('created_at', 'desc').first()
-    const baseTime = lastConsumption?.createdAt.diffNow('hour').hours ?? 0
-    const time = -FIVE_MINUTES_IN_HOURS < baseTime && baseTime < 0 ? -baseTime : ONE_MINUTE_IN_HOURS
-
-    const potency = (VOLTAGE * irms * time) / 1000 // in kWh
-    await esp.related('status').create({ humidity: humidade, temperature: temperatura, potency })
+    await esp.related('status').create({ humidity, temperature, consumption, current, potencyFactor, voltage })
   }
 }

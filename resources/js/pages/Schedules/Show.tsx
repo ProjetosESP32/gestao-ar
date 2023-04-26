@@ -1,6 +1,12 @@
-import FullCalendar from '@fullcalendar/react'
+import { DeleteEventDialog } from '@/components/DeleteEventDialog'
+import { withDrawer } from '@/components/Drawer/withDrawer'
+import { ExtendTimeDialog } from '@/components/ExtendTimeDialog'
+import { ScheduleRepeat } from '@/enums/ScheduleRepeat'
+import { BasePageProps } from '@/interfaces/BasePageProps'
+import { Room } from '@/interfaces/Room'
 import interactionPlugin from '@fullcalendar/interaction'
-import luxonPlugin from '@fullcalendar/luxon2'
+import luxon2Plugin from '@fullcalendar/luxon2'
+import FullCalendar from '@fullcalendar/react'
 import rrulePlugin from '@fullcalendar/rrule'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Inertia } from '@inertiajs/inertia'
@@ -10,17 +16,11 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
-import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 import { DateTime, Interval } from 'luxon'
 import React, { FC, useMemo, useState } from 'react'
 import { MdAdd, MdLockClock } from 'react-icons/md'
-import { DeleteEventDialog } from '@/components/DeleteEventDialog'
-import { withDrawer } from '@/components/Drawer/withDrawer'
-import { ExtendTimeDialog } from '@/components/ExtendTimeDialog'
-import { ScheduleRepeat } from '@/enums/ScheduleRepeat'
-import { BasePageProps } from '@/interfaces/BasePageProps'
-import { Room } from '@/interfaces/Room'
 
 interface ShowPage {
   room: Room
@@ -132,12 +132,12 @@ const Show: FC = () => {
             </Box>
           </Box>
           <FullCalendar
-            plugins={[timeGridPlugin, interactionPlugin, luxonPlugin, rrulePlugin]}
+            plugins={[timeGridPlugin, interactionPlugin, luxon2Plugin, rrulePlugin]}
             allDayText='Dia todo'
             weekText='Semana'
             locale='pt-br'
             dayHeaderFormat='dd'
-            businessHours={{ startTime: '7:00', endTime: '22:00' }}
+            businessHours={{ startTime: '6:00', endTime: '23:00' }}
             events={events}
             eventColor={primary.main}
             eventClick={e => !!loggedUser?.isRoot && setSelectedScheduleId(Number(e.event.id))}

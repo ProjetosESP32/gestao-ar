@@ -9,10 +9,10 @@
     "outDir": "build",
     "rootDir": "./",
     "sourceMap": true,
-    "importHelpers": true,
     "resolveJsonModule": true,
     "strict": true,
     "noImplicitAny": false,
+    "esModuleInterop": true,
     "paths": {
       "App/*": ["./app/*"],
       "Config/*": ["./config/*"],

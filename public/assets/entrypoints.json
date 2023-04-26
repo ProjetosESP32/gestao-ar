@@ -2,22 +2,22 @@
   "entrypoints": {
     "app": {
       "js": [
-        "http://localhost:8080/assets/runtime.js",
-        "http://localhost:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-71b23c.js",
-        "http://localhost:8080/assets/vendors-node_modules_inertiajs_inertia-react_dist_index_js-node_modules_inertiajs_progress_di-3b0168.js",
-        "http://localhost:8080/assets/app.js"
+        "http://0.0.0.0:8080/assets/runtime.js",
+        "http://0.0.0.0:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-da5a93.js",
+        "http://0.0.0.0:8080/assets/vendors-node_modules_inertiajs_inertia-react_dist_index_js-node_modules_inertiajs_progress_di-2e4244.js",
+        "http://0.0.0.0:8080/assets/app.js"
       ],
       "css": [
-        "http://localhost:8080/assets/app.css"
+        "http://0.0.0.0:8080/assets/app.css"
       ]
     },
     "errors": {
       "js": [
-        "http://localhost:8080/assets/runtime.js",
-        "http://localhost:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-71b23c.js"
+        "http://0.0.0.0:8080/assets/runtime.js",
+        "http://0.0.0.0:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-da5a93.js"
       ],
       "css": [
-        "http://localhost:8080/assets/errors.css"
+        "http://0.0.0.0:8080/assets/errors.css"
       ]
     }
   }

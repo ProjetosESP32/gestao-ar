@@ -23,7 +23,6 @@ services:
       - 6379:6379
 
   backend:
-    restart: always
     depends_on:
       - mysqldb
       - redisdb
