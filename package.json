@@ -26,7 +26,7 @@
     "@emotion/styled": "^11.9.3",
     "@fullcalendar/core": "^6.1.4",
     "@fullcalendar/interaction": "^6.1.4",
-    "@fullcalendar/luxon2": "^6.1.5",
+    "@fullcalendar/luxon2": "^6.1.6",
     "@fullcalendar/react": "^6.1.4",
     "@fullcalendar/rrule": "^6.1.4",
     "@fullcalendar/timegrid": "^6.1.4",
