@@ -81,7 +81,7 @@
     "@adonisjs/session": "^6.4.0",
     "@adonisjs/shield": "^7.0.11",
     "@adonisjs/view": "^6.1.6",
-    "@eidellev/inertia-adonisjs": "^7.0.0",
+    "@eidellev/inertia-adonisjs": "^8.0.1",
     "@inertiajs/inertia": "^0.11.0",
     "@inertiajs/inertia-react": "^0.8.0",
     "@poppinss/utils": "^5.0.0",
