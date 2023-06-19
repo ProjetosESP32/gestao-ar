@@ -36,7 +36,7 @@
     "@mui/x-date-pickers": "^5.0.0-beta.4",
     "@symfony/webpack-encore": "^3.0.0",
     "@types/mjml": "^4.7.0",
-    "@types/react": "^18.0.15",
+    "@types/react": "^18.2.13",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
