@@ -19,7 +19,7 @@ export default class RoomControlsController {
       const dailyConsumption = await Database.from('esp_statuses')
         .select(Database.raw('HOUR(`created_at`) as `hour`'))
         .where('created_at', '>', Database.raw('NOW() - INTERVAL 1 DAY'))
-        .sum('potency', 'totalPotency')
+        .sum('consumption', 'totalPotency')
         .groupBy('hour')
         .orderBy('hour', 'asc')
         .whereIn(
@@ -29,7 +29,7 @@ export default class RoomControlsController {
         .useTransaction(client)
       const monthConsumption = await Database.from('esp_statuses')
         .select(Database.raw('MONTH(`created_at`) as `month`'))
-        .sum('potency', 'totalPotency')
+        .sum('consumption', 'totalPotency')
         .groupBy('month')
         .orderBy('month', 'asc')
         .whereIn(

@@ -4,7 +4,7 @@ export default class HomeController {
   public async index() {
     return Database.transaction(async client => {
       const averageConsumption = await Database.from('esp_statuses')
-        .select('rooms.block as block', Database.raw('AVG(`esp_statuses`.`potency`) as `totalPotency`'))
+        .select('rooms.block as block', Database.raw('AVG(`esp_statuses`.`consumption`) as `totalPotency`'))
         .innerJoin('esps', 'esp_statuses.esp_id', 'esps.id')
         .innerJoin('rooms', 'esps.room_id', 'rooms.id')
         .max('esp_statuses.created_at')
@@ -13,21 +13,21 @@ export default class HomeController {
       const dailyConsumption = await Database.from('esp_statuses')
         .select(Database.raw('HOUR(`created_at`) as `hour`'))
         .where('created_at', '>', Database.raw('NOW() - INTERVAL 1 DAY'))
-        .sum('potency', 'totalPotency')
+        .sum('consumption', 'totalPotency')
         .groupBy('hour')
         .orderBy('hour', 'asc')
         .useTransaction(client)
       const monthConsumption = await Database.from('esp_statuses')
         .select(Database.raw('MONTH(`created_at`) as `month`'))
-        .sum('potency', 'totalPotency')
+        .sum('consumption', 'totalPotency')
         .groupBy('month')
         .orderBy('month', 'asc')
         .useTransaction(client)
 
       return {
-        averageConsumption: averageConsumption.map(({ block, potency }) => ({
+        averageConsumption: averageConsumption.map(({ block, totalPotency }) => ({
           block,
-          potency: Number(potency),
+          totalPotency: Number(totalPotency),
         })),
         dailyConsumption: dailyConsumption.map(({ hour, totalPotency }) => ({
           hour: Number(hour),
