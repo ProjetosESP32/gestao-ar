@@ -1,14 +1,58 @@
+import { AppLink } from '@/components/AppLink'
+import { useForm } from '@inertiajs/inertia-react'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
-import React from 'react'
+import React, { ChangeEvent, FC, FormEvent } from 'react'
 import { VscArrowLeft } from 'react-icons/vsc'
-import { AppLink } from '@/components/AppLink'
-import { RecoverPasswordForm } from '@/components/RecoverPasswordForm'
+
+interface RecoverPasswordFormData {
+  email: string
+}
+
+export const RecoverPasswordForm: FC = () => {
+  const { data, setData, errors, processing, post } = useForm<RecoverPasswordFormData>({ email: '' })
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+
+    setData({ ...data, [name]: value })
+  }
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    post('/users/recover-password')
+  }
+
+  return (
+    <Stack component='form' onSubmit={handleSubmit} spacing={2} width='100%'>
+      <TextField
+        fullWidth
+        id='email'
+        name='email'
+        label='E-mail'
+        variant='outlined'
+        placeholder='Digite seu e-mail'
+        type='email'
+        value={data.email}
+        error={!!errors.email}
+        helperText={errors.email}
+        onChange={handleChange}
+        disabled={processing}
+      />
+      <Button type='submit' fullWidth disabled={processing}>
+        Enviar
+      </Button>
+    </Stack>
+  )
+}
 
 const RecoverPassword = () => {
   const theme = useTheme()

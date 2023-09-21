@@ -1,3 +1,9 @@
+import { withDrawer } from '@/components/Drawer'
+import { FullStepRef, FullSteper, StepData } from '@/components/FullStep'
+import { BasePageProps } from '@/interfaces/BasePageProps'
+import { Paginate } from '@/interfaces/Paginate'
+import { Room } from '@/interfaces/Room'
+import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, usePage } from '@inertiajs/inertia-react'
 import Box from '@mui/material/Box'
@@ -15,17 +21,65 @@ import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import React, { ChangeEvent, FC, useRef } from 'react'
-import { withDrawer } from '@/components/Drawer/withDrawer'
-import { FullSteper, FullStepRef, StepData } from '@/components/FullStep'
-import { BasePageProps } from '@/interfaces/BasePageProps'
-import { Paginate } from '@/interfaces/Paginate'
-import { Room } from '@/interfaces/Room'
-import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
 
 const steps: StepData[] = [
   { label: 'Dados do usuário', isOptional: false },
   { label: 'Vincular salas', isOptional: true },
 ]
+
+const columns: GridColDef[] = [
+  {
+    field: 'id',
+    headerName: 'ID',
+    align: 'right',
+    type: 'number',
+    flex: 1,
+    minWidth: 60,
+  },
+  {
+    field: 'name',
+    headerName: 'Nome',
+    flex: 2,
+    minWidth: 200,
+  },
+  {
+    field: 'block',
+    headerName: 'Bloco',
+    flex: 2,
+    minWidth: 100,
+  },
+  {
+    field: 'floor',
+    headerName: 'Piso',
+    flex: 2,
+    minWidth: 50,
+  },
+  {
+    field: 'createdAt',
+    headerName: 'Criada em',
+    valueFormatter: dateTimeGridValueFormatter,
+    align: 'right',
+    headerAlign: 'right',
+    flex: 4,
+    minWidth: 160,
+  },
+  {
+    field: 'updatedAt',
+    headerName: 'Atualizada em',
+    valueFormatter: dateTimeGridValueFormatter,
+    align: 'right',
+    headerAlign: 'right',
+    flex: 4,
+    minWidth: 160,
+  },
+]
+
+const getRoomsPage = (page: number, perPage: number) => {
+  Inertia.get(`/admin/users/create?page=${page}&perPage=${perPage}`, undefined, {
+    preserveState: true,
+    replace: true,
+  })
+}
 
 interface RegisterUserFormData {
   username: string
@@ -169,60 +223,6 @@ const Create: FC = () => {
       </Paper>
     </Container>
   )
-}
-
-const columns: GridColDef[] = [
-  {
-    field: 'id',
-    headerName: 'ID',
-    align: 'right',
-    type: 'number',
-    flex: 1,
-    minWidth: 60,
-  },
-  {
-    field: 'name',
-    headerName: 'Nome',
-    flex: 2,
-    minWidth: 200,
-  },
-  {
-    field: 'block',
-    headerName: 'Bloco',
-    flex: 2,
-    minWidth: 100,
-  },
-  {
-    field: 'floor',
-    headerName: 'Piso',
-    flex: 2,
-    minWidth: 50,
-  },
-  {
-    field: 'createdAt',
-    headerName: 'Criada em',
-    valueFormatter: dateTimeGridValueFormatter,
-    align: 'right',
-    headerAlign: 'right',
-    flex: 4,
-    minWidth: 160,
-  },
-  {
-    field: 'updatedAt',
-    headerName: 'Atualizada em',
-    valueFormatter: dateTimeGridValueFormatter,
-    align: 'right',
-    headerAlign: 'right',
-    flex: 4,
-    minWidth: 160,
-  },
-]
-
-const getRoomsPage = (page: number, perPage: number) => {
-  Inertia.get(`/admin/users/create?page=${page}&perPage=${perPage}`, undefined, {
-    preserveState: true,
-    replace: true,
-  })
 }
 
 export default withDrawer(Create)

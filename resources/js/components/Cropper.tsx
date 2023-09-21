@@ -1,3 +1,4 @@
+import { useDebounceEffect } from '@/hooks/useDebounceEffect'
 import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import Paper from '@mui/material/Paper'
@@ -5,8 +6,28 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import React, { ChangeEventHandler, FC, ReactNode, useRef, useState } from 'react'
 import ReactCrop, { Crop } from 'react-image-crop'
-import { CANVAS_SIZE, loadCropInCanvas } from './loadCropInCanvas'
-import { useDebounceEffect } from '@/hooks/useDebounceEffect'
+
+const CANVAS_SIZE = 256
+
+const loadCropInCanvas = (canvas: HTMLCanvasElement, image: HTMLImageElement, crop: Crop) => {
+  const ctx = canvas.getContext('2d')
+
+  if (!ctx) {
+    throw new Error('No 2d context')
+  }
+
+  const scaleX = image.naturalWidth / image.width
+  const scaleY = image.naturalHeight / image.height
+
+  const cropX = crop.x * scaleX
+  const cropY = crop.y * scaleY
+  const sWidth = crop.width * scaleX
+  const sHeight = crop.height * scaleY
+
+  ctx.imageSmoothingEnabled = true
+  ctx.imageSmoothingQuality = 'high'
+  ctx.drawImage(image, cropX, cropY, sWidth, sHeight, 0, 0, CANVAS_SIZE, CANVAS_SIZE)
+}
 
 interface CropperProps {
   onChange: (imageBlob: Blob) => void

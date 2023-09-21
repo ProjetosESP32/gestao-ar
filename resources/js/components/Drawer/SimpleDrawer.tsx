@@ -5,7 +5,7 @@ import React, { FC, useState } from 'react'
 import { DrawerContent } from './DrawerContent'
 import { MiniDrawerProps } from './MiniDrawer'
 import { DrawerHeader } from './styles'
-import { MiniAppBar } from '../AppBar/MiniAppBar'
+import { MiniAppBar } from '../MiniAppBar'
 
 type SimplesDrawerProps = MiniDrawerProps
 

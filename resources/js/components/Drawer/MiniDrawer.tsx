@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import React, { FC, ReactNode, useState } from 'react'
-import { MiniAppBar } from '../AppBar/MiniAppBar'
+import { MiniAppBar } from '../MiniAppBar'
 import { DrawerContent } from './DrawerContent'
 import { DrawerComponent, DrawerHeader } from './styles'
 

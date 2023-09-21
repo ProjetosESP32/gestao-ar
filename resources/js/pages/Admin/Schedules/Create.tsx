@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import React, { FC } from 'react'
 import { CreateScheduleForm } from '@/components/CreateScheduleForm'
-import { withDrawer } from '@/components/Drawer/withDrawer'
+import { withDrawer } from '@/components/Drawer'
 import { BasePageProps } from '@/interfaces/BasePageProps'
 import { Room } from '@/interfaces/Room'
 

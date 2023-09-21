@@ -1,16 +1,51 @@
+import { BasePageProps } from '@/interfaces/BasePageProps'
 import { Inertia } from '@inertiajs/inertia'
 import { usePage } from '@inertiajs/inertia-react'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 import React, { FC } from 'react'
+import { IconType } from 'react-icons/lib'
 import { MdApi, MdChevronLeft, MdChevronRight, MdHome, MdHowToReg, MdListAlt } from 'react-icons/md'
 import { VscCircuitBoard } from 'react-icons/vsc'
-import { DrawerButton } from './DrawerButton'
 import { DrawerHeader } from './styles'
-import { BasePageProps } from '@/interfaces/BasePageProps'
+
+interface DrawerButtonProps {
+  open: boolean
+  onClick?: () => void
+  icon: IconType
+  text: string
+}
+
+export const DrawerButton: FC<DrawerButtonProps> = ({ open, onClick, icon: Icon, text }) => (
+  <ListItem disablePadding sx={{ display: 'block' }}>
+    <ListItemButton
+      sx={{
+        minHeight: 48,
+        justifyContent: open ? 'initial' : 'center',
+        px: 2.5,
+      }}
+      onClick={onClick}
+    >
+      <ListItemIcon
+        sx={{
+          minWidth: 0,
+          mr: open ? 3 : 'auto',
+          justifyContent: 'center',
+        }}
+      >
+        <Icon />
+      </ListItemIcon>
+      <ListItemText sx={{ opacity: open ? 1 : 0 }}>{text}</ListItemText>
+    </ListItemButton>
+  </ListItem>
+)
 
 interface DrawerContentProps {
   open: boolean
@@ -32,7 +67,7 @@ export const DrawerContent: FC<DrawerContentProps> = ({ open, onClose }) => {
         <DrawerButton icon={MdHome} onClick={() => Inertia.visit('/')} text='Home' open={open} />
         <DrawerButton icon={MdListAlt} onClick={() => Inertia.visit('/rooms')} text='Salas' open={open} />
       </List>
-      {!!loggedUser?.isRoot && (
+      {loggedUser?.isRoot ? (
         <>
           <Divider />
           <List>
@@ -46,7 +81,7 @@ export const DrawerContent: FC<DrawerContentProps> = ({ open, onClose }) => {
             <DrawerButton icon={MdHowToReg} onClick={() => Inertia.visit('/admin/users')} text='Usuários' open={open} />
           </List>
         </>
-      )}
+      ) : null}
     </>
   )
 }

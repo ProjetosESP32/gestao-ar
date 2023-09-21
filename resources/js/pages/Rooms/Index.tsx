@@ -1,10 +1,17 @@
+import { withDrawer } from '@/components/Drawer'
+import { BasePageProps } from '@/interfaces/BasePageProps'
+import { Paginate } from '@/interfaces/Paginate'
+import { Room } from '@/interfaces/Room'
+import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
 import { Inertia } from '@inertiajs/inertia'
-import { usePage } from '@inertiajs/inertia-react'
+import { useForm, usePage } from '@inertiajs/inertia-react'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
+import Modal from '@mui/material/Modal'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import {
@@ -17,190 +24,94 @@ import {
   GridRowModesModel,
   GridToolbarContainer,
 } from '@mui/x-data-grid'
-import React, { FC, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import { MdAdd, MdCancel, MdDelete, MdEdit, MdHelpOutline, MdRemoveRedEye, MdSave } from 'react-icons/md'
-import { withDrawer } from '@/components/Drawer/withDrawer'
-import NewRoomModal from '@/components/NewRoomModal'
-import { BasePageProps } from '@/interfaces/BasePageProps'
-import { Paginate } from '@/interfaces/Paginate'
-import { Room } from '@/interfaces/Room'
-import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
 
-interface RoomsControlProps {
-  rooms: Paginate<Room>
+interface NewRoomModalProps {
+  isOpen: boolean
+  onClose: () => void
 }
 
-type RoomsControlPageProps = BasePageProps<RoomsControlProps>
+export const NewRoomModal: FC<NewRoomModalProps> = ({ isOpen, onClose }) => {
+  const { data, post, processing, setData, errors, reset } = useForm({
+    name: '',
+    block: '',
+    floor: '',
+  })
 
-const Index: FC = () => {
-  const {
-    rooms: { data, meta },
-    loggedUser,
-  } = usePage<RoomsControlPageProps>().props
-  const [isOpen, setIsOpen] = useState(false)
-  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
+  const handleClose = () => {
+    if (processing) return
 
-  const handleOpenModal = () => setIsOpen(true)
-  const handleCloseModal = () => setIsOpen(false)
-
-  const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } })
+    onClose()
+    reset()
   }
 
-  const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+
+    setData({ ...data, [name]: value })
   }
 
-  const handleCancelClick = (id: GridRowId) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    })
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (processing) return
+
+    post('/admin/rooms', { onSuccess: () => handleClose() })
   }
-
-  const columns: GridColumns<Room> = [
-    {
-      field: 'id',
-      headerName: 'ID',
-      align: 'right',
-      type: 'number',
-      flex: 1,
-      minWidth: 60,
-    },
-    {
-      field: 'name',
-      headerName: 'Nome',
-      flex: 3,
-      editable: true,
-      minWidth: 200,
-    },
-    {
-      field: 'block',
-      headerName: 'Bloco',
-      flex: 1,
-      editable: true,
-      minWidth: 100,
-    },
-    {
-      field: 'floor',
-      headerName: 'Piso',
-      flex: 1,
-      editable: true,
-      minWidth: 50,
-    },
-    {
-      field: 'createdAt',
-      headerName: 'Criada em',
-      valueFormatter: dateTimeGridValueFormatter,
-      align: 'right',
-      headerAlign: 'right',
-      flex: 4,
-      minWidth: 160,
-    },
-    {
-      field: 'updatedAt',
-      headerName: 'Atualizada em',
-      valueFormatter: dateTimeGridValueFormatter,
-      align: 'right',
-      headerAlign: 'right',
-      flex: 4,
-      minWidth: 160,
-    },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Ações',
-      width: 100,
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem key='save' icon={<MdSave />} label='Save' onClick={handleSaveClick(id)} />,
-            <GridActionsCellItem
-              key='cancel'
-              icon={<MdCancel />}
-              label='Cancel'
-              className='textPrimary'
-              onClick={handleCancelClick(id)}
-              color='inherit'
-            />,
-          ]
-        }
-
-        const actionButtons = [
-          <GridActionsCellItem
-            key='see'
-            icon={<MdRemoveRedEye />}
-            label='Ver'
-            className='textPrimary'
-            color='inherit'
-            onClick={() => Inertia.visit(`/rooms/control/${id}`)}
-          />,
-        ]
-
-        if (loggedUser?.isRoot) {
-          actionButtons.push(
-            <GridActionsCellItem
-              key='edit'
-              icon={<MdEdit />}
-              label='Edit'
-              className='textPrimary'
-              color='inherit'
-              onClick={handleEditClick(id)}
-            />,
-            <GridActionsCellItem
-              key='delete'
-              icon={<MdDelete />}
-              label='Delete'
-              color='inherit'
-              onClick={handleDeleteClick(id)}
-            />,
-          )
-        }
-
-        return actionButtons
-      },
-    },
-  ]
 
   return (
-    <Container maxWidth='lg'>
-      <Paper sx={{ padding: 2 }}>
-        <Stack spacing={2}>
-          <Typography variant='h3'>Salas</Typography>
-          <DataGrid
-            experimentalFeatures={{ newEditingApi: true }}
-            autoHeight
-            pagination
-            paginationMode='server'
-            editMode='row'
-            disableSelectionOnClick
-            rows={data}
-            columns={columns}
-            page={meta.currentPage - 1}
-            pageSize={meta.perPage}
-            rowsPerPageOptions={[...new Set([5, 10, 25, meta.perPage])]}
-            rowCount={meta.total}
-            onPageChange={page => {
-              const newPage = page + 1
-              if (newPage !== meta.currentPage) {
-                getPaginatedRoom(newPage, meta.perPage)
-              }
-            }}
-            onPageSizeChange={pageSize => getPaginatedRoom(meta.currentPage, pageSize)}
-            processRowUpdate={processRowUpdate}
-            isCellEditable={params => Boolean(params.colDef.editable && loggedUser?.isRoot)}
-            components={{ Toolbar: RoomGridToolbar }}
-            componentsProps={{ toolbar: { onAdd: handleOpenModal, isRoot: loggedUser?.isRoot } }}
-            rowModesModel={rowModesModel}
-            onRowEditStart={handleRowEditStart}
-            onRowEditStop={handleRowEditStop}
-          />
-        </Stack>
-      </Paper>
-      <NewRoomModal isOpen={isOpen} onClose={handleCloseModal} />
-    </Container>
+    <Modal open={isOpen} onClose={handleClose} sx={{ display: 'grid', placeItems: 'center' }}>
+      <Container maxWidth='xs'>
+        <Paper>
+          <Stack component='form' onSubmit={handleSubmit} spacing={2} p={2}>
+            <Typography variant='h6'>Criar sala</Typography>
+            <TextField
+              fullWidth
+              id='name'
+              name='name'
+              label='Sala'
+              variant='outlined'
+              placeholder='Digite o nome da sala'
+              value={data.name}
+              error={!!errors.name}
+              helperText={errors.name}
+              onChange={handleChange}
+              disabled={processing}
+            />
+            <TextField
+              fullWidth
+              id='block'
+              name='block'
+              label='Bloco'
+              variant='outlined'
+              placeholder='Digite o bloco da sala'
+              value={data.block}
+              error={!!errors.block}
+              helperText={errors.block}
+              onChange={handleChange}
+              disabled={processing}
+            />
+            <TextField
+              fullWidth
+              id='floor'
+              name='floor'
+              label='Piso'
+              variant='outlined'
+              placeholder='Digite o piso da sala'
+              value={data.floor}
+              error={!!errors.floor}
+              helperText={errors.floor}
+              onChange={handleChange}
+              disabled={processing}
+            />
+            <Button fullWidth type='submit' disabled={processing}>
+              Criar sala
+            </Button>
+          </Stack>
+        </Paper>
+      </Container>
+    </Modal>
   )
 }
 
@@ -247,6 +158,186 @@ const getPaginatedRoom = (page: number, perPage: number) => {
 const processRowUpdate = (row: Room) => {
   Inertia.put(`/admin/rooms/${row.id}`, row as any, { replace: true })
   return row
+}
+
+interface RoomsControlProps {
+  rooms: Paginate<Room>
+}
+
+type RoomsControlPageProps = BasePageProps<RoomsControlProps>
+
+const Index: FC = () => {
+  const {
+    rooms: { data, meta },
+    loggedUser,
+  } = usePage<RoomsControlPageProps>().props
+  const [isOpen, setIsOpen] = useState(false)
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
+
+  const handleOpenModal = () => setIsOpen(true)
+  const handleCloseModal = () => setIsOpen(false)
+
+  const columns: GridColumns<Room> = useMemo(
+    () => [
+      {
+        field: 'id',
+        headerName: 'ID',
+        align: 'right',
+        type: 'number',
+        flex: 1,
+        minWidth: 60,
+      },
+      {
+        field: 'name',
+        headerName: 'Nome',
+        flex: 3,
+        editable: true,
+        minWidth: 200,
+      },
+      {
+        field: 'block',
+        headerName: 'Bloco',
+        flex: 1,
+        editable: true,
+        minWidth: 100,
+      },
+      {
+        field: 'floor',
+        headerName: 'Piso',
+        flex: 1,
+        editable: true,
+        minWidth: 50,
+      },
+      {
+        field: 'createdAt',
+        headerName: 'Criada em',
+        valueFormatter: dateTimeGridValueFormatter,
+        align: 'right',
+        headerAlign: 'right',
+        flex: 4,
+        minWidth: 160,
+      },
+      {
+        field: 'updatedAt',
+        headerName: 'Atualizada em',
+        valueFormatter: dateTimeGridValueFormatter,
+        align: 'right',
+        headerAlign: 'right',
+        flex: 4,
+        minWidth: 160,
+      },
+      {
+        field: 'actions',
+        type: 'actions',
+        headerName: 'Ações',
+        width: 100,
+        getActions: ({ id }) => {
+          const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit
+
+          if (isInEditMode) {
+            return [
+              <GridActionsCellItem
+                key='save'
+                icon={<MdSave />}
+                label='Save'
+                onClick={() => {
+                  setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } })
+                }}
+              />,
+              <GridActionsCellItem
+                key='cancel'
+                icon={<MdCancel />}
+                label='Cancel'
+                className='textPrimary'
+                onClick={() => {
+                  setRowModesModel({
+                    ...rowModesModel,
+                    [id]: { mode: GridRowModes.View, ignoreModifications: true },
+                  })
+                }}
+                color='inherit'
+              />,
+            ]
+          }
+
+          const actionButtons = [
+            <GridActionsCellItem
+              key='see'
+              icon={<MdRemoveRedEye />}
+              label='Ver'
+              className='textPrimary'
+              color='inherit'
+              onClick={() => Inertia.visit(`/rooms/control/${id}`)}
+            />,
+          ]
+
+          if (loggedUser?.isRoot) {
+            actionButtons.push(
+              <GridActionsCellItem
+                key='edit'
+                icon={<MdEdit />}
+                label='Edit'
+                className='textPrimary'
+                color='inherit'
+                onClick={() => {
+                  setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } })
+                }}
+              />,
+              <GridActionsCellItem
+                key='delete'
+                icon={<MdDelete />}
+                label='Delete'
+                color='inherit'
+                onClick={handleDeleteClick(id)}
+              />,
+            )
+          }
+
+          return actionButtons
+        },
+      },
+    ],
+    [loggedUser?.isRoot, rowModesModel],
+  )
+
+  return (
+    <Container maxWidth='lg'>
+      <Paper sx={{ padding: 2 }}>
+        <Stack spacing={2}>
+          <Typography variant='h3'>Salas</Typography>
+          <DataGrid
+            experimentalFeatures={{ newEditingApi: true }}
+            autoHeight
+            pagination
+            paginationMode='server'
+            editMode='row'
+            disableSelectionOnClick
+            rows={data}
+            columns={columns}
+            page={meta.currentPage - 1}
+            pageSize={meta.perPage}
+            rowsPerPageOptions={[...new Set([5, 10, 25, meta.perPage])]}
+            rowCount={meta.total}
+            onPageChange={page => {
+              const newPage = page + 1
+              if (newPage !== meta.currentPage) {
+                getPaginatedRoom(newPage, meta.perPage)
+              }
+            }}
+            onPageSizeChange={pageSize => getPaginatedRoom(meta.currentPage, pageSize)}
+            processRowUpdate={processRowUpdate}
+            isCellEditable={params => Boolean(params.colDef.editable && loggedUser?.isRoot)}
+            components={{ Toolbar: RoomGridToolbar }}
+            componentsProps={{ toolbar: { onAdd: handleOpenModal, isRoot: loggedUser?.isRoot } }}
+            rowModesModel={rowModesModel}
+            onRowEditStart={handleRowEditStart}
+            onRowEditStop={handleRowEditStop}
+          />
+        </Stack>
+      </Paper>
+      <NewRoomModal isOpen={isOpen} onClose={handleCloseModal} />
+    </Container>
+  )
 }
 
 export default withDrawer(Index)

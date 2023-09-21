@@ -1,3 +1,10 @@
+import { AutocompleteRoom } from '@/components/AutocompleteRoom'
+import { withDrawer } from '@/components/Drawer'
+import { BasePageProps } from '@/interfaces/BasePageProps'
+import { Room } from '@/interfaces/Room'
+import { User } from '@/interfaces/User'
+import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
+import { getFirstLetters } from '@/utils/getFirstLetters'
 import { Inertia } from '@inertiajs/inertia'
 import { useForm, usePage } from '@inertiajs/inertia-react'
 import Avatar from '@mui/material/Avatar'
@@ -10,20 +17,51 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
+import Modal from '@mui/material/Modal'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { DataGrid, GridActionsCellItem, GridColumns, GridRowId } from '@mui/x-data-grid'
-import React, { ChangeEvent, FC, FormEvent, useState } from 'react'
+import { DataGrid, GridActionsCellItem, GridColumns } from '@mui/x-data-grid'
+import React, { ChangeEvent, FC, FormEvent, useMemo, useState } from 'react'
 import { MdDelete } from 'react-icons/md'
-import { withDrawer } from '@/components/Drawer/withDrawer'
-import { UserRoomModal } from '@/components/UserRoomModal'
-import { BasePageProps } from '@/interfaces/BasePageProps'
-import { Room } from '@/interfaces/Room'
-import { User } from '@/interfaces/User'
-import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
-import { getFirstLetters } from '@/utils/getFirstLetters'
+
+interface UserRoomModalProps {
+  isOpen: boolean
+  onClose: () => void
+  onLink: (room: Room) => void
+}
+
+export const UserRoomModal: FC<UserRoomModalProps> = ({ isOpen, onClose, onLink }) => {
+  const [selectedRoom, setSelectedRoom] = useState<Room>()
+
+  const handleChange = (room: Room) => {
+    setSelectedRoom(room)
+  }
+
+  const handleLink = () => {
+    if (!selectedRoom) return
+
+    onLink(selectedRoom)
+    onClose()
+  }
+
+  return (
+    <Modal open={isOpen} onClose={onClose} sx={{ display: 'grid', placeItems: 'center' }}>
+      <Container maxWidth='xs'>
+        <Paper>
+          <Stack spacing={2} p={2}>
+            <Typography variant='h6'>Vincular sala ao usuário</Typography>
+            <AutocompleteRoom onChange={handleChange} />
+            <Button fullWidth disabled={!selectedRoom} onClick={handleLink}>
+              Vincular
+            </Button>
+          </Stack>
+        </Paper>
+      </Container>
+    </Modal>
+  )
+}
 
 interface ShowUserPage {
   user: User
@@ -75,74 +113,75 @@ const Show: FC = () => {
     put(`/admin/users/${user.id}`)
   }
 
-  const handleDeleteClick = (id: GridRowId) => () => {
-    Inertia.delete(`/admin/users/${user.id}/detach-room/${id}`)
-  }
-
-  const columns: GridColumns<Room> = [
-    {
-      field: 'id',
-      headerName: 'ID',
-      align: 'right',
-      type: 'number',
-      flex: 1,
-      minWidth: 60,
-    },
-    {
-      field: 'name',
-      headerName: 'Nome',
-      flex: 3,
-      editable: true,
-      minWidth: 200,
-    },
-    {
-      field: 'block',
-      headerName: 'Bloco',
-      flex: 1,
-      editable: true,
-      minWidth: 100,
-    },
-    {
-      field: 'floor',
-      headerName: 'Piso',
-      flex: 1,
-      editable: true,
-      minWidth: 50,
-    },
-    {
-      field: 'createdAt',
-      headerName: 'Criada em',
-      valueFormatter: dateTimeGridValueFormatter,
-      align: 'right',
-      headerAlign: 'right',
-      flex: 4,
-      minWidth: 160,
-    },
-    {
-      field: 'updatedAt',
-      headerName: 'Atualizada em',
-      valueFormatter: dateTimeGridValueFormatter,
-      align: 'right',
-      headerAlign: 'right',
-      flex: 4,
-      minWidth: 160,
-    },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Ações',
-      width: 100,
-      getActions: ({ id }) => [
-        <GridActionsCellItem
-          key='delete'
-          icon={<MdDelete />}
-          label='Delete'
-          color='inherit'
-          onClick={handleDeleteClick(id)}
-        />,
-      ],
-    },
-  ]
+  const columns: GridColumns<Room> = useMemo(
+    () => [
+      {
+        field: 'id',
+        headerName: 'ID',
+        align: 'right',
+        type: 'number',
+        flex: 1,
+        minWidth: 60,
+      },
+      {
+        field: 'name',
+        headerName: 'Nome',
+        flex: 3,
+        editable: true,
+        minWidth: 200,
+      },
+      {
+        field: 'block',
+        headerName: 'Bloco',
+        flex: 1,
+        editable: true,
+        minWidth: 100,
+      },
+      {
+        field: 'floor',
+        headerName: 'Piso',
+        flex: 1,
+        editable: true,
+        minWidth: 50,
+      },
+      {
+        field: 'createdAt',
+        headerName: 'Criada em',
+        valueFormatter: dateTimeGridValueFormatter,
+        align: 'right',
+        headerAlign: 'right',
+        flex: 4,
+        minWidth: 160,
+      },
+      {
+        field: 'updatedAt',
+        headerName: 'Atualizada em',
+        valueFormatter: dateTimeGridValueFormatter,
+        align: 'right',
+        headerAlign: 'right',
+        flex: 4,
+        minWidth: 160,
+      },
+      {
+        field: 'actions',
+        type: 'actions',
+        headerName: 'Ações',
+        width: 100,
+        getActions: ({ id }) => [
+          <GridActionsCellItem
+            key='delete'
+            icon={<MdDelete />}
+            label='Delete'
+            color='inherit'
+            onClick={() => {
+              Inertia.delete(`/admin/users/${user.id}/detach-room/${id}`)
+            }}
+          />,
+        ],
+      },
+    ],
+    [user.id],
+  )
 
   return (
     <Container maxWidth='lg'>

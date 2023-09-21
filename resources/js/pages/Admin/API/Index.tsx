@@ -1,10 +1,17 @@
+import { withDrawer } from '@/components/Drawer'
+import { BasePageProps } from '@/interfaces/BasePageProps'
+import { Paginate } from '@/interfaces/Paginate'
+import { ServiceApiKey } from '@/interfaces/ServiceApiKey'
+import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
 import { Inertia } from '@inertiajs/inertia'
-import { usePage } from '@inertiajs/inertia-react'
+import { useForm, usePage } from '@inertiajs/inertia-react'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
+import Modal from '@mui/material/Modal'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import {
@@ -19,12 +26,106 @@ import {
 } from '@mui/x-data-grid'
 import React, { FC, useState } from 'react'
 import { MdAdd, MdCancel, MdDelete, MdEdit, MdHelpOutline, MdSave } from 'react-icons/md'
-import { withDrawer } from '@/components/Drawer/withDrawer'
-import NewServiceApiModal from '@/components/NewServiceApiModal'
-import { BasePageProps } from '@/interfaces/BasePageProps'
-import { Paginate } from '@/interfaces/Paginate'
-import { ServiceApiKey } from '@/interfaces/ServiceApiKey'
-import { dateTimeGridValueFormatter } from '@/utils/dateTimeGridValueFormatter'
+
+interface NewServiceApiModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export const NewServiceApiModal: FC<NewServiceApiModalProps> = ({ isOpen, onClose }) => {
+  const { data, post, processing, setData, errors, reset } = useForm({
+    name: '',
+  })
+
+  const handleClose = () => {
+    if (processing) return
+
+    onClose()
+    reset()
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+
+    setData({ ...data, [name]: value })
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (processing) return
+
+    post('/admin/apis', { onSuccess: () => handleClose() })
+  }
+
+  return (
+    <Modal open={isOpen} onClose={handleClose} sx={{ display: 'grid', placeItems: 'center' }}>
+      <Container maxWidth='xs'>
+        <Paper>
+          <Stack component='form' onSubmit={handleSubmit} spacing={2} p={2}>
+            <Typography variant='h6'>Criar chave de API</Typography>
+            <TextField
+              fullWidth
+              id='name'
+              name='name'
+              label='Nome'
+              variant='outlined'
+              placeholder='Digite o nome da chave de API'
+              value={data.name}
+              error={!!errors.name}
+              helperText={errors.name}
+              onChange={handleChange}
+              disabled={processing}
+            />
+            <Button fullWidth type='submit' disabled={processing}>
+              Criar Chave
+            </Button>
+          </Stack>
+        </Paper>
+      </Container>
+    </Modal>
+  )
+}
+
+interface ServiceApiGridToolbarProps {
+  onAdd: () => void
+}
+
+const ServiceApiGridToolbar: FC<ServiceApiGridToolbarProps> = ({ onAdd }) => (
+  <GridToolbarContainer sx={{ justifyContent: 'flex-end' }}>
+    <Button startIcon={<MdAdd />} onClick={onAdd}>
+      Adicionar API
+    </Button>
+    <Tooltip title='Para atualizar, clique no botão de caneta nas ações da tabela. Dessa forma, você consegue alterar diretamente na tabela.'>
+      <IconButton>
+        <MdHelpOutline />
+      </IconButton>
+    </Tooltip>
+  </GridToolbarContainer>
+)
+
+const handleRowEditStart: GridEventListener<'rowEditStart'> = (_, event) => {
+  event.defaultMuiPrevented = true
+}
+
+const handleRowEditStop: GridEventListener<'rowEditStop'> = (_, event) => {
+  event.defaultMuiPrevented = true
+}
+
+const handleDeleteClick = (id: GridRowId) => () => {
+  Inertia.delete(`/admin/apis/${id}`)
+}
+
+const getPaginatedServices = (page: number, perPage: number) => {
+  Inertia.get(`/admin/apis?page=${page}&perPage=${perPage}`, undefined, {
+    replace: true,
+  })
+}
+
+const processRowUpdate = (row: ServiceApiKey) => {
+  Inertia.put(`/admin/apis/${row.id}`, row as any, { replace: true })
+  return row
+}
 
 interface RoomsControlProps {
   services: Paginate<ServiceApiKey>
@@ -179,46 +280,6 @@ const Index: FC = () => {
       </Paper>
     </Container>
   )
-}
-
-interface ServiceApiGridToolbarProps {
-  onAdd: () => void
-}
-
-const ServiceApiGridToolbar: FC<ServiceApiGridToolbarProps> = ({ onAdd }) => (
-  <GridToolbarContainer sx={{ justifyContent: 'flex-end' }}>
-    <Button startIcon={<MdAdd />} onClick={onAdd}>
-      Adicionar API
-    </Button>
-    <Tooltip title='Para atualizar, clique no botão de caneta nas ações da tabela. Dessa forma, você consegue alterar diretamente na tabela.'>
-      <IconButton>
-        <MdHelpOutline />
-      </IconButton>
-    </Tooltip>
-  </GridToolbarContainer>
-)
-
-const handleRowEditStart: GridEventListener<'rowEditStart'> = (_, event) => {
-  event.defaultMuiPrevented = true
-}
-
-const handleRowEditStop: GridEventListener<'rowEditStop'> = (_, event) => {
-  event.defaultMuiPrevented = true
-}
-
-const handleDeleteClick = (id: GridRowId) => () => {
-  Inertia.delete(`/admin/apis/${id}`)
-}
-
-const getPaginatedServices = (page: number, perPage: number) => {
-  Inertia.get(`/admin/apis?page=${page}&perPage=${perPage}`, undefined, {
-    replace: true,
-  })
-}
-
-const processRowUpdate = (row: ServiceApiKey) => {
-  Inertia.put(`/admin/apis/${row.id}`, row as any, { replace: true })
-  return row
 }
 
 export default withDrawer(Index)
