@@ -4,7 +4,7 @@ import { BarElement, CategoryScale, Chart, ChartData, Legend, LinearScale, Title
 import React, { FC } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { BasePageProps } from '../interfaces/BasePageProps'
-import { getMonthsByNumber } from '../utils/getMonthsByNumber'
+import { getMonthsByNumber } from "@/utils/date"
 import { ChartContainer } from './ChartContainer'
 
 interface MonthConsumptionProps {

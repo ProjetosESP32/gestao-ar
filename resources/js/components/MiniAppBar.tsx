@@ -15,7 +15,7 @@ import { styled } from '@mui/material/styles'
 import React, { FC, MouseEvent, useState } from 'react'
 import { MdMenu, MdNightsStay, MdWbSunny } from 'react-icons/md'
 import { BasePageProps } from '../interfaces/BasePageProps'
-import { getFirstLetters } from '../utils/getFirstLetters'
+import { getFirstLetters } from '../utils/string'
 import { AppLink } from './AppLink'
 
 interface AppBarProps {
