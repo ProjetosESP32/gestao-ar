@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - mysql_volume:/var/lib/mysql
+
+  redisdb:
+    image: redis:alpine
+    volumes:
+      - redis_volume:/data
+    ports:
+      - 6379:6379
+
+  backend:
+    image: gestao_ar:latest
+    depends_on:
+      - mysqldb
+      - redisdb
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - .prod.env
+    environment:
+      MYSQL_HOST: mysqldb
+      REDIS_HOST: redisdb
+    volumes:
+      - ./tmp:/home/node/app/tmp
+
+volumes:
+  mysql_volume:
+  redis_volume:
